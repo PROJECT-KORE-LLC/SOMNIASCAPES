@@ -79,9 +79,6 @@ SOMNIA/
 ├── .gitignore                 # Excludes Node, environment variables, local system cache
 └── README.md                  # Master documentation, world description, shell overview
 
----
-
-
 ## Rules:
 - **Do not create new folders** without purpose  
 - **Do not place files at the root** unless essential  
