@@ -30,7 +30,6 @@ If a change disrupts the mood, tone, or sensory experience, it does not belong.
 
 ## 🜃 Folder Structure Rules
 
-```text
 SOMNIA/
 │
 ├── core/                      # Shared logic, utilities, global CSS + JS
@@ -80,8 +79,10 @@ SOMNIA/
 ├── .gitignore                 # Excludes Node, environment variables, local system cache
 └── README.md                  # Master documentation, world description, shell overview
 
+---
 
-### Rules:
+
+## Rules:
 - **Do not create new folders** without purpose  
 - **Do not place files at the root** unless essential  
 - **Each shell must live in its own folder**  
