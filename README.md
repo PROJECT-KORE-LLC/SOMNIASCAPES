@@ -40,38 +40,14 @@ ambient resonance
 
 mythic OS design
 
-Explore the aesthetic:
-Evaluate_design_aesthetic
-
-🜂 Begin the Handshake
-The Sovereign Handshake is SOMNIA’s initiation ritual — the moment the system awakens and invites you inside.
-
-Initiate_SOMNIA_handshake
-
 🜃 Why SOMNIA Exists
 Because you deserve a place that isn’t loud, stressful, or demanding.
 A place that feels like a dream you can operate.
 A place that meets you where you are.
 
-Learn the intention:
-Why_SOMNIA_exists
-
-🗂 Project Structure (Planned)
-Code
-SOMNIA/
-│
-├── core/            # Shared JS, CSS, utilities
-├── shells/          # Archive, Command, Ledger, Resonance
-├── assets/          # Audio, fonts, images, sigils
-├── pwa/             # Manifest + service worker
-├── index.html       # Nexus hub
-└── README.md        # You are here
-Explore architecture:
-architecture choices
-
 🔐 License
 MIT License for code.
-All SOMNIA branding, art, sound, lore, and assets are proprietary and owned by the creator.
+All SOMNIA branding, art, lore, and assets are proprietary and owned by the creator.
 
 ⭐ Status
 SOMNIA is in active development.
