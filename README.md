@@ -14,8 +14,6 @@
 
 It’s part game, part ritual, part ambient experience — a place to breathe, explore, and feel.
 
-> 🪐 **Learn more:** [What is SOMNIA?](What_is_SOMNIA)
-
 ---
 
 ## 🜁 Core Shells
