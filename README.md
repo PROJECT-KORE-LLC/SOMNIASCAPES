@@ -1,54 +1,62 @@
-🌙 SOMNIA — Enter your inner world.
-A dream‑like operating system for your inner world — a mythic, atmospheric OS‑RPG where sound, memory, ritual, and mood converge.
+<p align="center">
+  <img src="./somnia-banner.svg" alt="SOMNIA — Enter your inner world" width="100%" />
+</p>
 
-✨ What is SOMNIA?
-SOMNIA is a calming, mysterious, sensory operating system you inhabit, not just use.
-It blends ambient sound, ritual interfaces, dream‑logic navigation, and introspective tools into a single immersive world.
+<p align="center">
+  <strong>Enter your inner world.</strong> A dream-like operating system for your inner world — a mythic, atmospheric OS-RPG where sound, memory, ritual, and mood converge.
+</p>
+
+---
+
+## ✨ What is SOMNIA?
+
+**SOMNIA** is a calming, mysterious, sensory operating system you inhabit, not just use. It blends ambient sound, ritual interfaces, dream-logic navigation, and introspective tools into a single immersive world. 
 
 It’s part game, part ritual, part ambient experience — a place to breathe, explore, and feel.
 
-Learn more:
-What_is_SOMNIA
+> 🪐 **Learn more:** [What is SOMNIA?](What_is_SOMNIA)
 
-🜁 Core Shells
-SOMNIA is built from interconnected “shells” — atmospheric rooms inside the dream‑OS.
+---
 
-The Resonance Engine — mix ambient soundscapes that shape the system’s emotional tone
+## 🜁 Core Shells
 
-The Archive — store memories, fragments, and reflections
+SOMNIA is built from interconnected "shells" — atmospheric rooms inside the dream-OS.
 
-Covenant Command — navigate rituals, directives, and temporal flow
+*   **🔊 The Resonance Engine** — Mix ambient soundscapes that shape the system’s emotional tone.
+*   **📜 The Archive** — Store memories, fragments, and reflections.
+*   **⏳ Covenant Command** — Navigate rituals, directives, and temporal flow.
+*   **⚖️ The Ledger** — Track meaning, value, and consequence.
+*   **🎲 Chaos Mode** — Let the system reveal its unpredictable side.
 
-The Ledger — track meaning, value, and consequence
+> *Each shell is a chamber in the cathedral of your inner world.*
 
-Chaos Mode — let the system reveal its unpredictable side
+---
 
-Each shell is a chamber in the cathedral of your inner world.
+## 🌫 Atmosphere & Aesthetic
 
-🌫 Atmosphere & Aesthetic
-SOMNIA is built on:
+SOMNIA is meticulously built on non-standard, sensory interface standards:
+*   **Breathing Backgrounds** — Organic, low-frequency screen pacing.
+*   **Gold-Lit UI** — High-contrast, sovereign ambient illumination.
+*   **Somatic Glow Rules** — Visual indicators bound to user focus states.
+*   **Ritual Transitions** — Ceremonial phase shifts between operational zones.
+*   **Ambient Resonance** — Audio synthesis layered directly into user interactions.
+*   **Mythic OS Design** — Reclaiming digital machinery for personal sanctuary.
 
-breathing backgrounds
+---
 
-gold‑lit UI
+## 🜃 Why SOMNIA Exists
 
-somatic glow rules
+Because you deserve a place that isn’t loud, stressful, or demanding. A place that feels like a dream you can operate. A place that meets you where you are.
 
-ritual transitions
+---
 
-ambient resonance
+## 🔐 License
 
-mythic OS design
+*   **Code Implementation:** [MIT License](LICENSE)
+*   **Creative Assets:** All SOMNIA branding, artwork, narrative lore, audio parameters, and system aesthetics are proprietary and strictly owned by the creator.
 
-🜃 Why SOMNIA Exists
-Because you deserve a place that isn’t loud, stressful, or demanding.
-A place that feels like a dream you can operate.
-A place that meets you where you are.
+---
 
-🔐 License
-MIT License for code.
-All SOMNIA branding, art, lore, and assets are proprietary and owned by the creator.
-
-⭐ Status
-SOMNIA is in active development.
-The dream‑OS is waking.
+<p align="center">
+  <sub>⭐ <strong>Status:</strong> SOMNIA is in active development. The dream-OS is waking.</sub>
+</p>
