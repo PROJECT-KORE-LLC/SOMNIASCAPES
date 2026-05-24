@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%" height="100%">
+  <defs>
+    <!-- Deep Cinematic Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0c10" />
+      <stop offset="50%" stop-color="#12161f" />
+      <stop offset="100%" stop-color="#05070a" />
+    </linearGradient>
+
+    <!-- Sharp, Gilded Metallic Gradient for Accents -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c5a880" />
+      <stop offset="50%" stop-color="#e6d5bc" />
+      <stop offset="100%" stop-color="#9a7b56" />
+    </linearGradient>
+
+    <!-- Subtle UI Grid Pattern -->
+    <pattern id="uiGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.03" />
+    </pattern>
+
+    <!-- Dark Vignette / Shadow Map -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="40%" stop-color="#000000" stop-opacity="0" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.6" />
+    </radialGradient>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect width="1200" height="400" fill="url(#bgGrad)" />
+  <rect width="1200" height="400" fill="url(#uiGrid)" />
+  <rect width="1200" height="400" fill="url(#vignette)" />
+
+  <!-- Abstract Geometry / Blueprint Lines (Sanctuary Backdrop) -->
+  <g opacity="0.15">
+    <circle cx="600" cy="200" r="160" fill="none" stroke="#c5a880" stroke-width="1" />
+    <circle cx="600" cy="200" r="150" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="5,5" />
+    <circle cx="600" cy="200" r="80" fill="none" stroke="#c5a880" stroke-width="1" />
+    
+    <!-- Crosshairs / Axis Lines -->
+    <line x1="380" y1="200" x2="820" y2="200" stroke="#ffffff" stroke-width="1" />
+    <line x1="600" y1="20" x2="600" y2="380" stroke="#ffffff" stroke-width="1" />
+    
+    <!-- Diamond Framing Marks -->
+    <polygon points="600,120 680,200 600,280 520,200" fill="none" stroke="#c5a880" stroke-width="1" />
+  </g>
+
+  <!-- Outer UI Border Frame -->
+  <rect x="20" y="20" width="1160" height="360" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.8" />
+  <rect x="26" y="26" width="1148" height="348" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.05" />
+
+  <!-- Corner Tech Accents -->
+  <g stroke="url(#goldGrad)" stroke-width="2" fill="none">
+    <!-- Top Left -->
+    <path d="M 15 35 L 35 15 M 15 15 L 45 15 M 15 15 L 15 45" />
+    <!-- Top Right -->
+    <path d="M 1185 35 L 1165 15 M 1185 15 L 1155 15 M 1185 15 L 1185 45" />
+    <!-- Bottom Left -->
+    <path d="M 15 365 L 35 385 M 15 385 L 45 385 M 15 385 L 15 355" />
+    <!-- Bottom Right -->
+    <path d="M 1185 365 L 1165 385 M 1185 385 L 1155 385 M 1185 385 L 1185 355" />
+  </g>
+
+  <!-- Central Branding Artifact -->
+  <g transform="translate(600, 140)">
+    <!-- Outer Glow Aura -->
+    <circle cx="0" cy="0" r="25" fill="#c5a880" opacity="0.1" filter="blur(5px)" />
+    <!-- Sharp Diamond Core -->
+    <polygon points="0,-28 8,-8 28,0 8,8 0,28 -8,8 -28,0 -8,-8" fill="url(#goldGrad)" />
+    <polygon points="0,-14 4,-4 14,0 4,4 0,14 -4,4 -14,0 -4,-4" fill="#ffffff" opacity="0.9" />
+    <!-- Surrounding Accent Ring -->
+    <circle cx="0" cy="0" r="38" fill="none" stroke="url(#goldGrad)" stroke-width="1" stroke-dasharray="4,12" />
+  </g>
+
+  <!-- Typography -->
+  <!-- Main Title -->
+  <text x="600" y="245" 
+        font-family="Cinzel, 'Times New Roman', serif" 
+        font-size="54" 
+        font-weight="700" 
+        letter-spacing="14" 
+        fill="url(#goldGrad)" 
+        text-anchor="middle"
+        style="text-transform: uppercase; dominant-baseline: middle;">
+    Somnia Scapes
+  </text>
+
+  <!-- Copyright Line (Explicitly No Symbol) -->
+  <text x="600" y="305" 
+        font-family="'Inter', 'Segoe UI', sans-serif" 
+        font-size="12" 
+        font-weight="400" 
+        letter-spacing="6" 
+        fill="#616d7e" 
+        text-anchor="middle"
+        style="text-transform: uppercase; dominant-baseline: middle;">
+    2026 Project Kore LLC. All Rights Reserved.
+  </text>
+</svg>
