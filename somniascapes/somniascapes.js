@@ -138,3 +138,56 @@ castButton.addEventListener("click", async () => {
         alert("Casting is not supported in this browser.");
     }
 });
+
+// EXPORT PRESET TO FILE
+const exportBtn = document.getElementById("exportPreset");
+
+exportBtn.addEventListener("click", () => {
+    const preset = {
+        image: vibeImage.src || null,
+        sound: vibeAudio.src || null
+    };
+
+    const blob = new Blob([JSON.stringify(preset)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "somnia-preset.somnia";
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
+
+// IMPORT PRESET FROM FILE
+const importBtn = document.getElementById("importPreset");
+
+importBtn.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".somnia";
+
+    input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = event => {
+            const preset = JSON.parse(event.target.result);
+
+            if (preset.image) {
+                vibeImage.src = preset.image;
+                vibeImage.style.opacity = 1;
+            }
+
+            if (preset.sound) {
+                vibeAudio.src = preset.sound;
+                vibeAudio.play().catch(() => {});
+            }
+        };
+
+        reader.readAsText(file);
+    };
+
+    input.click();
+});
