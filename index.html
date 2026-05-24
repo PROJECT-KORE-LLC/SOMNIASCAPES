@@ -10,52 +10,129 @@
 
 <body class="noir">
 
-    <!-- === EDITOR SIDEBAR (ADDED) === -->
+    <!-- === EDITOR SIDEBAR === -->
     <aside id="sidebar">
 
         <h2 class="logo">SOMNIASCAPES</h2>
 
+        <!-- Starred Vibes -->
+        <section class="panel" id="starred-vibes-panel">
+            <h3>Starred Vibes</h3>
+            <div id="starred-vibes-list">
+                <button class="starred-vibe-btn" data-slot="0">★ Dreamroot (default)</button>
+                <button class="starred-vibe-btn empty" data-slot="1">☆ Add your vibe</button>
+                <button class="starred-vibe-btn empty" data-slot="2">☆ Add your vibe</button>
+            </div>
+            <button id="save-vibe-btn">Save Vibe</button>
+            <button id="star-vibe-btn">Star Current Vibe</button>
+        </section>
+
+        <!-- Backgrounds -->
         <section class="panel">
-            <h3>Background</h3>
+            <h3>Backgrounds</h3>
             <div id="bg-picker" class="picker-grid"></div>
+
+            <label class="small-label">
+                Upload Background
+                <input type="file" id="imageUpload" accept="image/*">
+            </label>
         </section>
 
+        <!-- Audio Mixer -->
         <section class="panel">
-            <h3>Audio</h3>
-            <div id="audio-picker" class="picker-grid"></div>
+            <h3>Audio Mixer</h3>
+            <div id="audio-mixer-list"></div>
+
+            <button id="add-audio-track-btn">Add Audio Track</button>
+            <button id="pause-all-audio-btn">Pause All</button>
+
+            <label class="small-label">
+                Upload Audio
+                <input type="file" id="soundUpload" accept="audio/*">
+            </label>
         </section>
 
+        <!-- Particles -->
         <section class="panel">
             <h3>Particles</h3>
-            <div id="particle-picker" class="picker-grid"></div>
+
+            <label>Opacity</label>
+            <input type="range" id="particle-opacity" min="0" max="1" step="0.05" value="0.6">
+
+            <label>Speed</label>
+            <input type="range" id="particle-speed" min="0" max="1" step="0.05" value="0.2">
+
+            <label>Density</label>
+            <input type="range" id="particle-density" min="10" max="120" step="5" value="40">
+
+            <label>Size</label>
+            <input type="range" id="particle-size" min="0.5" max="4" step="0.1" value="2">
         </section>
 
+        <!-- Glow -->
+        <section class="panel">
+            <h3>Glow</h3>
+
+            <label>Glow Opacity</label>
+            <input type="range" id="glow-opacity" min="0" max="1" step="0.05" value="0.3">
+
+            <label>Glow Radius</label>
+            <input type="range" id="glow-radius" min="0" max="40" step="1" value="18">
+
+            <label>Pulse Speed</label>
+            <input type="range" id="glow-speed" min="0" max="1" step="0.05" value="0.3">
+        </section>
+
+        <!-- Palette -->
         <section class="panel">
             <h3>Palette</h3>
-            <div id="palette-picker" class="picker-grid"></div>
+            <div id="palette-picker" class="picker-grid">
+                <button class="paletteBtn" data-mode="noir">Noir</button>
+                <button class="paletteBtn" data-mode="lunar">Lunar</button>
+                <button class="paletteBtn" data-mode="vellum">Vellum</button>
+                <button class="paletteBtn" data-mode="amethyst">Amethyst</button>
+            </div>
         </section>
 
+        <!-- Adjustments -->
         <section class="panel">
             <h3>Adjustments</h3>
 
+            <label>Zoom</label>
+            <input type="range" id="ctrl-zoom" min="0.5" max="3" step="0.01" value="1">
+
             <label>Blur</label>
-            <input type="range" id="blur-slider" min="0" max="20" value="0">
+            <input type="range" id="ctrl-blur" min="0" max="20" step="0.5" value="0">
 
             <label>Brightness</label>
-            <input type="range" id="brightness-slider" min="50" max="150" value="100">
+            <input type="range" id="ctrl-brightness" min="0.2" max="2" step="0.05" value="1">
 
-            <label>Zoom</label>
-            <input type="range" id="zoom-slider" min="1" max="2" step="0.01" value="1">
+            <label>Opacity</label>
+            <input type="range" id="ctrl-opacity" min="0.1" max="1" step="0.05" value="1">
+
+            <label>Master Volume</label>
+            <input type="range" id="ctrl-volume" min="0" max="1" step="0.01" value="0.6">
         </section>
 
-        <button id="cloak-btn">Cloak</button>
-        <button id="scratchpad-btn">Scratchpad</button>
+        <!-- Prompt -->
+        <section class="panel">
+            <h3>Prompt (optional)</h3>
+            <textarea id="prompt-field" rows="3" placeholder="AI prompt or notes for this vibe..."></textarea>
+        </section>
+
+        <!-- Tools -->
+        <section class="panel">
+            <h3>Tools</h3>
+            <button id="castButton">Cast</button>
+            <button id="toggleScratchpad">Scratchpad</button>
+            <button id="cloakButton">Cloak</button>
+        </section>
 
     </aside>
     <!-- === END SIDEBAR === -->
 
 
-    <!-- Main Vibe Container (YOUR ORIGINAL) -->
+    <!-- Main Vibe Container -->
     <div id="vibe-container">
         <img id="vibe-image" src="" alt="">
         <audio id="vibe-audio" loop></audio>
@@ -65,71 +142,16 @@
     <canvas id="particleCanvas"></canvas>
     <div id="blurPulse"></div>
 
-    <!-- === PREVIEW CANVAS (ADDED) === -->
+    <!-- Preview Canvas -->
     <main id="preview-area">
         <canvas id="scene-canvas"></canvas>
     </main>
-    <!-- === END PREVIEW === -->
 
-
-    <!-- UI Controls (YOUR ORIGINAL) -->
-    <div id="controls">
-
-        <label>
-            Upload Image:
-            <input type="file" id="imageUpload" accept="image/*">
-        </label>
-
-        <label>
-            Upload Sound:
-            <input type="file" id="soundUpload" accept="audio/*">
-        </label>
-
-        <!-- Sliders -->
-        <label>
-            Zoom
-            <input type="range" id="ctrl-zoom" min="0.5" max="3" step="0.01" value="1">
-        </label>
-
-        <label>
-            Blur
-            <input type="range" id="ctrl-blur" min="0" max="20" step="0.5" value="0">
-        </label>
-
-        <label>
-            Brightness
-            <input type="range" id="ctrl-brightness" min="0.2" max="2" step="0.05" value="1">
-        </label>
-
-        <label>
-            Opacity
-            <input type="range" id="ctrl-opacity" min="0.1" max="1" step="0.05" value="1">
-        </label>
-
-        <label>
-            Volume
-            <input type="range" id="ctrl-volume" min="0" max="1" step="0.01" value="0.6">
-        </label>
-
-        <!-- Buttons -->
-        <button id="castButton">Cast</button>
-        <button id="toggleScratchpad">Scratchpad</button>
-        <button id="cloakButton">Cloak</button>
-
-        <!-- Palette Buttons -->
-        <button class="paletteBtn" data-mode="noir">Noir</button>
-        <button class="paletteBtn" data-mode="lunar">Lunar</button>
-        <button class="paletteBtn" data-mode="vellum">Vellum</button>
-        <button class="paletteBtn" data-mode="amethyst">Amethyst</button>
-
-    </div>
-
-    <!-- === SCRATCHPAD OVERLAY (MERGED + IMPROVED) === -->
+    <!-- Scratchpad -->
     <div id="scratchpad" class="hidden">
         <textarea placeholder="Write a message..."></textarea>
         <button id="close-scratchpad">Close</button>
     </div>
-    <!-- === END SCRATCHPAD === -->
 
     <script src="somniascapes.js"></script>
 </body>
