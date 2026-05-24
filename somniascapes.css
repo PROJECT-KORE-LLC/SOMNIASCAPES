@@ -289,27 +289,12 @@
     );
 }
 
-#cloakButton {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid var(--glass-border);
-    padding: 8px 16px;
-    border-radius: 10px;
-    color: #fff;
-    font-family: "Cinzel", serif;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-#cloakButton:hover {
-    background: rgba(255,255,255,0.25);
-    transform: translateY(-2px);
-}
+/* ============================
+   CLOAK MODE (only hide UI bar + scratchpad)
+============================ */
 
 body.cloaked #controls,
-body.cloaked #scratchpad,
-body.cloaked #particleCanvas,
-body.cloaked #blurPulse,
-body.cloaked #vignette {
+body.cloaked #scratchpad {
     opacity: 0 !important;
     pointer-events: none !important;
 }
