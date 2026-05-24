@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta-name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SomniaScapes</title>
 
-    <!-- Link to your CSS -->
     <link rel="stylesheet" href="somniascapes.css">
 </head>
 
@@ -16,15 +15,14 @@
         <img id="vibe-image" src="" alt="">
         <audio id="vibe-audio" loop></audio>
     </div>
-    
+
     <div id="vignette"></div>
-
     <canvas id="particleCanvas"></canvas>
-
     <div id="blurPulse"></div>
-        
+
     <!-- UI Controls -->
     <div id="controls">
+
         <label>
             Upload Image:
             <input type="file" id="imageUpload" accept="image/*">
@@ -34,14 +32,43 @@
             Upload Sound:
             <input type="file" id="soundUpload" accept="audio/*">
         </label>
-        
+
+        <!-- Sliders (correct placement) -->
+        <label>
+            Zoom
+            <input type="range" id="ctrl-zoom" min="0.5" max="3" step="0.01" value="1">
+        </label>
+
+        <label>
+            Blur
+            <input type="range" id="ctrl-blur" min="0" max="20" step="0.5" value="0">
+        </label>
+
+        <label>
+            Brightness
+            <input type="range" id="ctrl-brightness" min="0.2" max="2" step="0.05" value="1">
+        </label>
+
+        <label>
+            Opacity
+            <input type="range" id="ctrl-opacity" min="0.1" max="1" step="0.05" value="1">
+        </label>
+
+        <label>
+            Volume
+            <input type="range" id="ctrl-volume" min="0" max="1" step="0.01" value="0.6">
+        </label>
+
+        <!-- Buttons -->
         <button id="castButton">Cast</button>
         <button id="toggleScratchpad">Scratchpad</button>
 
+        <!-- Palette Buttons -->
         <button class="paletteBtn" data-mode="noir">Noir</button>
         <button class="paletteBtn" data-mode="lunar">Lunar</button>
         <button class="paletteBtn" data-mode="vellum">Vellum</button>
         <button class="paletteBtn" data-mode="amethyst">Amethyst</button>
+
     </div>
 
     <!-- Scratchpad Overlay -->
@@ -49,8 +76,6 @@
         <textarea placeholder="Write a message..."></textarea>
     </div>
 
-    <!-- Link to your JS -->
     <script src="somniascapes.js"></script>
-
 </body>
 </html>
