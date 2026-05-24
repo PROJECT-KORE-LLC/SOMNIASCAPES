@@ -93,6 +93,38 @@ ctx.fillStyle = baseColor.replace("0.55", p.opacity.toString());
 
 animateParticles();
 
+// RANDOM DRIFT ANIMATION
+let driftX = 0;
+let driftY = 0;
+let targetX = 0;
+let targetY = 0;
+
+function updateDriftTargets() {
+    // Pick a new random drift target every 8–15 seconds
+    targetX = (Math.random() - 0.5) * 10; // range: -5 to +5 px
+    targetY = (Math.random() - 0.5) * 10;
+
+    setTimeout(updateDriftTargets, 8000 + Math.random() * 7000);
+}
+
+updateDriftTargets();
+
+function animateDrift() {
+    // Ease toward target
+    driftX += (targetX - driftX) * 0.01;
+    driftY += (targetY - driftY) * 0.01;
+
+    // Combine drift with breathing scale
+    const breathScale = 1 + 0.03 * Math.sin(Date.now() / 6000);
+
+    vibeImage.style.transform = `translate(${driftX}px, ${driftY}px) scale(${breathScale})`;
+
+    requestAnimationFrame(animateDrift);
+}
+
+animateDrift();
+
+    
     // UI AUTO-HIDE
 const controls = document.getElementById("controls");
 let hideTimeout;
