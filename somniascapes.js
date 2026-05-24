@@ -164,8 +164,20 @@
        SCRATCHPAD
     ------------------------------------------------------------ */
     bindScratchpad() {
-      this.$toggleScratchpad.addEventListener("click", () => {
-        this.$scratchpad.classList.toggle("hidden");
+      const pad = this.$scratchpad;
+      const toggle = this.$toggleScratchpad;
+      const textarea = pad.querySelector("textarea");
+
+      // Open/close via button
+      toggle.addEventListener("click", () => {
+        pad.classList.toggle("hidden");
+      });
+
+      // Click on the dark overlay (but not the textarea) to close
+      pad.addEventListener("click", (e) => {
+        if (e.target === pad) {
+          pad.classList.add("hidden");
+        }
       });
     },
 
