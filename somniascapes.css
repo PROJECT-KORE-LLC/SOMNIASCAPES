@@ -304,3 +304,12 @@
     background: rgba(255,255,255,0.25);
     transform: translateY(-2px);
 }
+
+body.cloaked #controls,
+body.cloaked #scratchpad,
+body.cloaked #particleCanvas,
+body.cloaked #blurPulse,
+body.cloaked #vignette {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
