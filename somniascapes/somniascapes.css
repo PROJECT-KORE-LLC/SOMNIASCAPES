@@ -1,119 +1,11 @@
-/* Scratchpad hidden state */
+/* ============================
+   SCRATCHPAD
+============================ */
+
 .hidden {
     display: none;
 }
 
-/* Scratchpad overlay */
-#scratchpad {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(6px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-#scratchpad textarea {
-    width: 80%;
-    height: 60%;
-    padding: 20px;
-    font-size: 1.2rem;
-    border-radius: 12px;
-    border: none;
-    outline: none;
-    resize: none;
-    background: rgba(255,255,255,0.8);
-}
-
-/* Make the vibe container fill the entire screen */
-#vibe-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: -1; /* keeps it behind the UI */
-}
-
-/* Make the uploaded image fill the screen beautifully */
-#vibe-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* the magic */
-    object-position: center;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    pointer-events: none;
-}
-
-/* UI Controls Container */
-#controls {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    padding: 12px 20px;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(10px);
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    z-index: 10;
-}
-
-/* Labels for upload inputs */
-#controls label {
-    color: #fff;
-    font-size: 0.9rem;
-    font-family: "Cinzel", serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-}
-
-/* Hide the ugly default file input */
-#controls input[type="file"] {
-    display: none;
-}
-
-/* Fake button for file inputs */
-#controls label::after {
-    content: "Choose";
-    margin-top: 4px;
-    padding: 6px 12px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 8px;
-    font-size: 0.8rem;
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* Scratchpad button */
-#toggleScratchpad {
-    padding: 8px 16px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 10px;
-    color: #fff;
-    font-family: "Cinzel", serif;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-#toggleScratchpad:hover {
-    background: rgba(255,255,255,0.25);
-    transform: translateY(-2px);
-}
-
-/* SCRATCHPAD OVERLAY — dreamy glass layer */
 #scratchpad {
     position: fixed;
     top: 0;
@@ -130,13 +22,11 @@
     animation: fadeIn 0.3s ease;
 }
 
-/* Smooth fade-in */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* SCRATCHPAD TEXTAREA — luxury OS window */
 #scratchpad textarea {
     width: 80%;
     max-width: 900px;
@@ -146,7 +36,7 @@
     font-family: "Cinzel", serif;
     color: #222;
     border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid var(--glass-border);
     background: rgba(255,255,255,0.85);
     box-shadow: 0 8px 40px rgba(0,0,0,0.35);
     outline: none;
@@ -155,27 +45,25 @@
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Focus glow */
 #scratchpad textarea:focus {
     background: rgba(255,255,255,0.95);
     box-shadow: 0 12px 50px rgba(0,0,0,0.45);
 }
 
-/* Breathing animation */
-@keyframes somniaBreath {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.03); }
-    100% { transform: scale(1); }
+/* ============================
+   VIBE CONTAINER + IMAGE
+============================ */
+
+#vibe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
 }
 
-/* Random drift animation (values updated by JS) */
-#vibe-image {
-    transform-origin: center;
-    will-change: transform;
-}
-
-
-/* Apply breathing to the vibe image */
 #vibe-image {
     width: 100%;
     height: 100%;
@@ -184,9 +72,20 @@
     opacity: 0;
     transition: opacity 0.6s ease;
     pointer-events: none;
-
+    transform-origin: center;
+    will-change: transform;
     animation: somniaBreath 12s ease-in-out infinite;
 }
+
+@keyframes somniaBreath {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* ============================
+   PARTICLES
+============================ */
 
 #particleCanvas {
     position: fixed;
@@ -195,26 +94,57 @@
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 1; /* above background, below UI */
+    z-index: 1;
 }
 
-/* Hidden state for auto-hide */
-.hidden-controls {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.6s ease;
-}
+/* ============================
+   CONTROLS
+============================ */
 
-/* Normal visible state */
 #controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    padding: 12px 20px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    z-index: 10;
     opacity: 1;
     transition: opacity 0.6s ease;
 }
 
+.hidden-controls {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#controls label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: "Cinzel", serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+#controls input[type="file"] {
+    display: none;
+}
+
+#controls label::after,
+#toggleScratchpad,
+.paletteBtn,
 #castButton {
-    padding: 8px 16px;
     background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
     border-radius: 10px;
     color: #fff;
     font-family: "Cinzel", serif;
@@ -222,162 +152,81 @@
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
+#toggleScratchpad:hover,
+.paletteBtn:hover,
 #castButton:hover {
     background: rgba(255,255,255,0.25);
     transform: translateY(-2px);
 }
 
-#exportPreset, #importPreset {
-    padding: 8px 16px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 10px;
-    color: #fff;
-    font-family: "Cinzel", serif;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+/* ============================
+   VIGNETTE + BLUR PULSE
+============================ */
+
+#vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(0,0,0,0) 40%,
+        rgba(0,0,0,0.25) 70%,
+        rgba(0,0,0,0.55) 100%
+    );
+    transition: background 0.6s ease;
 }
 
-#exportPreset:hover, #importPreset:hover {
-    background: rgba(255,255,255,0.25);
-    transform: translateY(-2px);
+#blurPulse {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 1.5s ease, background 1.5s ease;
 }
 
-/* DEFAULT MODE (Noir) */
+/* ============================
+   PALETTE MODES
+============================ */
+
 :root {
     --primary: #d4af37;
-    --primary-soft: rgba(212, 175, 55, 0.55);
-    --glass: rgba(10, 10, 16, 0.72);
-    --glass-border: rgba(212, 175, 55, 0.18);
-    --glow: rgba(229, 149, 0, 0.45);
+    --primary-soft: rgba(212,175,55,0.55);
+    --glass: rgba(10,10,16,0.72);
+    --glass-border: rgba(212,175,55,0.18);
+    --glow: rgba(229,149,0,0.45);
+    --particle-color: rgba(255,255,255,0.6);
 }
 
-:root {
-    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
-}
-
+/* NOIR */
 .noir {
-    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
-}
-
-.lunar {
-    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
-}
-
-.vellum {
-    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
-}
-
-.amethyst {
-    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
-}
-
-
-/* LUNAR MODE */
-.lunar {
-    --primary: #a8e6f0;
-    --primary-soft: rgba(168, 230, 240, 0.55);
-    --glass: rgba(8, 12, 18, 0.72);
-    --glass-border: rgba(168, 230, 240, 0.18);
-    --glow: rgba(0, 120, 200, 0.35);
-}
-
-:root {
-    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
-}
-
-.noir {
-    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
-}
-
-.lunar {
-    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
-}
-
-.vellum {
-    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
-}
-
-.amethyst {
-    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
-}
-
-
-/* VELLUM MODE */
-.vellum {
-    --primary: #c2b280;
-    --primary-soft: rgba(194, 178, 128, 0.55);
-    --glass: rgba(14, 12, 10, 0.72);
-    --glass-border: rgba(194, 178, 128, 0.18);
-    --glow: rgba(101, 67, 33, 0.35);
-}
-
-:root {
-    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
-}
-
-.noir {
-    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
-}
-
-.lunar {
-    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
-}
-
-.vellum {
-    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
-}
-
-.amethyst {
-    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
-}
-
-
-/* AMETHYST MODE */
-.amethyst {
-    --primary: #9b6ad8;
-    --primary-soft: rgba(155, 106, 216, 0.55);
-    --glass: rgba(12, 8, 16, 0.72);
-    --glass-border: rgba(155, 106, 216, 0.18);
-    --glow: rgba(120, 0, 200, 0.35);
-}
-
-:root {
-    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
-}
-
-.noir {
-    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
-}
-
-.lunar {
-    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
-}
-
-.vellum {
-    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
-}
-
-.amethyst {
-    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
+    --particle-color: rgba(212,175,55,0.55);
 }
 
 .noir #blurPulse {
     background: radial-gradient(circle, rgba(212,175,55,0.05), rgba(0,0,0,0));
 }
 
+/* LUNAR */
+.lunar {
+    --primary: #a8e6f0;
+    --primary-soft: rgba(168,230,240,0.55);
+    --glass: rgba(8,12,18,0.72);
+    --glass-border: rgba(168,230,240,0.18);
+    --glow: rgba(0,120,200,0.35);
+    --particle-color: rgba(168,230,240,0.55);
+}
+
 .lunar #blurPulse {
     background: radial-gradient(circle, rgba(168,230,240,0.05), rgba(0,0,0,0));
 }
-
-.vellum #blurPulse {
-    background: radial-gradient(circle, rgba(194,178,128,0.05), rgba(0,0,0,0));
-}
-
-.amethyst #blurPulse {
-    background: radial-gradient(circle, rgba(155,106,216,0.05), rgba(0,0,0,0));
-}
-
 
 .lunar #vignette {
     background: radial-gradient(
@@ -386,6 +235,20 @@
         rgba(0,40,80,0.2) 70%,
         rgba(0,40,80,0.45) 100%
     );
+}
+
+/* VELLUM */
+.vellum {
+    --primary: #c2b280;
+    --primary-soft: rgba(194,178,128,0.55);
+    --glass: rgba(14,12,10,0.72);
+    --glass-border: rgba(194,178,128,0.18);
+    --glow: rgba(101,67,33,0.35);
+    --particle-color: rgba(194,178,128,0.55);
+}
+
+.vellum #blurPulse {
+    background: radial-gradient(circle, rgba(194,178,128,0.05), rgba(0,0,0,0));
 }
 
 .vellum #vignette {
@@ -397,6 +260,20 @@
     );
 }
 
+/* AMETHYST */
+.amethyst {
+    --primary: #9b6ad8;
+    --primary-soft: rgba(155,106,216,0.55);
+    --glass: rgba(12,8,16,0.72);
+    --glass-border: rgba(155,106,216,0.18);
+    --glow: rgba(120,0,200,0.35);
+    --particle-color: rgba(155,106,216,0.55);
+}
+
+.amethyst #blurPulse {
+    background: radial-gradient(circle, rgba(155,106,216,0.05), rgba(0,0,0,0));
+}
+
 .amethyst #vignette {
     background: radial-gradient(
         circle at center,
@@ -404,55 +281,4 @@
         rgba(80,0,120,0.25) 70%,
         rgba(80,0,120,0.55) 100%
     );
-}
-
-
-#controls {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-}
-
-#controls label::after,
-#toggleScratchpad,
-#exportPreset,
-#importPreset,
-.paletteBtn {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid var(--glass-border);
-}
-
-#scratchpad textarea {
-    border: 1px solid var(--glass-border);
-}
-
-#vignette {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0; /* above background, below particles */
-
-    background: radial-gradient(
-        circle at center,
-        rgba(0,0,0,0) 40%,
-        rgba(0,0,0,0.25) 70%,
-        rgba(0,0,0,0.55) 100%
-    );
-
-    transition: background 0.6s ease;
-}
-
-#blurPulse {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0; /* above background, below particles */
-
-    backdrop-filter: blur(0px);
-    transition: backdrop-filter 1.5s ease, background 1.5s ease;
 }
