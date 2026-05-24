@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./somniascapes.svg" alt="SomniaScapes Banner" width="420">
-</p>
+
 
 # SOMNIA SCAPES  
 ### The vibe machine you didn’t know you needed.
