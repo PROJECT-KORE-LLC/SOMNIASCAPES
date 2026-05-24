@@ -191,6 +191,18 @@
     z-index: 1; /* above background, below UI */
 }
 
+/* Hidden state for auto-hide */
+.hidden-controls {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+/* Normal visible state */
+#controls {
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
 
 
 
