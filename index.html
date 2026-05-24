@@ -10,7 +10,52 @@
 
 <body class="noir">
 
-    <!-- Main Vibe Container -->
+    <!-- === EDITOR SIDEBAR (ADDED) === -->
+    <aside id="sidebar">
+
+        <h2 class="logo">SOMNIASCAPES</h2>
+
+        <section class="panel">
+            <h3>Background</h3>
+            <div id="bg-picker" class="picker-grid"></div>
+        </section>
+
+        <section class="panel">
+            <h3>Audio</h3>
+            <div id="audio-picker" class="picker-grid"></div>
+        </section>
+
+        <section class="panel">
+            <h3>Particles</h3>
+            <div id="particle-picker" class="picker-grid"></div>
+        </section>
+
+        <section class="panel">
+            <h3>Palette</h3>
+            <div id="palette-picker" class="picker-grid"></div>
+        </section>
+
+        <section class="panel">
+            <h3>Adjustments</h3>
+
+            <label>Blur</label>
+            <input type="range" id="blur-slider" min="0" max="20" value="0">
+
+            <label>Brightness</label>
+            <input type="range" id="brightness-slider" min="50" max="150" value="100">
+
+            <label>Zoom</label>
+            <input type="range" id="zoom-slider" min="1" max="2" step="0.01" value="1">
+        </section>
+
+        <button id="cloak-btn">Cloak</button>
+        <button id="scratchpad-btn">Scratchpad</button>
+
+    </aside>
+    <!-- === END SIDEBAR === -->
+
+
+    <!-- Main Vibe Container (YOUR ORIGINAL) -->
     <div id="vibe-container">
         <img id="vibe-image" src="" alt="">
         <audio id="vibe-audio" loop></audio>
@@ -20,7 +65,14 @@
     <canvas id="particleCanvas"></canvas>
     <div id="blurPulse"></div>
 
-    <!-- UI Controls -->
+    <!-- === PREVIEW CANVAS (ADDED) === -->
+    <main id="preview-area">
+        <canvas id="scene-canvas"></canvas>
+    </main>
+    <!-- === END PREVIEW === -->
+
+
+    <!-- UI Controls (YOUR ORIGINAL) -->
     <div id="controls">
 
         <label>
@@ -72,10 +124,12 @@
 
     </div>
 
-    <!-- Scratchpad Overlay -->
+    <!-- === SCRATCHPAD OVERLAY (MERGED + IMPROVED) === -->
     <div id="scratchpad" class="hidden">
         <textarea placeholder="Write a message..."></textarea>
+        <button id="close-scratchpad">Close</button>
     </div>
+    <!-- === END SCRATCHPAD === -->
 
     <script src="somniascapes.js"></script>
 </body>
