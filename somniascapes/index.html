@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomniaScapes</title>
+
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="somniascapes.css">
+</head>
+
+<body>
+
+    <!-- Main Vibe Container -->
+    <div id="vibe-container">
+        <img id="vibe-image" src="" alt="">
+        <audio id="vibe-audio" loop></audio>
+    </div>
+
+    <!-- UI Controls -->
+    <div id="controls">
+        <label>
+            Upload Image:
+            <input type="file" id="imageUpload" accept="image/*">
+        </label>
+
+        <label>
+            Upload Sound:
+            <input type="file" id="soundUpload" accept="audio/*">
+        </label>
+
+        <button id="toggleScratchpad">Scratchpad</button>
+    </div>
+
+    <!-- Scratchpad Overlay -->
+    <div id="scratchpad" class="hidden">
+        <textarea placeholder="Write a message..."></textarea>
+    </div>
+
+    <!-- Link to your JS -->
+    <script src="somniascapes.js"></script>
+
+</body>
+</html>
 
