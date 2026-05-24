@@ -1,89 +1,128 @@
-# 🌙 SOMNIA Code of Conduct
-SOMNIA is a mythic, atmospheric, introspective operating system.  
-Anyone interacting with this project — through issues, discussions, pull requests, or collaboration — is expected to honor the calm, respectful, and intentional nature of this world.
+# SOMNIASCAPES Code of Conduct  
+### Be nice. Be weird. Don’t ruin the vibe.
 
-This Code of Conduct establishes the social boundaries that keep SOMNIA safe, welcoming, and aligned with its purpose.
-
----
-
-## 🜁 Our Guiding Principles
-
-Participants in the SOMNIA space agree to:
-
-*   Communicate with **calm, clarity, and respect**
-*   Assume good intentions and ask for clarification when needed
-*   Offer feedback constructively and gently
-*   Honor the emotional tone of the project
-*   Maintain a space free of hostility, pressure, or aggression
-*   Respect personal boundaries and lived experiences
-*   Keep interactions aligned with SOMNIA’s introspective atmosphere
-
-SOMNIA is a sanctuary — treat it as such.
+Welcome to SOMNIASCAPES — a tiny dream‑OS full of cozy chaos,  
+aesthetic nonsense, and surprisingly peaceful mayhem.  
+This space is for everyone, and we keep it that way by following a few simple rules.
 
 ---
 
-## 🜂 Unacceptable Behavior
+## 🌈 1. Be Kind (the non‑negotiable rule)
+We don’t do:
 
-The following behaviors are not permitted:
+- bullying  
+- harassment  
+- discrimination  
+- cruelty  
+- weird power trips  
 
-*   Harassment, discrimination, or personal attacks  
-*   Dismissive, hostile, or aggressive communication  
-*   Trolling, baiting, or derailing conversations  
-*   Unsolicited criticism delivered harshly or disrespectfully  
-*   Sharing private information without consent  
-*   Disrupting the calm, atmospheric tone of the project  
-*   Any behavior that makes contributors feel unsafe or unwelcome  
-
-SOMNIA is built on gentleness and intention. Anything that breaks that is not allowed.
+If your behavior makes someone feel small, unsafe, or unwelcome,  
+you’re out. No dramatic speeches. No second chances.
 
 ---
 
-## 🜃 Expectations for Contributions
+## 🌿 2. Keep It Cozy
+This project is meant to feel like a soft, glowing corner of the internet.
 
-When contributing code, ideas, or feedback:
+So:
 
-*   Speak with clarity and kindness  
-*   Keep discussions focused and respectful  
-*   Offer suggestions, not demands  
-*   Avoid urgency, pressure, or negativity  
-*   Honor the aesthetic and emotional tone of SOMNIA  
-*   Respect the creator’s vision and boundaries  
+- be patient  
+- be respectful  
+- be helpful  
+- be a decent human  
 
-Contributions should feel like adding to a cathedral, not arguing in a boardroom.
-
----
-
-## 🜄 Reporting Issues
-
-If you experience or witness behavior that violates this Code of Conduct:
-
-*   Open a private issue if comfortable  
-*   Or contact the project maintainer directly at: architect.kore@proton.me
-*   Provide a calm, factual description of the situation  
-
-All reports will be handled with discretion and care.
+If you can’t do that, SOMNIASCAPES is not your ecosystem.
 
 ---
 
-## 🜅 Enforcement
+## 🎨 3. Respect the Aesthetic
+SOMNIASCAPES has a vibe:  
+cozy, chaotic, pretty, weird, and intentionally simple.
 
-The project maintainer may take any action deemed appropriate, including:
+Please don’t:
 
-*   Clarifying expectations  
-*   Requesting a behavior change  
-*   Temporarily limiting participation  
-*   Removing individuals from the project space  
+- push for corporate‑looking features  
+- demand clutter  
+- try to turn this into a productivity suite  
+- break the atmosphere with aggressive design choices  
 
-SOMNIA’s emotional safety and atmosphere take priority.
+If your contribution feels like a spreadsheet, it’s not happening.
 
 ---
 
-## ⭐ Final Note
+## 🔒 4. Respect the Boundaries
+These rules protect the project and the $1 unlock model:
 
-SOMNIA is not just software — it is a world.  
-A sanctuary.  
-A dream‑OS built on calm, ritual, and inner reflection.
+- **No exporting anything**  
+- **No bypassing the unlock**  
+- **No external uploads**  
+- **No loopholes**  
+- **No “just add this one tiny feature” creep**
 
-All who enter are expected to move gently, speak clearly, and honor the space.
+If your idea breaks the ecosystem, it’s a no.
 
-Thank you for helping keep SOMNIA safe and sacred.
+---
+
+## 🧪 5. Feedback Is Welcome (Chaos Is Not)
+We love:
+
+- suggestions  
+- ideas  
+- bug reports  
+- improvements  
+- new vibes  
+
+We do not love:
+
+- demands  
+- rudeness  
+- spam  
+- drama  
+- “why isn’t this free???” energy  
+
+Keep it constructive.
+
+---
+
+## 🛠️ 6. Follow the Contribution Rules
+If you want to contribute code, read  
+**[CONTRIBUTING.md](ca://s?q=Open_CONTRIBUTING)**  
+before touching anything.
+
+It’s short. It’s funny. It will save everyone time.
+
+---
+
+## 🌙 7. Remember Why We’re Here
+SOMNIASCAPES exists to give people:
+
+- a break  
+- a laugh  
+- a vibe  
+- a cozy moment  
+- a tiny world to play in  
+
+Help us keep it magical.
+
+---
+
+## 💫 8. If Something Goes Wrong
+If someone breaks the rules:
+
+- we address it  
+- we remove the behavior  
+- we protect the community  
+- we move on  
+
+No drama.  
+No dogpiles.  
+No chaos spirals.
+
+---
+
+## 🖤 Final Note
+This project is built with love, humor, and a little unhinged creativity.  
+Treat it — and the people in it — with the same energy.
+
+Thanks for being here.  
+Go make something weird and wonderful.
