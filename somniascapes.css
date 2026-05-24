@@ -288,3 +288,19 @@
         rgba(80,0,120,0.55) 100%
     );
 }
+
+#cloakButton {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#cloakButton:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}
