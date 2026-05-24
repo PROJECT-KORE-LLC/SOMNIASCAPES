@@ -116,3 +116,25 @@ hideTimeout = setTimeout(() => {
 
     reader.readAsDataURL(file);
 });
+
+// CAST TO TV
+const castButton = document.getElementById("castButton");
+
+castButton.addEventListener("click", async () => {
+    if (navigator.presentation && navigator.presentation.requestSession) {
+        try {
+            await navigator.presentation.requestSession();
+        } catch (err) {
+            console.log("Presentation API error:", err);
+        }
+    } else if (window.chrome && chrome.cast) {
+        // Chrome Cast fallback
+        try {
+            chrome.cast.requestSession();
+        } catch (err) {
+            console.log("Chrome Cast error:", err);
+        }
+    } else {
+        alert("Casting is not supported in this browser.");
+    }
+});
