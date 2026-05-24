@@ -1,4 +1,6 @@
-// IMAGE UPLOAD LOGIC
+// ===============================
+// IMAGE UPLOAD
+// ===============================
 const imageInput = document.getElementById("imageUpload");
 const vibeImage = document.getElementById("vibe-image");
 
@@ -7,16 +9,16 @@ imageInput.addEventListener("change", function () {
     if (!file) return;
 
     const reader = new FileReader();
-
-    reader.onload = function (e) {
+    reader.onload = e => {
         vibeImage.src = e.target.result;
-        vibeImage.style.opacity = 1; // fade in if you want
+        vibeImage.style.opacity = 1;
     };
-
     reader.readAsDataURL(file);
 });
 
-// SOUND UPLOAD LOGIC
+// ===============================
+// SOUND UPLOAD
+// ===============================
 const soundInput = document.getElementById("soundUpload");
 const vibeAudio = document.getElementById("vibe-audio");
 
@@ -25,15 +27,18 @@ soundInput.addEventListener("change", function () {
     if (!file) return;
 
     const reader = new FileReader();
-
-    reader.onload = function (e) {
+    reader.onload = e => {
         vibeAudio.src = e.target.result;
         vibeAudio.play().catch(() => {
             console.log("User interaction required before audio can play.");
         });
     };
+    reader.readAsDataURL(file);
+});
 
-    // SCRATCHPAD TOGGLE LOGIC
+// ===============================
+// SCRATCHPAD
+// ===============================
 const scratchpad = document.getElementById("scratchpad");
 const toggleScratchpad = document.getElementById("toggleScratchpad");
 
@@ -41,7 +46,9 @@ toggleScratchpad.addEventListener("click", () => {
     scratchpad.classList.toggle("hidden");
 });
 
-    // PARTICLE SHIMMER
+// ===============================
+// PARTICLE SHIMMER
+// ===============================
 const canvas = document.getElementById("particleCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -52,7 +59,6 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// Create particles
 const particles = [];
 const particleCount = 40;
 
@@ -70,11 +76,12 @@ for (let i = 0; i < particleCount; i++) {
 function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const baseColor = getComputedStyle(document.body).getPropertyValue("--particle-color");
+
     particles.forEach(p => {
         p.x += p.speedX;
         p.y += p.speedY;
 
-        // Wrap around edges
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
@@ -82,9 +89,7 @@ function animateParticles() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        const baseColor = getComputedStyle(document.body).getPropertyValue("--particle-color");
-ctx.fillStyle = baseColor.replace("0.55", p.opacity.toString());
-
+        ctx.fillStyle = baseColor.replace("0.55", p.opacity.toString());
         ctx.fill();
     });
 
@@ -93,65 +98,56 @@ ctx.fillStyle = baseColor.replace("0.55", p.opacity.toString());
 
 animateParticles();
 
-// RANDOM DRIFT ANIMATION
-let driftX = 0;
-let driftY = 0;
-let targetX = 0;
-let targetY = 0;
+// ===============================
+// RANDOM DRIFT
+// ===============================
+let driftX = 0, driftY = 0;
+let targetX = 0, targetY = 0;
 
 function updateDriftTargets() {
-    // Pick a new random drift target every 8–15 seconds
-    targetX = (Math.random() - 0.5) * 10; // range: -5 to +5 px
+    targetX = (Math.random() - 0.5) * 10;
     targetY = (Math.random() - 0.5) * 10;
-
     setTimeout(updateDriftTargets, 8000 + Math.random() * 7000);
 }
-
 updateDriftTargets();
 
 function animateDrift() {
-    // Ease toward target
     driftX += (targetX - driftX) * 0.01;
     driftY += (targetY - driftY) * 0.01;
 
-    // Combine drift with breathing scale
     const breathScale = 1 + 0.03 * Math.sin(Date.now() / 6000);
 
     vibeImage.style.transform = `translate(${driftX}px, ${driftY}px) scale(${breathScale})`;
 
     requestAnimationFrame(animateDrift);
 }
-
 animateDrift();
 
-    
-    // UI AUTO-HIDE
+// ===============================
+// UI AUTO-HIDE
+// ===============================
 const controls = document.getElementById("controls");
 let hideTimeout;
 
-// Show controls
 function showControls() {
     controls.classList.remove("hidden-controls");
 
     clearTimeout(hideTimeout);
     hideTimeout = setTimeout(() => {
         controls.classList.add("hidden-controls");
-    }, 3000); // 3 seconds of inactivity
+    }, 3000);
 }
 
-// Trigger show on any mouse movement or tap
 document.addEventListener("mousemove", showControls);
 document.addEventListener("touchstart", showControls);
 
-// Start hidden after initial load
 hideTimeout = setTimeout(() => {
     controls.classList.add("hidden-controls");
 }, 3000);
 
-    reader.readAsDataURL(file);
-});
-
-// CAST TO TV
+// ===============================
+// CASTING
+// ===============================
 const castButton = document.getElementById("castButton");
 
 castButton.addEventListener("click", async () => {
@@ -162,7 +158,6 @@ castButton.addEventListener("click", async () => {
             console.log("Presentation API error:", err);
         }
     } else if (window.chrome && chrome.cast) {
-        // Chrome Cast fallback
         try {
             chrome.cast.requestSession();
         } catch (err) {
@@ -173,92 +168,36 @@ castButton.addEventListener("click", async () => {
     }
 });
 
-// EXPORT PRESET TO FILE
-const exportBtn = document.getElementById("exportPreset");
-
-exportBtn.addEventListener("click", () => {
-    const preset = {
-        image: vibeImage.src || null,
-        sound: vibeAudio.src || null
-    };
-
-    const blob = new Blob([JSON.stringify(preset)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "somnia-preset.somnia";
-    a.click();
-
-    URL.revokeObjectURL(url);
-});
-
-// IMPORT PRESET FROM FILE
-const importBtn = document.getElementById("importPreset");
-
-importBtn.addEventListener("click", () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".somnia";
-
-    input.onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = event => {
-            const preset = JSON.parse(event.target.result);
-
-            if (preset.image) {
-                vibeImage.src = preset.image;
-                vibeImage.style.opacity = 1;
-            }
-
-            if (preset.sound) {
-                vibeAudio.src = preset.sound;
-                vibeAudio.play().catch(() => {});
-            }
-        };
-
-        reader.readAsText(file);
-    };
-
-    input.click();
-});
-
+// ===============================
 // PALETTE MODES
+// ===============================
 const paletteButtons = document.querySelectorAll(".paletteBtn");
 
 paletteButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         const mode = btn.dataset.mode;
-
         document.body.classList.remove("noir", "lunar", "vellum", "amethyst");
         document.body.classList.add(mode);
     });
 });
 
-// AMBIENT BLUR PULSES
+// ===============================
+// AMBIENT BLUR PULSE
+// ===============================
 const blurPulse = document.getElementById("blurPulse");
 
 let blurTarget = 0;
 let currentBlur = 0;
 
 function updateBlurTarget() {
-    // New blur target every 6–12 seconds
-    blurTarget = Math.random() * 4; // 0px to 4px blur
+    blurTarget = Math.random() * 4;
     setTimeout(updateBlurTarget, 6000 + Math.random() * 6000);
 }
-
 updateBlurTarget();
 
 function animateBlurPulse() {
-    // Ease toward target
     currentBlur += (blurTarget - currentBlur) * 0.02;
-
     blurPulse.style.backdropFilter = `blur(${currentBlur}px)`;
-
     requestAnimationFrame(animateBlurPulse);
 }
-
 animateBlurPulse();
