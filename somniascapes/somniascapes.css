@@ -245,6 +245,27 @@
     --glow: rgba(229, 149, 0, 0.45);
 }
 
+:root {
+    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
+}
+
+.noir {
+    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
+}
+
+.lunar {
+    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
+}
+
+.vellum {
+    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
+}
+
+.amethyst {
+    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
+}
+
+
 /* LUNAR MODE */
 .lunar {
     --primary: #a8e6f0;
@@ -253,6 +274,27 @@
     --glass-border: rgba(168, 230, 240, 0.18);
     --glow: rgba(0, 120, 200, 0.35);
 }
+
+:root {
+    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
+}
+
+.noir {
+    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
+}
+
+.lunar {
+    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
+}
+
+.vellum {
+    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
+}
+
+.amethyst {
+    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
+}
+
 
 /* VELLUM MODE */
 .vellum {
@@ -263,6 +305,27 @@
     --glow: rgba(101, 67, 33, 0.35);
 }
 
+:root {
+    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
+}
+
+.noir {
+    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
+}
+
+.lunar {
+    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
+}
+
+.vellum {
+    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
+}
+
+.amethyst {
+    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
+}
+
+
 /* AMETHYST MODE */
 .amethyst {
     --primary: #9b6ad8;
@@ -271,6 +334,27 @@
     --glass-border: rgba(155, 106, 216, 0.18);
     --glow: rgba(120, 0, 200, 0.35);
 }
+
+:root {
+    --particle-color: rgba(255, 255, 255, 0.6); /* default for Noir */
+}
+
+.noir {
+    --particle-color: rgba(212, 175, 55, 0.55); /* gold */
+}
+
+.lunar {
+    --particle-color: rgba(168, 230, 240, 0.55); /* dreamlight blue */
+}
+
+.vellum {
+    --particle-color: rgba(194, 178, 128, 0.55); /* antique parchment */
+}
+
+.amethyst {
+    --particle-color: rgba(155, 106, 216, 0.55); /* arcane violet */
+}
+
 
 .lunar #vignette {
     background: radial-gradient(
