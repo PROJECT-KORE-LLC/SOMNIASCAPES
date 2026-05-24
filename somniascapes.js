@@ -49,7 +49,6 @@
       this.initParticles();
       this.bindCloak();
 
-
       this.applyPalette(this.state.palette);
       this.applyVisuals();
     },
@@ -233,6 +232,26 @@
     },
 
     /* ------------------------------------------------------------
+       CLOAK MODE
+    ------------------------------------------------------------ */
+    bindCloak() {
+      const btn = document.getElementById("cloakButton");
+      const controls = this.$controls;
+      const scratchpad = this.$scratchpad;
+
+      btn.addEventListener("click", () => {
+        const isCloaked = document.body.classList.toggle("cloaked");
+
+        if (isCloaked) {
+          controls.classList.add("hidden-controls");
+          scratchpad.classList.add("hidden");
+        } else {
+          controls.classList.remove("hidden-controls");
+        }
+      });
+    },
+
+    /* ------------------------------------------------------------
        PARTICLES
     ------------------------------------------------------------ */
     initParticles() {
@@ -291,20 +310,3 @@
   document.addEventListener("DOMContentLoaded", () => Scapes.init());
 
 })();
-
-bindCloak() {
-    const btn = document.getElementById("cloakButton");
-    const controls = this.$controls;
-    const scratchpad = this.$scratchpad;
-
-    btn.addEventListener("click", () => {
-        const isCloaked = document.body.classList.toggle("cloaked");
-
-        if (isCloaked) {
-            controls.classList.add("hidden-controls");
-            scratchpad.classList.add("hidden");
-        } else {
-            controls.classList.remove("hidden-controls");
-        }
-    });
-}
