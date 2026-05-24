@@ -191,3 +191,15 @@ importBtn.addEventListener("click", () => {
 
     input.click();
 });
+
+// PALETTE MODES
+const paletteButtons = document.querySelectorAll(".paletteBtn");
+
+paletteButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+
+        document.body.classList.remove("noir", "lunar", "vellum", "amethyst");
+        document.body.classList.add(mode);
+    });
+});
