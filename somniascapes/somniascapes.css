@@ -236,5 +236,58 @@
     transform: translateY(-2px);
 }
 
+/* DEFAULT MODE (Noir) */
+:root {
+    --primary: #d4af37;
+    --primary-soft: rgba(212, 175, 55, 0.55);
+    --glass: rgba(10, 10, 16, 0.72);
+    --glass-border: rgba(212, 175, 55, 0.18);
+    --glow: rgba(229, 149, 0, 0.45);
+}
+
+/* LUNAR MODE */
+.lunar {
+    --primary: #a8e6f0;
+    --primary-soft: rgba(168, 230, 240, 0.55);
+    --glass: rgba(8, 12, 18, 0.72);
+    --glass-border: rgba(168, 230, 240, 0.18);
+    --glow: rgba(0, 120, 200, 0.35);
+}
+
+/* VELLUM MODE */
+.vellum {
+    --primary: #c2b280;
+    --primary-soft: rgba(194, 178, 128, 0.55);
+    --glass: rgba(14, 12, 10, 0.72);
+    --glass-border: rgba(194, 178, 128, 0.18);
+    --glow: rgba(101, 67, 33, 0.35);
+}
+
+/* AMETHYST MODE */
+.amethyst {
+    --primary: #9b6ad8;
+    --primary-soft: rgba(155, 106, 216, 0.55);
+    --glass: rgba(12, 8, 16, 0.72);
+    --glass-border: rgba(155, 106, 216, 0.18);
+    --glow: rgba(120, 0, 200, 0.35);
+}
+
+#controls {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+}
+
+#controls label::after,
+#toggleScratchpad,
+#exportPreset,
+#importPreset,
+.paletteBtn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid var(--glass-border);
+}
+
+#scratchpad textarea {
+    border: 1px solid var(--glass-border);
+}
 
 
