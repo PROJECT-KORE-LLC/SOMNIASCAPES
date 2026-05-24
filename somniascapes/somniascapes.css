@@ -282,3 +282,19 @@
         rgba(80,0,120,0.55) 100%
     );
 }
+
+#controls input[type="range"] {
+    width: 120px;
+    margin-top: 6px;
+    accent-color: #fff;
+    cursor: pointer;
+}
+
+#controls label {
+    color: #fff;
+    font-size: 0.8rem;
+    font-family: "Cinzel", serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
