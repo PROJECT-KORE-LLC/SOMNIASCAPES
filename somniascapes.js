@@ -234,35 +234,33 @@
     /* ------------------------------------------------------------
        CLOAK MODE — hide UI bar + scratchpad, tap anywhere to uncloak
     ------------------------------------------------------------ */
-   bindCloak() {
-  const btn = document.getElementById("cloakButton");
-  const controls = this.$controls;
-  const scratchpad = this.$scratchpad;
+    bindCloak() {
+      const btn = document.getElementById("cloakButton");
+      const controls = this.$controls;
+      const scratchpad = this.$scratchpad;
 
-  // store handler so we can remove it
-  this._uncloakHandler = () => {
-    document.body.classList.remove("cloaked");
-    controls.classList.remove("hidden-controls");
-    scratchpad.classList.add("hidden");
-    document.removeEventListener("click", this._uncloakHandler);
-  };
+      this._uncloakHandler = () => {
+        document.body.classList.remove("cloaked");
+        controls.classList.remove("hidden-controls");
+        scratchpad.classList.add("hidden");
+        document.removeEventListener("click", this._uncloakHandler);
+      };
 
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation(); // don't immediately trigger the document click
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
 
-    const isCloaked = document.body.classList.toggle("cloaked");
+        const isCloaked = document.body.classList.toggle("cloaked");
 
-    if (isCloaked) {
-      controls.classList.add("hidden-controls");
-      scratchpad.classList.add("hidden");
-      document.addEventListener("click", this._uncloakHandler);
-    } else {
-      controls.classList.remove("hidden-controls");
-      document.removeEventListener("click", this._uncloakHandler);
-    }
-  });
-},
-
+        if (isCloaked) {
+          controls.classList.add("hidden-controls");
+          scratchpad.classList.add("hidden");
+          document.addEventListener("click", this._uncloakHandler);
+        } else {
+          controls.classList.remove("hidden-controls");
+          document.removeEventListener("click", this._uncloakHandler);
+        }
+      });
+    },
 
     /* ------------------------------------------------------------
        PARTICLES
