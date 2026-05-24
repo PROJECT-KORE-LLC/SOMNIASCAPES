@@ -1,11 +1,13 @@
 /* ============================================================
-   SomniaScapes — Full Engine JS (single file)
+   SOMNIASCAPES — FINAL ENGINE JS
+   Amber + Copilot — 2026
    ============================================================ */
 
 (function () {
-  /* -----------------------------
-     Supabase client (optional)
-  ----------------------------- */
+
+  /* ------------------------------------------------------------
+     Optional Supabase client (only works if supabase.js is loaded)
+  ------------------------------------------------------------ */
   let sb = null;
   if (window.supabase) {
     sb = window.supabase.createClient(
@@ -14,37 +16,35 @@
     );
   }
 
+  /* ------------------------------------------------------------
+     Core Engine Object
+  ------------------------------------------------------------ */
   const Scapes = {
-    /* -----------------------------
-       State
-    ----------------------------- */
+
     state: {
       palette: "noir",
+
       imageURL: null,
       audioURL: null,
 
       zoom: 1,
-      panX: 0,
-      panY: 0,
       blur: 0,
       brightness: 1,
       opacity: 1,
       volume: 0.6
     },
 
-    /* -----------------------------
-       Init
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       INIT
+    ------------------------------------------------------------ */
     init() {
-      this.cacheElements();
+      this.cache();
       this.bindImageUpload();
       this.bindSoundUpload();
+      this.bindSliders();
       this.bindScratchpad();
       this.bindAutoHide();
       this.bindCast();
-      this.bindExportPreset();
-      this.bindImportPreset();
-      this.bindSliders();
       this.bindPaletteButtons();
       this.initParticles();
 
@@ -52,11 +52,13 @@
       this.applyVisuals();
     },
 
-    cacheElements() {
-      this.$root = document.documentElement;
-      this.$body = document.body;
+    /* ------------------------------------------------------------
+       Cache DOM
+    ------------------------------------------------------------ */
+    cache() {
       this.$image = document.getElementById("vibe-image");
       this.$audio = document.getElementById("vibe-audio");
+
       this.$controls = document.getElementById("controls");
       this.$scratchpad = document.getElementById("scratchpad");
 
@@ -71,262 +73,149 @@
 
       this.$castButton = document.getElementById("castButton");
       this.$toggleScratchpad = document.getElementById("toggleScratchpad");
+
       this.$paletteButtons = document.querySelectorAll(".paletteBtn");
 
       this.$particleCanvas = document.getElementById("particleCanvas");
-      this.particleCtx = this.$particleCanvas.getContext("2d");
+      this.ctx = this.$particleCanvas.getContext("2d");
     },
 
-    /* -----------------------------
-       Image upload (your original)
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       IMAGE UPLOAD
+    ------------------------------------------------------------ */
     bindImageUpload() {
-      const imageInput = this.$imageInput;
-      const vibeImage = this.$image;
-
-      imageInput.addEventListener("change", function () {
-        const file = this.files[0];
+      this.$imageInput.addEventListener("change", e => {
+        const file = e.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = function (e) {
-          vibeImage.src = e.target.result;
-          vibeImage.style.opacity = 1;
+        reader.onload = ev => {
+          this.$image.src = ev.target.result;
+          this.$image.style.opacity = 1;
         };
         reader.readAsDataURL(file);
       });
     },
 
-    /* -----------------------------
-       Sound upload (your original)
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       SOUND UPLOAD
+    ------------------------------------------------------------ */
     bindSoundUpload() {
-      const soundInput = this.$soundInput;
-      const vibeAudio = this.$audio;
-
-      soundInput.addEventListener("change", function () {
-        const file = this.files[0];
+      this.$soundInput.addEventListener("change", e => {
+        const file = e.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = function (e) {
-          vibeAudio.src = e.target.result;
-          vibeAudio.loop = true;
-          vibeAudio.volume = 0.6;
-          vibeAudio
-            .play()
-            .catch(() => console.log("User interaction required before audio can play."));
+        reader.onload = ev => {
+          this.$audio.src = ev.target.result;
+          this.$audio.loop = true;
+          this.$audio.volume = this.state.volume;
+          this.$audio.play().catch(() => {});
         };
         reader.readAsDataURL(file);
       });
     },
 
-    /* -----------------------------
-       Scratchpad (your original)
-    ----------------------------- */
-    bindScratchpad() {
-      const scratchpad = this.$scratchpad;
-      const toggleScratchpad = this.$toggleScratchpad;
+    /* ------------------------------------------------------------
+       SLIDERS → ENGINE
+    ------------------------------------------------------------ */
+    bindSliders() {
+      this.$zoom.addEventListener("input", e => {
+        this.state.zoom = parseFloat(e.target.value);
+        this.applyVisuals();
+      });
 
-      toggleScratchpad.addEventListener("click", () => {
-        scratchpad.classList.toggle("hidden");
+      this.$blur.addEventListener("input", e => {
+        this.state.blur = parseFloat(e.target.value);
+        this.applyVisuals();
+      });
+
+      this.$brightness.addEventListener("input", e => {
+        this.state.brightness = parseFloat(e.target.value);
+        this.applyVisuals();
+      });
+
+      this.$opacity.addEventListener("input", e => {
+        this.state.opacity = parseFloat(e.target.value);
+        this.applyVisuals();
+      });
+
+      this.$volume.addEventListener("input", e => {
+        this.state.volume = parseFloat(e.target.value);
+        this.applyVisuals();
       });
     },
 
-    /* -----------------------------
-       Auto-hide controls (your original)
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       APPLY VISUALS
+    ------------------------------------------------------------ */
+    applyVisuals() {
+      const s = this.state;
+
+      this.$image.style.transform = `scale(${s.zoom})`;
+      this.$image.style.filter = `blur(${s.blur}px) brightness(${s.brightness})`;
+      this.$image.style.opacity = s.opacity;
+
+      this.$audio.volume = s.volume;
+    },
+
+    /* ------------------------------------------------------------
+       SCRATCHPAD
+    ------------------------------------------------------------ */
+    bindScratchpad() {
+      this.$toggleScratchpad.addEventListener("click", () => {
+        this.$scratchpad.classList.toggle("hidden");
+      });
+    },
+
+    /* ------------------------------------------------------------
+       AUTO-HIDE CONTROLS
+    ------------------------------------------------------------ */
     bindAutoHide() {
-      const controls = this.$controls;
       let hideTimeout;
 
-      const showControls = () => {
-        controls.classList.remove("hidden-controls");
+      const show = () => {
+        this.$controls.classList.remove("hidden-controls");
         clearTimeout(hideTimeout);
         hideTimeout = setTimeout(() => {
-          controls.classList.add("hidden-controls");
+          this.$controls.classList.add("hidden-controls");
         }, 3000);
       };
 
-      document.addEventListener("mousemove", showControls);
-      document.addEventListener("touchstart", showControls);
+      document.addEventListener("mousemove", show);
+      document.addEventListener("touchstart", show);
 
       hideTimeout = setTimeout(() => {
-        controls.classList.add("hidden-controls");
+        this.$controls.classList.add("hidden-controls");
       }, 3000);
     },
 
-    /* -----------------------------
-       Cast to TV (your original)
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       CAST TO TV
+    ------------------------------------------------------------ */
     bindCast() {
-      const castButton = this.$castButton;
-
-      castButton.addEventListener("click", async () => {
-        if (navigator.presentation && navigator.presentation.requestSession) {
+      this.$castButton.addEventListener("click", async () => {
+        if (navigator.presentation?.requestSession) {
           try {
             await navigator.presentation.requestSession();
           } catch (err) {
             console.log("Presentation API error:", err);
           }
-        } else if (window.chrome && chrome.cast) {
+        } else if (window.chrome?.cast) {
           try {
             chrome.cast.requestSession();
           } catch (err) {
             console.log("Chrome Cast error:", err);
           }
         } else {
-          alert("Casting is not supported in this browser.");
+          alert("Casting not supported.");
         }
       });
     },
 
-    /* -----------------------------
-       Export preset (your original)
-    ----------------------------- */
-    bindExportPreset() {
-      const exportBtn = document.getElementById("exportPreset");
-      if (!exportBtn) return; // you removed it from HTML for now
-
-      exportBtn.addEventListener("click", () => {
-        const preset = {
-          image: this.$image.src || null,
-          sound: this.$audio.src || null,
-          palette: this.state.palette,
-          zoom: this.state.zoom,
-          blur: this.state.blur,
-          brightness: this.state.brightness,
-          opacity: this.state.opacity,
-          volume: this.state.volume
-        };
-
-        const blob = new Blob([JSON.stringify(preset)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "somnia-preset.somnia";
-        a.click();
-
-        URL.revokeObjectURL(url);
-      });
-    },
-
-    /* -----------------------------
-       Import preset (your original)
-    ----------------------------- */
-    bindImportPreset() {
-      const importBtn = document.getElementById("importPreset");
-      if (!importBtn) return; // you removed it from HTML for now
-
-      importBtn.addEventListener("click", () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = ".somnia";
-
-        input.onchange = e => {
-          const file = e.target.files[0];
-          if (!file) return;
-
-          const reader = new FileReader();
-          reader.onload = event => {
-            const preset = JSON.parse(event.target.result);
-
-            if (preset.image) {
-              this.$image.src = preset.image;
-              this.$image.style.opacity = 1;
-            }
-
-            if (preset.sound) {
-              this.$audio.src = preset.sound;
-              this.$audio
-                .play()
-                .catch(() => {});
-            }
-
-            if (preset.palette) {
-              this.applyPalette(preset.palette);
-            }
-
-            if (typeof preset.zoom === "number") this.state.zoom = preset.zoom;
-            if (typeof preset.blur === "number") this.state.blur = preset.blur;
-            if (typeof preset.brightness === "number") this.state.brightness = preset.brightness;
-            if (typeof preset.opacity === "number") this.state.opacity = preset.opacity;
-            if (typeof preset.volume === "number") this.state.volume = preset.volume;
-
-            this.syncSlidersFromState();
-            this.applyVisuals();
-          };
-
-          reader.readAsText(file);
-        };
-
-        input.click();
-      });
-    },
-
-    /* -----------------------------
-       Sliders → engine
-    ----------------------------- */
-    bindSliders() {
-      if (this.$zoom) {
-        this.$zoom.addEventListener("input", e => {
-          this.state.zoom = parseFloat(e.target.value);
-          this.applyVisuals();
-        });
-      }
-
-      if (this.$blur) {
-        this.$blur.addEventListener("input", e => {
-          this.state.blur = parseFloat(e.target.value);
-          this.applyVisuals();
-        });
-      }
-
-      if (this.$brightness) {
-        this.$brightness.addEventListener("input", e => {
-          this.state.brightness = parseFloat(e.target.value);
-          this.applyVisuals();
-        });
-      }
-
-      if (this.$opacity) {
-        this.$opacity.addEventListener("input", e => {
-          this.state.opacity = parseFloat(e.target.value);
-          this.applyVisuals();
-        });
-      }
-
-      if (this.$volume) {
-        this.$volume.addEventListener("input", e => {
-          this.state.volume = parseFloat(e.target.value);
-          this.applyVisuals();
-        });
-      }
-    },
-
-    syncSlidersFromState() {
-      if (this.$zoom) this.$zoom.value = this.state.zoom;
-      if (this.$blur) this.$blur.value = this.state.blur;
-      if (this.$brightness) this.$brightness.value = this.state.brightness;
-      if (this.$opacity) this.$opacity.value = this.state.opacity;
-      if (this.$volume) this.$volume.value = this.state.volume;
-    },
-
-    applyVisuals() {
-      const img = this.$image;
-      const s = this.state;
-
-      img.style.transform = `scale(${s.zoom}) translate(${s.panX}%, ${s.panY}%)`;
-      img.style.filter = `blur(${s.blur}px) brightness(${s.brightness})`;
-      img.style.opacity = s.opacity;
-
-      this.$audio.volume = s.volume;
-    },
-
-    /* -----------------------------
-       Palette / theme logic
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       PALETTE SWITCHING
+    ------------------------------------------------------------ */
     bindPaletteButtons() {
       this.$paletteButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -338,27 +227,27 @@
 
     applyPalette(mode) {
       this.state.palette = mode;
-      this.$body.className = mode; // CSS handles colors per body class
+      document.body.className = mode;
     },
 
-    /* -----------------------------
-       Particles (your original)
-    ----------------------------- */
+    /* ------------------------------------------------------------
+       PARTICLES
+    ------------------------------------------------------------ */
     initParticles() {
       const canvas = this.$particleCanvas;
-      const ctx = this.particleCtx;
+      const ctx = this.ctx;
 
-      const resizeCanvas = () => {
+      const resize = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       };
-      resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
+      resize();
+      window.addEventListener("resize", resize);
 
       const particles = [];
-      const particleCount = 40;
+      const count = 40;
 
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -369,7 +258,7 @@
         });
       }
 
-      const animateParticles = () => {
+      const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach(p => {
@@ -387,69 +276,16 @@
           ctx.fill();
         });
 
-        requestAnimationFrame(animateParticles);
+        requestAnimationFrame(animate);
       };
 
-      animateParticles();
-    },
-
-    /* -----------------------------
-       Supabase presets (skeleton)
-    ----------------------------- */
-    async savePresetToSupabase(name) {
-      if (!sb) return null;
-
-      const preset = {
-        name,
-        palette: this.state.palette,
-        zoom: this.state.zoom,
-        blur: this.state.blur,
-        brightness: this.state.brightness,
-        opacity: this.state.opacity,
-        volume: this.state.volume
-      };
-
-      const { data, error } = await sb
-        .from("presets")
-        .insert(preset)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("Error saving preset:", error);
-        return null;
-      }
-      return data;
-    },
-
-    async loadPresetFromSupabase(id) {
-      if (!sb) return null;
-
-      const { data, error } = await sb
-        .from("presets")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      if (error || !data) {
-        console.error("Error loading preset:", error);
-        return null;
-      }
-
-      this.state.palette = data.palette;
-      this.state.zoom = data.zoom;
-      this.state.blur = data.blur;
-      this.state.brightness = data.brightness;
-      this.state.opacity = data.opacity;
-      this.state.volume = data.volume;
-
-      this.applyPalette(this.state.palette);
-      this.syncSlidersFromState();
-      this.applyVisuals();
-
-      return data;
+      animate();
     }
   };
 
+  /* ------------------------------------------------------------
+     BOOT
+  ------------------------------------------------------------ */
   document.addEventListener("DOMContentLoaded", () => Scapes.init());
+
 })();
