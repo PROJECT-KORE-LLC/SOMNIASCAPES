@@ -168,6 +168,13 @@
     100% { transform: scale(1); }
 }
 
+/* Random drift animation (values updated by JS) */
+#vibe-image {
+    transform-origin: center;
+    will-change: transform;
+}
+
+
 /* Apply breathing to the vibe image */
 #vibe-image {
     width: 100%;
