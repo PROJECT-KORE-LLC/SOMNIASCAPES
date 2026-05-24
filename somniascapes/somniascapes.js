@@ -33,5 +33,13 @@ soundInput.addEventListener("change", function () {
         });
     };
 
+    // SCRATCHPAD TOGGLE LOGIC
+const scratchpad = document.getElementById("scratchpad");
+const toggleScratchpad = document.getElementById("toggleScratchpad");
+
+toggleScratchpad.addEventListener("click", () => {
+    scratchpad.classList.toggle("hidden");
+});
+
     reader.readAsDataURL(file);
 });
