@@ -41,5 +41,78 @@ toggleScratchpad.addEventListener("click", () => {
     scratchpad.classList.toggle("hidden");
 });
 
+    // PARTICLE SHIMMER
+const canvas = document.getElementById("particleCanvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+// Create particles
+const particles = [];
+const particleCount = 40;
+
+for (let i = 0; i < particleCount; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedX: (Math.random() - 0.5) * 0.2,
+        speedY: (Math.random() - 0.5) * 0.2,
+        opacity: Math.random() * 0.6 + 0.2
+    });
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        // Wrap around edges
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+    // UI AUTO-HIDE
+const controls = document.getElementById("controls");
+let hideTimeout;
+
+// Show controls
+function showControls() {
+    controls.classList.remove("hidden-controls");
+
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+        controls.classList.add("hidden-controls");
+    }, 3000); // 3 seconds of inactivity
+}
+
+// Trigger show on any mouse movement or tap
+document.addEventListener("mousemove", showControls);
+document.addEventListener("touchstart", showControls);
+
+// Start hidden after initial load
+hideTimeout = setTimeout(() => {
+    controls.classList.add("hidden-controls");
+}, 3000);
+
     reader.readAsDataURL(file);
 });
