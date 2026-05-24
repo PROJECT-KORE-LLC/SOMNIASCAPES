@@ -16,6 +16,14 @@ imageInput.addEventListener("change", function () {
     reader.readAsDataURL(file);
 });
 
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://YOUR-PROJECT-ID.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
 // ===============================
 // SOUND UPLOAD
 // ===============================
