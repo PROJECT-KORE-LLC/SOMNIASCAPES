@@ -30,3 +30,158 @@
     background: rgba(255,255,255,0.8);
 }
 
+/* Make the vibe container fill the entire screen */
+#vibe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1; /* keeps it behind the UI */
+}
+
+/* Make the uploaded image fill the screen beautifully */
+#vibe-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* the magic */
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+
+/* UI Controls Container */
+#controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+/* Labels for upload inputs */
+#controls label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: "Cinzel", serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Hide the ugly default file input */
+#controls input[type="file"] {
+    display: none;
+}
+
+/* Fake button for file inputs */
+#controls label::after {
+    content: "Choose";
+    margin-top: 4px;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Scratchpad button */
+#toggleScratchpad {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#toggleScratchpad:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}
+
+/* SCRATCHPAD OVERLAY — dreamy glass layer */
+#scratchpad {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    z-index: 20;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Smooth fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* SCRATCHPAD TEXTAREA — luxury OS window */
+#scratchpad textarea {
+    width: 80%;
+    max-width: 900px;
+    height: 60%;
+    padding: 24px;
+    font-size: 1.2rem;
+    font-family: "Cinzel", serif;
+    color: #222;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    outline: none;
+    resize: none;
+    line-height: 1.6;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus glow */
+#scratchpad textarea:focus {
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 12px 50px rgba(0,0,0,0.45);
+}
+
+/* Breathing animation */
+@keyframes somniaBreath {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* Apply breathing to the vibe image */
+#vibe-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+
+    animation: somniaBreath 12s ease-in-out infinite;
+}
+
+
+
+
+
