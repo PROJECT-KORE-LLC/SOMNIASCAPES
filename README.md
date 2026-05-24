@@ -1,60 +1,59 @@
 <p align="center">
-  <img src="./somnia-banner.svg" alt="SOMNIA — Enter your inner world" width="100%" />
+  <img src="./somniascapes.svg" alt="SomniaScapes Banner" width="420">
 </p>
 
-<p align="center">
-  <strong>Enter your inner world.</strong> A dream-like operating system for your inner world — a mythic, atmospheric OS-RPG where sound, memory, ritual, and mood converge.
-</p>
+# SOMNIA SCAPES  
+### The vibe machine you didn’t know you needed.
+
+SOMNIA SCAPES is a tiny chaos‑powered atmosphere engine.  
+Part cozy. Part aesthetic. Part prank. Part “why is this so relaxing?”  
+You build scenes. Mix sounds. Add particles. Make a whole mood.
+
+It works like a dream‑OS:  
+weird, pretty, slightly unhinged, and way too fun for a $1 app.
+
+You can play with everything in the editor for free —  
+but if you want to **save**, **cast to your TV**, or **share your creation**,  
+you unlock the full version for a single dollar.
+
+No ads.  
+No subscriptions.  
+No exporting.  
+No loopholes.  
+Just vibes.
 
 ---
 
-## ✨ What is SOMNIA?
+## What You Can Do
 
-**SOMNIA** is a calming, mysterious, sensory operating system you inhabit, not just use. It blends ambient sound, ritual interfaces, dream-logic navigation, and introspective tools into a single immersive world. 
-
-It’s part game, part ritual, part ambient experience — a place to breathe, explore, and feel.
-
----
-
-## 🜁 Core Shells
-
-SOMNIA is built from interconnected "shells" — atmospheric rooms inside the dream-OS.
-
-*   **🔊 The Resonance Engine** — Mix ambient soundscapes that shape the system’s emotional tone.
-*   **📜 The Archive** — Store memories, fragments, and reflections.
-*   **⏳ Covenant Command** — Navigate rituals, directives, and temporal flow.
-*   **⚖️ The Ledger** — Track meaning, value, and consequence.
-*   **🎲 Chaos Mode** — Let the system reveal its unpredictable side.
-
-> *Each shell is a chamber in the cathedral of your inner world.*
+- Build your own ambient scenes  
+- Mix visuals, sounds, particles, and glow  
+- Make cozy rooms, cursed chaos, or aesthetic wallpapers  
+- Prank your partner, prank your teens, prank your friends by casting a ridiculous scene to the TV (after unlocking)
+- Bedtime ambience for your little ones that's ad free, safe, and they can help create or pick the scene
+- Create a whole vibe for your space  
+- Possibilities are endless, as your imagination is what creates the Somnia Scapes.
 
 ---
 
-## 🌫 Atmosphere & Aesthetic
+## What Unlocks for $1
 
-SOMNIA is meticulously built on non-standard, sensory interface standards:
-*   **Breathing Backgrounds** — Organic, low-frequency screen pacing.
-*   **Gold-Lit UI** — High-contrast, sovereign ambient illumination.
-*   **Somatic Glow Rules** — Visual indicators bound to user focus states.
-*   **Ritual Transitions** — Ceremonial phase shifts between operational zones.
-*   **Ambient Resonance** — Audio synthesis layered directly into user interactions.
-*   **Mythic OS Design** — Reclaiming digital machinery for personal sanctuary.
+- Save your scenes  
+- Load your scenes  
+- Cast to TV  
+- Share a link to your creation  
+- Keep your whole vibe library forever  
 
 ---
 
-## 🜃 Why SOMNIA Exists
+## Why It Exists
 
-Because you deserve a place that isn’t loud, stressful, or demanding. A place that feels like a dream you can operate. A place that meets you where you are.
-
----
-
-## 🔐 License
-
-*   **Code Implementation:** [MIT License](LICENSE)
-*   **Creative Assets:** All SOMNIA branding, artwork, narrative lore, audio parameters, and system aesthetics are proprietary and strictly owned by the creator.
+Because everyone deserves a little chaos, a little cozy,  
+and a little “I made this epic thing and now it’s on my TV.”
 
 ---
 
-<p align="center">
-  <sub>⭐ <strong>Status:</strong> SOMNIA is in active development. The dream-OS is waking.</sub>
-</p>
+## License
+
+MIT License.  
+Go make something cool.
