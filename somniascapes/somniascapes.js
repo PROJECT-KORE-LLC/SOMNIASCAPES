@@ -82,7 +82,8 @@ function animateParticles() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--particle-color");
+        const baseColor = getComputedStyle(document.body).getPropertyValue("--particle-color");
+ctx.fillStyle = baseColor.replace("0.55", p.opacity.toString());
 
         ctx.fill();
     });
