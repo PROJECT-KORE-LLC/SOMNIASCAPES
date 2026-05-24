@@ -220,6 +220,21 @@
     transform: translateY(-2px);
 }
 
+#exportPreset, #importPreset {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    color: #fff;
+    font-family: "Cinzel", serif;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#exportPreset:hover, #importPreset:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}
 
 
 
