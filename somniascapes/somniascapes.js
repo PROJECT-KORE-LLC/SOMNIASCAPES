@@ -16,3 +16,22 @@ imageInput.addEventListener("change", function () {
     reader.readAsDataURL(file);
 });
 
+// SOUND UPLOAD LOGIC
+const soundInput = document.getElementById("soundUpload");
+const vibeAudio = document.getElementById("vibe-audio");
+
+soundInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        vibeAudio.src = e.target.result;
+        vibeAudio.play().catch(() => {
+            console.log("User interaction required before audio can play.");
+        });
+    };
+
+    reader.readAsDataURL(file);
+});
