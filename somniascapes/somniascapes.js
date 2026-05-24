@@ -82,7 +82,8 @@ function animateParticles() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--particle-color");
+
         ctx.fill();
     });
 
