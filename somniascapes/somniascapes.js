@@ -237,3 +237,28 @@ paletteButtons.forEach(btn => {
         document.body.classList.add(mode);
     });
 });
+
+// AMBIENT BLUR PULSES
+const blurPulse = document.getElementById("blurPulse");
+
+let blurTarget = 0;
+let currentBlur = 0;
+
+function updateBlurTarget() {
+    // New blur target every 6–12 seconds
+    blurTarget = Math.random() * 4; // 0px to 4px blur
+    setTimeout(updateBlurTarget, 6000 + Math.random() * 6000);
+}
+
+updateBlurTarget();
+
+function animateBlurPulse() {
+    // Ease toward target
+    currentBlur += (blurTarget - currentBlur) * 0.02;
+
+    blurPulse.style.backdropFilter = `blur(${currentBlur}px)`;
+
+    requestAnimationFrame(animateBlurPulse);
+}
+
+animateBlurPulse();
