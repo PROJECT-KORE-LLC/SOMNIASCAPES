@@ -369,142 +369,180 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* === SIDEBAR === */
+/* ============================================================
+   SOMNIASCAPES — VERTICAL RESONANCE VAULT (FINAL)
+   Obsidian Glass • Gold Inlay • ND‑Friendly • Warm • Heavy
+   ============================================================ */
+
+/* === VAULT PILLAR === */
 #sidebar {
-  width: 320px;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 20px;
-  background: rgba(15, 12, 20, 0.75);
-  backdrop-filter: blur(12px);
-  border-right: 2px solid rgba(255, 215, 128, 0.25);
-  box-shadow: inset 0 0 25px rgba(255, 215, 128, 0.15);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px; /* ND‑friendly narrow width */
+    height: 100vh;
+    padding: 24px;
+    overflow-y: auto;
+
+    /* Obsidian glass core */
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(180%);
+
+    /* Carved gold inlay */
+    border-right: 2px solid var(--glass-border);
+    box-shadow:
+        inset 0 0 40px var(--primary-soft),
+        4px 0 25px rgba(0,0,0,0.6);
+
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+
+    z-index: 20;
 }
 
-/* === LOGO === */
+/* === VAULT HEADER === */
 #sidebar .logo {
-  font-size: 26px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #f5e6c8;
-  text-shadow: 0 0 8px rgba(255, 215, 128, 0.4);
+    font-family: "Cinzel", serif;
+    font-size: 1.3rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    text-align: center;
+
+    color: var(--primary);
+    text-shadow: 0 0 12px var(--primary-soft);
+
+    margin-bottom: 10px;
 }
 
-/* === PANEL === */
+/* === VAULT PANEL === */
 .panel {
-  margin-bottom: 22px;
-  padding: 14px;
-  border: 1px solid rgba(255, 215, 128, 0.25);
-  border-radius: 8px;
-  background: rgba(20, 16, 25, 0.55);
-  box-shadow: inset 0 0 12px rgba(255, 215, 128, 0.08);
+    padding: 16px;
+    border-radius: 10px;
+
+    /* Obsidian interior */
+    background: rgba(255,255,255,0.03);
+
+    /* Carved glow */
+    border: 1px solid var(--glass-border);
+    box-shadow:
+        inset 0 0 18px rgba(255,255,255,0.05),
+        inset 0 0 28px var(--primary-soft);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .panel h3 {
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: #f8e9c9;
-  text-shadow: 0 0 6px rgba(255, 215, 128, 0.4);
+    margin: 0;
+    font-family: "Cinzel", serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: var(--primary);
+    text-shadow: 0 0 8px var(--primary-soft);
 }
 
-/* === BUTTONS === */
-button {
-  width: 100%;
-  padding: 8px 10px;
-  margin-top: 6px;
-  background: linear-gradient(145deg, #2a232f, #1a151d);
-  border: 1px solid rgba(255, 215, 128, 0.35);
-  border-radius: 6px;
-  color: #f5e6c8;
-  cursor: pointer;
-  font-family: inherit;
-  transition: 0.2s;
+/* === ENGRAVED BUTTONS === */
+button,
+.paletteBtn,
+#toggleScratchpad,
+#castButton,
+#cloakButton {
+    background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+
+    padding: 10px 14px;
+    color: var(--primary);
+    font-family: "Cinzel", serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: 0.25s ease;
 }
 
-button:hover {
-  background: linear-gradient(145deg, #3a313f, #221c27);
-  box-shadow: 0 0 10px rgba(255, 215, 128, 0.25);
+button:hover,
+.paletteBtn:hover,
+#toggleScratchpad:hover,
+#castButton:hover,
+#cloakButton:hover {
+    background: var(--primary-soft);
+    color: #000;
+    box-shadow: 0 0 14px var(--primary-soft);
+    transform: translateY(-2px);
 }
 
 /* === STARRED VIBES === */
 .starred-vibe-btn {
-  margin-bottom: 6px;
+    padding: 8px;
+    text-align: left;
 }
 
 .starred-vibe-btn.empty {
-  opacity: 0.6;
-  font-style: italic;
+    opacity: 0.5;
+    font-style: italic;
 }
 
-/* === SLIDERS === */
+/* === ARCANE SLIDERS === */
 input[type="range"] {
-  width: 100%;
-  margin: 6px 0 12px;
-  -webkit-appearance: none;
-  background: transparent;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  height: 6px;
-  background: rgba(255, 215, 128, 0.25);
-  border-radius: 4px;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    margin: 6px 0 12px;
+    border-radius: 4px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  background: #f5e6c8;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 215, 128, 0.6);
-  margin-top: -4px;
-  box-shadow: 0 0 6px rgba(255, 215, 128, 0.4);
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border: 1px solid rgba(0,0,0,0.6);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary-soft);
 }
 
-/* === TEXTAREA === */
+/* === TEXTAREA (PROMPT + SCRATCHPAD) === */
 textarea {
-  width: 100%;
-  background: rgba(20, 16, 25, 0.6);
-  border: 1px solid rgba(255, 215, 128, 0.25);
-  border-radius: 6px;
-  padding: 8px;
-  color: #f5e6c8;
-  resize: none;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 12px;
+    color: var(--primary);
+    font-family: "Cinzel", serif;
+    resize: none;
+
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.4),
+                inset 0 0 25px var(--primary-soft);
 }
 
-/* === SCRATCHPAD === */
+/* === SCRATCHPAD OVERLAY === */
 #scratchpad {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 8, 12, 0.75);
-  backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(14px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
 }
 
 #scratchpad textarea {
-  font-size: 22px;
-  height: 200px;
-  background: rgba(30, 25, 35, 0.8);
-  border: 1px solid rgba(255, 215, 128, 0.35);
-  box-shadow: inset 0 0 12px rgba(255, 215, 128, 0.15);
+    width: 80%;
+    max-width: 900px;
+    height: 60%;
+    font-size: 1.2rem;
 }
 
-/* === PARTICLES === */
-#particleCanvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
+/* === CLOAK MODE === */
+body.cloaked #sidebar {
+    opacity: 0;
+    pointer-events: none;
 }
-
-/* === GLOW === */
-#blurPulse {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
