@@ -121,6 +121,9 @@ Only if it fits the vibe.
 - [ ] Chaos Mode 2.0  
 - [ ] Companion reactions  
 - [ ] Weird surprises  
+- [ ] XP BAR
+- [ ] Rate My Vibe
+- [ ] Scoring
 
 Goal: “Keep the magic alive.”
 
