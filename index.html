@@ -7,7 +7,7 @@
     <style>
         /* ============================================================
            SOMNIASCAPES — MODULAR MOBILE-FIRST OS
-           Obsidian Glass • Accordion Dashboard • Zero Battery Melt
+           Obsidian Glass • Accordion Dashboard • Moon's Hearth Mixer
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -115,7 +115,7 @@
         .slider-group { display: flex; flex-direction: column; gap: 6px; }
         .slider-label { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         input[type="range"] { -webkit-appearance: none; width: 100%; height: 2px; background: rgba(255,255,255,0.1); outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; cursor: pointer; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px var(--primary); }
 
         .upload-zone {
             border: 1px dashed var(--glass-border); padding: 12px; text-align: center;
@@ -132,11 +132,33 @@
         }
         textarea.scratchpad:focus { border-color: var(--primary); }
 
-        /* --- AUDIO GRID SPECIFICS --- */
-        .audio-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
-        .audio-card.playing { border-color: var(--primary); background: var(--primary-glow); }
-        .audio-card button { background: none; border: none; color: var(--primary); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; text-align: left; cursor: pointer; padding: 0; font-family: inherit; }
-        .audio-card.playing button { color: #fff; }
+        /* --- MOON'S HEARTH MIXER LIST --- */
+        #mixer-list {
+            max-height: 350px; overflow-y: auto; padding-right: 8px;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        #mixer-list::-webkit-scrollbar { width: 4px; }
+        #mixer-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+
+        .mixer-card {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 6px;
+            transition: all 0.2s ease; gap: 15px;
+        }
+        .mixer-card.playing {
+            border-color: var(--primary);
+            background: var(--primary-glow);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .mixer-btn {
+            background: none; border: none; color: var(--text-main);
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0;
+            transition: color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mixer-card.playing .mixer-btn { color: #fff; text-shadow: 0 0 8px var(--primary); }
+        .mixer-slider { width: 90px; }
 
         @media (min-width: 601px) {
             #dashboard { padding: 0; margin-top: 100px; }
@@ -199,18 +221,18 @@
         <div class="module active">
             <div class="module-header" onclick="toggleModule(this)">
                 <h3 class="module-title">Acoustics</h3>
-                <span class="module-status">Audio Grid</span>
+                <span class="module-status">Mixer</span>
             </div>
             <div class="module-content">
-                <div class="control-grid" style="grid-template-columns: 1fr 1fr;">
-                    <label class="upload-zone" style="margin: 0; padding: 10px;">
-                        <span>Upload Stem</span>
-                        <input type="file" accept="audio/*" onchange="alert('Local audio uploaded to session memory.')">
-                    </label>
-                    <button class="action-btn" onclick="stopAllAudio()" style="border-color: rgba(255,68,68,0.5); color: rgba(255,68,68,0.8);">Silence All</button>
-                </div>
-                <div id="audio-grid" class="control-grid">
+                <button class="action-btn" onclick="stopAllAudio()" style="border-color: rgba(255,68,68,0.5); color: rgba(255,68,68,0.8); margin-bottom: 4px;">Silence All</button>
+                
+                <div id="mixer-list">
                     </div>
+
+                <label class="upload-zone" style="margin-top: 4px;">
+                    <span>Upload Custom Stem</span>
+                    <input type="file" accept="audio/*" onchange="alert('Local audio uploaded to session memory.')">
+                </label>
             </div>
         </div>
 
@@ -250,7 +272,6 @@
         // --- UI LOGIC ---
         function toggleModule(headerEl) {
             const module = headerEl.parentElement;
-            // Optional: Close others (Accordion style)
             document.querySelectorAll('.module').forEach(m => {
                 if (m !== module) m.classList.remove('active');
             });
@@ -302,22 +323,38 @@
             }
         }
 
-        // --- LIQUID 13.0 AUDIO ENGINE ---
+        // --- MOON'S HEARTH AUDIO ENGINE INTEGRATION ---
         const activeAudio = {};
-        const library = [
-            { id: "rain", name: "Rain", url: "rain.mp3" }, { id: "thunder", name: "Thunder", url: "thunder.mp3" },
-            { id: "wind", name: "Wind", url: "winterwind.mp3" }, { id: "owls", name: "Owls", url: "owls.mp3" },
-            { id: "fire", name: "Hearth", url: "fire.mp3" }, { id: "clock", name: "Clock", url: "clock.mp3" },
-            { id: "musicbox1", name: "Music Box", url: "musicbox1.mp3" }, { id: "dark", name: "Dark Vibe", url: "darkmusic1.mp3" }
-            // Expanded logic supports all 22 tracks, shortened here for grid clarity.
+        const soundLibrary = [
+            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" },
+            { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" },
+            { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" },
+            { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" },
+            { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
+            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" },
+            { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" },
+            { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" },
+            { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" },
+            { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" },
+            { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" },
+            { id: "darkmusic", name: "🖤 Dark Atmosphere", url: "darkmusic1.mp3" },
+            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
         ];
 
-        function initAudioGrid() {
-            const grid = document.getElementById('audio-grid');
-            grid.innerHTML = library.map(track => `
-                <div class="audio-card" id="card-${track.id}">
-                    <button onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
-                    <input type="range" id="vol-${track.id}" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
+        function initMixerUI() {
+            const list = document.getElementById('mixer-list');
+            list.innerHTML = soundLibrary.map(track => `
+                <div class="mixer-card" id="card-${track.id}">
+                    <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
+                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
                 </div>
             `).join('');
         }
@@ -377,9 +414,9 @@
 
         // --- BOOT ---
         document.addEventListener('DOMContentLoaded', () => {
-            initAudioGrid();
+            initMixerUI();
             initParticles();
-            // Boot interaction unlock
+            // Boot interaction unlock for modern browsers
             document.body.addEventListener('click', () => {
                 const s = new Audio(); s.play().then(()=>s.pause()).catch(e=>{});
             }, { once: true });
