@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // OS</title>
+    <title>SOMNIASCAPES // AMBIENCE MAKER</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — MODULAR AMBIENCE MAKER
+           SOMNIASCAPES — THE DIGITAL TOY SHELL
+           Luxurious • Calm • ND-Friendly • Frosted Glass Tabs
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            --primary: #d8b4e2;
+            --primary: #d8b4e2; /* Lavender magical baseline */
             --primary-glow: rgba(216, 180, 226, 0.4);
-            --accent: #2dd4bf;
-            --glass: rgba(10, 15, 25, 0.85);
+            --accent: #2dd4bf; /* Cyan active states */
+            --glass: rgba(10, 15, 25, 0.7);
             --glass-border: rgba(216, 180, 226, 0.2);
             --text-main: #fdfbf7;
             --text-muted: #a09ba5;
+            --unison-tempo: 10s;
         }
+
+        /* PALETTES */
+        .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --glass: rgba(6, 6, 8, 0.85); --glass-border: rgba(212, 175, 55, 0.2); }
+        .lunar-mode { --primary: #A5F2F3; --accent: #3b82f6; --glass: rgba(4, 8, 12, 0.85); --glass-border: rgba(165, 242, 243, 0.2); }
+        .vellum-mode { --primary: #C2B280; --accent: #d97706; --glass: rgba(12, 10, 8, 0.85); --glass-border: rgba(194, 178, 128, 0.2); }
+        .amethyst-mode { --primary: #d8b4e2; --accent: #2dd4bf; --glass: rgba(10, 15, 25, 0.85); --glass-border: rgba(216, 180, 226, 0.2); }
 
         body, html {
             margin: 0; padding: 0; background: #000;
@@ -28,116 +36,272 @@
             -webkit-font-smoothing: antialiased; user-select: none;
         }
 
-        /* --- VISUAL CANVAS --- */
+        /* --- VISUAL CANVAS (The Room) --- */
         #bg-anchor {
             position: fixed; inset: 0; 
-            /* REFRESHED: Now using ship.png */
-            background: #000 url('ship.png') no-repeat center center;
+            /* Hardwired back to your local Resonance background */
+            background: #020204 url('ship.png') no-repeat center center;
             background-size: cover; z-index: 1;
-            transition: filter 0.5s ease;
+            animation: breathe var(--unison-tempo) infinite alternate ease-in-out;
+            transition: background-image 1.5s ease;
         }
+        @keyframes breathe {
+            0%, 100% { filter: brightness(0.85); transform: scale(1); }
+            50% { filter: brightness(1.05); transform: scale(1.03); }
+        }
+
         #glow-layer {
             position: fixed; inset: 0;
             background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, transparent 70%);
-            z-index: 2; opacity: 0.3; pointer-events: none;
+            z-index: 2; opacity: 0.3; transition: opacity 1s ease, background 1s ease;
+            pointer-events: none;
         }
+
         #particleCanvas {
             position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0.6;
         }
 
-        /* --- UI LAYER --- */
-        #ui-viewport {
-            position: relative; z-index: 100;
-            height: 100vh; width: 100vw;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        /* --- FLOATING TOP NAVIGATION --- */
+        #top-nav {
+            position: fixed; top: 0; left: 0; right: 0; padding: 25px 40px;
+            z-index: 100; display: flex; justify-content: space-between; align-items: flex-start;
+            pointer-events: none; /* Let clicks pass to canvas */
         }
+        #top-nav > * { pointer-events: auto; }
 
-        /* Floating Panel */
+        .nav-logo { 
+            font-size: 1.2rem; letter-spacing: 6px; color: var(--primary); 
+            text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); 
+        }
+        
+        .nav-actions { display: flex; gap: 15px; }
+        .artifact-btn {
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); color: var(--primary);
+            padding: 8px 18px; border-radius: 30px; cursor: pointer;
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.4s ease; font-family: inherit;
+        }
+        .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 15px rgba(45, 212, 191, 0.4); }
+
+        /* --- THE MAKER PANEL (The Toy) --- */
         #maker-panel {
-            width: 90%; max-width: 600px;
-            background: var(--glass); backdrop-filter: blur(20px);
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 700px; z-index: 50;
+            background: var(--glass); backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border); border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             display: flex; flex-direction: column; overflow: hidden;
+            transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
         }
+        body.cloaked #maker-panel { opacity: 0; transform: translate(-50%, 20px); pointer-events: none; }
+        body.cloaked #top-nav { opacity: 0.3; }
 
-        /* Simple Tab System */
-        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); }
+        /* --- TAB NAVIGATION --- */
+        .tab-bar {
+            display: flex; border-bottom: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.3);
+        }
         .tab-btn {
-            flex: 1; background: none; border: none; color: var(--text-muted);
-            padding: 15px; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; border-bottom: 2px solid transparent;
+            flex: 1; background: transparent; border: none; color: var(--text-muted);
+            padding: 16px 0; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s; font-family: inherit;
+            border-bottom: 2px solid transparent;
         }
-        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.02); }
+        .tab-btn:hover:not(.active) { color: var(--primary); }
 
-        .tab-content { display: none; padding: 20px; max-height: 40vh; overflow-y: auto; }
-        .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
+        /* --- TAB CONTENT AREAS --- */
+        .tab-content { display: none; padding: 25px; max-height: 50vh; overflow-y: auto; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 20px; }
+        .tab-content::-webkit-scrollbar { width: 4px; }
+        .tab-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
 
-        /* Mixer Styling */
+        /* --- UNIVERSAL CONTROLS --- */
+        .upload-zone {
+            border: 1px dashed var(--glass-border); padding: 15px; text-align: center;
+            border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.7rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+            background: rgba(0,0,0,0.2);
+        }
+        .upload-zone:hover { background: rgba(255,255,255,0.05); color: var(--primary); border-color: var(--primary); }
+        .upload-zone input { display: none; }
+
+        .btn-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        
+        .toy-btn {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+            color: var(--text-main); padding: 12px; border-radius: 8px; cursor: pointer;
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.3s; font-family: inherit;
+        }
+        .toy-btn:hover, .toy-btn.active { border-color: var(--accent); background: rgba(45, 212, 191, 0.1); color: var(--accent); }
+
+        h4.section-title { margin: 0 0 10px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+
+        /* --- TAB 1: HEARTHSONG MIXER (Moon's Hearth Style) --- */
         .mixer-card {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.05); gap: 10px;
+            padding: 12px 16px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;
+            margin-bottom: 8px; transition: all 0.3s ease; gap: 15px;
         }
+        .mixer-card.playing { border-color: var(--accent); background: rgba(45, 212, 191, 0.05); }
+        
         .mixer-btn {
-            background: none; border: none; color: var(--text-main); font-size: 0.8rem;
-            cursor: pointer; text-align: left; flex: 1;
+            background: none; border: none; color: var(--text-muted);
+            font-size: 0.85rem; text-align: left; cursor: pointer; font-family: inherit; 
+            flex: 1; padding: 0; transition: 0.3s;
         }
-        .mixer-card.playing .mixer-btn { color: var(--accent); }
-        .mixer-slider { width: 80px; accent-color: var(--accent); }
+        .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px rgba(45, 212, 191, 0.5); }
+        
+        .mixer-slider { -webkit-appearance: none; width: 100px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
+        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px rgba(45, 212, 191, 0.6); }
 
-        /* Scratchpad */
+        /* --- TAB 4: VAULT (Plain Scratchpad) --- */
         .scratchpad {
-            width: 100%; height: 120px; background: rgba(0,0,0,0.3);
-            border: 1px solid var(--glass-border); border-radius: 8px;
-            padding: 10px; color: #fff; font-family: inherit; resize: none;
+            width: 100%; height: 180px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
+            border-radius: 10px; padding: 15px; color: #fff; font-family: inherit; font-size: 1.1rem;
+            resize: none; outline: none; line-height: 1.6;
         }
+        .scratchpad:focus { border-color: var(--accent); box-shadow: inset 0 0 10px rgba(45, 212, 191, 0.1); }
 
-        .toy-btn {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
-            color: var(--text-main); padding: 8px; border-radius: 5px; cursor: pointer;
-            font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase;
-        }
     </style>
 </head>
-<body>
+<body id="os-body" class="noir-mode">
 
     <div id="bg-anchor"></div>
     <div id="glow-layer"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <div id="ui-viewport">
-        <main id="maker-panel">
-            <div class="tab-bar">
-                <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Hearthsong</button>
-                <button class="tab-btn" onclick="switchTab('tab-vault', this)">Scratchpad</button>
+    <nav id="top-nav">
+        <div class="nav-logo">SomniaScapes</div>
+        <div class="nav-actions">
+            <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
+            <button class="artifact-btn" onclick="alert('Searching for Cast targets...')">Cast</button>
+            <button class="artifact-btn" onclick="alert('Vibe Link copied to clipboard.')">Share</button>
+            <button class="artifact-btn" onclick="alert('Connecting to Supabase Vault...')">Sync</button>
+        </div>
+    </nav>
+
+    <main id="maker-panel" onclick="event.stopPropagation()">
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Hearthsong</button>
+            <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
+            <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmosphere</button>
+            <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
+        </div>
+
+        <div id="tab-audio" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: -10px;">
+                <h4 class="section-title">Resonance Mixer</h4>
+                <button onclick="stopAllAudio()" style="background:none; border:none; color:#ec4899; cursor:pointer; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase;">Silence All</button>
+            </div>
+            
+            <div id="mixer-container">
+                </div>
+
+            <label class="upload-zone">
+                <span>+ Upload Local Audio Stem</span>
+                <input type="file" accept="audio/*" onchange="alert('Audio stem added to local mixer.')">
+            </label>
+        </div>
+
+        <div id="tab-canvas" class="tab-content">
+            <h4 class="section-title">Custom Canvas</h4>
+            <label class="upload-zone">
+                <span>+ Upload Local Background Image</span>
+                <input type="file" accept="image/*" onchange="executeImageUpload(this)">
+            </label>
+        </div>
+
+        <div id="tab-atmos" class="tab-content">
+            <h4 class="section-title">Color Palettes</h4>
+            <div class="btn-grid-4">
+                <button class="toy-btn active" onclick="setPalette('noir', this)">Noir</button>
+                <button class="toy-btn" onclick="setPalette('lunar', this)">Lunar</button>
+                <button class="toy-btn" onclick="setPalette('vellum', this)">Vellum</button>
+                <button class="toy-btn" onclick="setPalette('amethyst', this)">Amethyst</button>
             </div>
 
-            <div id="tab-audio" class="tab-content active">
-                <div id="mixer-container"></div>
-                <button class="toy-btn" onclick="stopAllAudio()">Silence All</button>
+            <h4 class="section-title" style="margin-top: 10px;">Particle Engine</h4>
+            <div class="btn-grid-4">
+                <button class="toy-btn active" onclick="setParticles('dust', this)">Dust</button>
+                <button class="toy-btn" onclick="setParticles('embers', this)">Embers</button>
+                <button class="toy-btn" onclick="setParticles('snow', this)">Snow</button>
+                <button class="toy-btn" onclick="setParticles('void', this)">Void</button>
             </div>
+        </div>
 
-            <div id="tab-vault" class="tab-content">
-                <textarea id="scratchpad-box" class="scratchpad" placeholder="Type here..."></textarea>
-                <button class="toy-btn" onclick="alert('Vibe Saved!')">Save Vibe</button>
-            </div>
-        </main>
-    </div>
+        <div id="tab-vault" class="tab-content">
+            <button class="toy-btn" style="border-color: var(--primary); padding: 15px;" onclick="alert('Preset Snapshot saved to local storage.')">💾 Save Current Vibe Preset</button>
+            
+            <h4 class="section-title" style="margin-top: 10px;">Plain Scratchpad</h4>
+            <textarea id="scratchpad-box" class="scratchpad" placeholder="Type your broadcast notes here..."></textarea>
+        </div>
+
+    </main>
 
     <script>
-        function switchTab(id, btn) {
+        // === 1. UI NAVIGATION & CLOAK ===
+        function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            if(navigator.vibrate) navigator.vibrate(10);
         }
 
+        function toggleCloak() {
+            document.body.classList.toggle('cloaked');
+        }
+
+        // === 2. ATMOSPHERE (Palettes & Backgrounds) ===
+        function setPalette(mode, btn) {
+            document.body.className = `${mode}-mode`;
+            document.querySelectorAll('#tab-atmos .btn-grid-4:first-of-type .toy-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(navigator.vibrate) navigator.vibrate(15);
+        }
+
+        function setBg(url) {
+            document.getElementById('bg-anchor').style.backgroundImage = `url('${url}')`;
+        }
+
+        function executeImageUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => setBg(e.target.result);
+            reader.readAsDataURL(file);
+        }
+
+        // === 3. AUDIO ENGINE (Moon's Hearth Style) ===
         const activeAudio = {};
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" },
+            { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" },
+            { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" },
+            { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" },
             { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }
+            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" },
+            { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" },
+            { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" },
+            { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" },
+            { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" },
+            { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" },
+            { id: "darkmusic", name: "🖤 Dark Atmosphere", url: "darkmusic1.mp3" },
+            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
         ];
 
         function initMixer() {
@@ -145,7 +309,7 @@
             container.innerHTML = soundLibrary.map(track => `
                 <div class="mixer-card" id="card-${track.id}">
                     <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
-                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5">
+                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
                 </div>
             `).join('');
         }
@@ -153,13 +317,22 @@
         function toggleStem(id, url) {
             const card = document.getElementById(`card-${id}`);
             if (activeAudio[id]) {
-                activeAudio[id].pause(); delete activeAudio[id];
+                activeAudio[id].pause();
+                delete activeAudio[id];
                 card.classList.remove('playing');
             } else {
-                const audio = new Audio(url); audio.loop = true;
+                const audio = new Audio(url);
+                audio.loop = true;
                 audio.volume = document.getElementById(`vol-${id}`).value;
-                audio.play().then(() => { activeAudio[id] = audio; card.classList.add('playing'); });
+                audio.play().then(() => {
+                    activeAudio[id] = audio;
+                    card.classList.add('playing');
+                }).catch(e => console.log("Click the screen first to unlock audio."));
             }
+        }
+
+        function adjustVol(id, val) {
+            if (activeAudio[id]) activeAudio[id].volume = val;
         }
 
         function stopAllAudio() {
@@ -170,7 +343,70 @@
             for (let prop in activeAudio) delete activeAudio[prop];
         }
 
-        document.addEventListener('DOMContentLoaded', initMixer);
+        // === 4. PARTICLE ENGINE ===
+        let particleType = 'dust'; // dust, embers, snow, void
+        
+        function setParticles(type, btn) {
+            particleType = type;
+            document.querySelectorAll('#tab-atmos .btn-grid-4:last-of-type .toy-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+            window.addEventListener('resize', resize); resize();
+            
+            for (let i = 0; i < 50; i++) {
+                particles.push({ 
+                    x: Math.random() * canvas.width, 
+                    y: Math.random() * canvas.height, 
+                    r: Math.random() * 2 + 0.5, 
+                    vx: (Math.random() - 0.5) * 0.5, 
+                    vy: (Math.random() - 0.5) * 0.5 
+                });
+            }
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Colors based on particle type
+                if (particleType === 'dust') ctx.fillStyle = "rgba(244, 235, 208, 0.4)";
+                else if (particleType === 'embers') ctx.fillStyle = "rgba(245, 158, 11, 0.6)";
+                else if (particleType === 'snow') ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+                else if (particleType === 'void') ctx.fillStyle = "rgba(168, 85, 247, 0.3)";
+
+                particles.forEach(p => {
+                    // Movement overrides based on type
+                    if (particleType === 'embers') { p.y -= Math.abs(p.vy) + 0.5; p.x += p.vx; } // float up
+                    else if (particleType === 'snow') { p.y += Math.abs(p.vy) + 0.5; p.x += p.vx; } // float down
+                    else { p.x += p.vx; p.y += p.vy; } // standard drift
+
+                    // Wraparound
+                    if (p.x < 0) p.x = canvas.width; 
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height; 
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                });
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        // Boot
+        document.addEventListener('DOMContentLoaded', () => {
+            initMixer();
+            initParticles();
+            // Unlock audio on first click
+            document.body.addEventListener('click', () => {
+                const s = new Audio(); s.play().then(()=>s.pause()).catch(e=>{});
+            }, { once: true });
+        });
     </script>
 </body>
 </html>
