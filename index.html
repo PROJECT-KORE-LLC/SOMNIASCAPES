@@ -256,6 +256,8 @@
                 <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
                 <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
                 <div class="ctrl-row"><label>Low Motion</label><input type="checkbox" id="lowMotionToggle" onclick="toggleLowMotion()"></div>
+                <div class="ctrl-row"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" onclick="toggleLowGpu()"></div>
+
             </div>
 
             <div id="tab-vault" class="tab-content">
@@ -390,6 +392,42 @@ function updateParticleDensity(val) {
     particleCount = parseInt(val);
 }
 
+let lowGpu = false;
+
+function toggleLowGpu() {
+    lowGpu = !lowGpu;
+
+    const canvas = document.getElementById('particleCanvas');
+
+    if (lowGpu) {
+        // Lower canvas resolution
+        canvas.width = window.innerWidth / 2;
+        canvas.height = window.innerHeight / 2;
+        canvas.style.transform = "scale(2)";
+
+        // Reduce glow intensity
+        updateVar('--glow-opac', '0.15');
+
+        // Reduce animation speed
+        updateVar('--anim-speed', '15s');
+
+        // Reduce particle radius globally
+        window.lowGpuParticleScale = 0.6;
+
+    } else {
+        // Restore full resolution
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.transform = "scale(1)";
+
+        // Restore defaults
+        updateVar('--glow-opac', '0.3');
+        updateVar('--anim-speed', '10s');
+
+        window.lowGpuParticleScale = 1;
+    }
+}
+
 function initParticles() {
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
@@ -418,7 +456,9 @@ function initParticles() {
             .trim();
 
         ctx.fillStyle = color;
-        ctx.shadowBlur = 8;
+
+        // ⭐ Low-GPU shadowBlur optimization
+        ctx.shadowBlur = lowGpu ? 2 : 8;
         ctx.shadowColor = color;
 
         particles.forEach((p, i) => {
