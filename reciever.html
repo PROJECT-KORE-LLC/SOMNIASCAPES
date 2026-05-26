@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SomniaScapes TV</title>
+    <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+    <style>
+        /* Paste all your visual CSS variables, glow animations, and canvas styles here. NO UI STYLES. */
+        body { margin: 0; overflow: hidden; background: #000; }
+        #bg-anchor { position: fixed; inset: 0; background-size: cover; z-index: 1; transition: 1s; }
+        #glow-layer { position: fixed; inset: 0; z-index: 2; transition: 1s; }
+        #particleCanvas { position: fixed; inset: 0; z-index: 3; }
+    </style>
+</head>
+<body>
+    <div id="bg-anchor"></div>
+    <div id="glow-layer"></div>
+    <canvas id="particleCanvas"></canvas>
+
+    <script>
+        const context = cast.framework.CastReceiverContext.getInstance();
+        const customMessageBus = context.getCustomMessageBus('urn:x-cast:com.somniascapes.engine');
+
+        // Listen for the phone sending new vibe data
+        customMessageBus.onMessage = function(event) {
+            const state = JSON.parse(event.data);
+            
+            // Instantly apply the settings the user chose on their phone
+            document.documentElement.style.setProperty('--particle-color', state.pColor);
+            document.documentElement.style.setProperty('--glow-color', state.gColor);
+            document.getElementById('glow-layer').className = state.glowClass;
+            window.particleType = state.particleType;
+            // (Audio and other variables get wired up here exactly like your loadPreset function)
+        };
+
+        context.start();
+    </script>
+</body>
+</html>
