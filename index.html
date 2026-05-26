@@ -253,6 +253,8 @@
                 <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
                 <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
                 <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
+                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
+
             </div>
 
             <div id="tab-vault" class="tab-content">
@@ -366,46 +368,94 @@
         }
 
         // === 4. PARTICLE ENGINE (10 Types) ===
-        window.particleType = 'dust';
-        function initParticles() {
-            const canvas = document.getElementById('particleCanvas');
-            const ctx = canvas.getContext('2d');
-            let w = canvas.width = window.innerWidth;
-            let h = canvas.height = window.innerHeight;
-            window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-            
-            let particles = Array.from({length: 100}, () => ({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*2+0.5, vx: (Math.random()-0.5), vy: (Math.random()-0.5) }));
+window.particleType = 'dust';
 
-            function loop() {
-                ctx.clearRect(0, 0, w, h);
-                const color = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-                ctx.fillStyle = color; ctx.shadowBlur = 8; ctx.shadowColor = color;
-                
-                particles.forEach((p, i) => {
-                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
-                    let mult = 10 / spd; // adjust speed via slider
-                    
-                    if (particleType === 'dust') { p.x += p.vx*mult; p.y += p.vy*mult; }
-                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
-                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
-                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
-                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
-                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
-                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+// GLOBAL density value
+let particleCount = 50; // default density
 
-                    // Wrap
-                    if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
-                    if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+// Build particle array
+function buildParticles(w, h) {
+    return Array.from({ length: particleCount }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 0.5,
+        vx: (Math.random() - 0.5),
+        vy: (Math.random() - 0.5)
+    }));
+}
 
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-                });
-                requestAnimationFrame(loop);
-            }
-            loop();
+// Update density from slider
+function updateParticleDensity(val) {
+    particleCount = parseInt(val);
+}
+
+function initParticles() {
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        particles = buildParticles(w, h);
+    });
+
+    let particles = buildParticles(w, h);
+
+    function loop() {
+        ctx.clearRect(0, 0, w, h);
+
+        // Rebuild if density changed
+        if (particles.length !== particleCount) {
+            particles = buildParticles(w, h);
         }
+
+        const color = getComputedStyle(document.documentElement)
+            .getPropertyValue('--primary')
+            .trim();
+
+        ctx.fillStyle = color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = color;
+
+        particles.forEach((p, i) => {
+            let spd = parseFloat(
+                getComputedStyle(document.documentElement)
+                .getPropertyValue('--anim-speed')
+            ) || 10;
+
+            let mult = 10 / spd;
+
+            // your existing particle behaviors stay untouched
+            if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+            else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+            else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+            else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+            else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+            else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+            else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+            else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+            else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
+            else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+
+            // wrap
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            if (p.y > h) p.y = 0;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+}
 
         // Boot
         document.addEventListener('DOMContentLoaded', () => {
