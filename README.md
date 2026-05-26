@@ -1,9 +1,9 @@
 
 
-# SOMNIA SCAPES  
+# SOMNIASCAPES  
 ### The vibe machine you didn’t know you needed.
 
-SOMNIA SCAPES is a tiny chaos‑powered atmosphere engine.  
+SOMNIASCAPES is a tiny chaos‑powered atmosphere engine.  
 Part cozy. Part aesthetic. Part prank. Part “why is this so relaxing?”  
 You build scenes. Mix sounds. Add particles. Make a whole mood.
 
