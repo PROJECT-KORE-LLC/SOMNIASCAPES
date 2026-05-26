@@ -32,7 +32,6 @@
 
             --particle-color: var(--primary);
             --glow-color: var(--primary-glow);
-
         }
 
         /* 10 COLOR PALETTES */
@@ -199,7 +198,7 @@
 </head>
 <body id="os-body" class="lunar-mode" onclick="restoreUI()">
 
-       <div id="bg-anchor"></div>
+    <div id="bg-anchor"></div>
     <div id="glow-layer" class="glow-pulse"></div>
     <canvas id="particleCanvas"></canvas>
 
@@ -253,13 +252,11 @@
                 <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
                 <div class="btn-grid" id="glow-grid"></div>
 
-                <!-- ⭐ NEW COLOR PALETTE GRIDS ⭐ -->
                 <h4 class="section-title" style="margin-top:10px;">Particle Colors</h4>
                 <div class="btn-grid" id="particle-color-grid"></div>
 
                 <h4 class="section-title" style="margin-top:10px;">Glow Colors</h4>
                 <div class="btn-grid" id="glow-color-grid"></div>
-                <!-- ⭐ END NEW GRIDS ⭐ -->
 
                 <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
                 <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
@@ -275,7 +272,7 @@
                 <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
             </div>
         </main>
-    </div> <!-- ✅ Correct closing for #ui-wrapper ONLY -->
+    </div>
 
     <div id="scratchpad-modal" onclick="toggleScratch()">
         <div class="scratch-bubble" onclick="event.stopPropagation()">
@@ -284,7 +281,6 @@
     </div>
 
     <script>
-
         // === 1. GLOBAL UI ===
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -296,24 +292,133 @@
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
         function restoreUI() { document.body.classList.remove('cloaked'); }
         function toggleScratch() { document.getElementById('scratchpad-modal').classList.toggle('active'); }
+        function toggleLowMotion() { console.log("Low motion toggled"); }
         
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
         function executeImageUpload(input) {
             if (!input.files || !input.files[0]) return;
+            
+            const file = input.files[0];
             const reader = new FileReader();
-            reader.onload = e => document.getElementById('bg-anchor').style.backgroundImage = `url('${e.target.result}')`;
-            reader.readAsDataURL(input.files[0]);
+            
+            reader.onload = e => {
+                const imgData = e.target.result;
+                document.getElementById('bg-anchor').style.backgroundImage = `url('${imgData}')`;
+                const grid = document.getElementById('bg-presets');
+                grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+                
+                const btn = document.createElement('button');
+                btn.className = 'toy-btn active';
+                btn.textContent = "📁 " + file.name.substring(0, 6); 
+                
+                btn.onclick = () => {
+                    grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('bg-anchor').style.backgroundImage = `url('${imgData}')`;
+                };
+                
+                grid.prepend(btn); 
+            };
+            
+            reader.readAsDataURL(file);
+            input.value = ""; 
         }
 
+        // === 2. VAULT MEMORY ENGINE ===
+        let savedVault = [];
+
         function savePreset() {
+            // UI Feedback
             const btn = document.getElementById('save-btn');
             btn.innerText = "✓ SAVED TO VAULT";
             btn.style.background = "rgba(45, 212, 191, 0.2)";
             setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
+
+            // 1. Capture Current State
+            const state = {
+                name: "Vibe Protocol " + (savedVault.length + 1),
+                bodyClass: document.body.className,
+                glowClass: document.getElementById('glow-layer').className,
+                particleType: window.particleType,
+                particleCount: particleCount,
+                bgImage: document.getElementById('bg-anchor').style.backgroundImage,
+                vars: {
+                    speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(),
+                    opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(),
+                    bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(),
+                    zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(),
+                    pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(),
+                    gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()
+                },
+                audio: Object.keys(activeAudio).map(id => ({
+                    id: id,
+                    vol: document.getElementById(`vol-${id}`).value
+                }))
+            };
+
+            // 2. Save and Render
+            savedVault.push(state);
+            renderVault();
         }
 
-        // === 2. AUDIO ENGINE (21 Presets + Upload) ===
+        function renderVault() {
+            let container = document.getElementById('vault-list');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'vault-list';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+                container.style.gap = '10px';
+                container.style.marginTop = '20px';
+                document.getElementById('tab-vault').appendChild(container);
+            }
+
+            container.innerHTML = savedVault.map((preset, index) => `
+                <div class="mixer-card">
+                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
+                    <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; border-color: #ec4899; color: #ec4899;" onclick="deletePreset(${index})">DEL</button>
+                </div>
+            `).join('');
+        }
+
+        function deletePreset(index) {
+            savedVault.splice(index, 1);
+            renderVault();
+        }
+
+        function loadPreset(index) {
+            const state = savedVault[index];
+            if (!state) return;
+
+            // Restore Visuals
+            document.body.className = state.bodyClass;
+            document.getElementById('glow-layer').className = state.glowClass;
+            window.particleType = state.particleType;
+            particleCount = state.particleCount;
+            if (state.bgImage) document.getElementById('bg-anchor').style.backgroundImage = state.bgImage;
+
+            // Restore CSS Vars
+            updateVar('--anim-speed', state.vars.speed);
+            updateVar('--glow-opac', state.vars.opac);
+            updateVar('--bg-bright', state.vars.bright);
+            updateVar('--bg-zoom', state.vars.zoom);
+            updateVar('--particle-color', state.vars.pColor);
+            updateVar('--glow-color', state.vars.gColor);
+
+            // Restore Audio
+            stopAllAudio(); 
+            state.audio.forEach(track => {
+                const sound = soundLibrary.find(s => s.id === track.id);
+                if (sound) {
+                    const slider = document.getElementById(`vol-${track.id}`);
+                    if (slider) slider.value = track.vol; // Adjust slider so toggleStem reads it
+                    toggleStem(track.id, sound.url); 
+                }
+            });
+        }
+
+        // === 3. AUDIO ENGINE (21 Presets + Upload) ===
         const activeAudio = {};
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
@@ -360,177 +465,198 @@
         function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
         function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); document.getElementById(`card-${id}`).classList.remove('playing'); delete activeAudio[id]; }); }
 
-       // === 3. ATMOS GENERATORS (10 Colors, 10 Glows) ===
-const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
-const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
+        // === 4. ATMOS GENERATORS (10 Colors, 10 Glows) ===
+        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
 
-// ⭐ NEW ARRAYS FOR STEP 5 + 6 ⭐
-const particleColors = ['#ffffff','#ffd1dc','#a5f3fc','#bbf7d0','#fde68a','#fca5a5'];
-const glowColors = [
-    'rgba(255,255,255,0.4)',
-    'rgba(255,200,200,0.4)',
-    'rgba(200,255,255,0.4)',
-    'rgba(200,255,200,0.4)'
-];
+        // ⭐ THE 10 UI PALETTE COLORS EXTRACTED FROM CSS ⭐
+        const particleColors = [
+            { name: 'Lunar', value: '#e0e7ff' },
+            { name: 'Noir', value: '#D4AF37' },
+            { name: 'Vellum', value: '#C2B280' },
+            { name: 'Amethyst', value: '#d8b4e2' },
+            { name: 'Crimson', value: '#fb7185' },
+            { name: 'Emerald', value: '#34d399' },
+            { name: 'Solar', value: '#fbbf24' },
+            { name: 'Void', value: '#ec4899' },
+            { name: 'Obsidian', value: '#9ca3af' },
+            { name: 'Ghost', value: '#f8fafc' }
+        ];
 
-function populateGrid(id, arr, type) {
-    const grid = document.getElementById(id);
-    arr.forEach((item, index) => {
-        const b = document.createElement('button');
-        b.className = 'toy-btn'; 
-        b.textContent = item;
-        if(index === 0) b.classList.add('active'); // default first
+        const glowColors = [
+            { name: 'Lunar', value: 'rgba(224,231,255,0.4)' },
+            { name: 'Noir', value: 'rgba(212,175,55,0.4)' },
+            { name: 'Vellum', value: 'rgba(194,178,128,0.4)' },
+            { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' },
+            { name: 'Crimson', value: 'rgba(251,113,133,0.4)' },
+            { name: 'Emerald', value: 'rgba(52,211,153,0.4)' },
+            { name: 'Solar', value: 'rgba(251,191,36,0.4)' },
+            { name: 'Void', value: 'rgba(236,72,153,0.4)' },
+            { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' },
+            { name: 'Ghost', value: 'rgba(248,250,252,0.4)' }
+        ];
 
-        b.onclick = () => {
-            document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
-            b.classList.add('active');
+        function populateGrid(id, arr, type) {
+            const grid = document.getElementById(id);
+            arr.forEach((item, index) => {
+                const isObj = typeof item === 'object';
+                const label = isObj ? item.name : item;
+                const val = isObj ? item.value : item;
 
-            if(type === 'color') document.body.className = `${item}-mode`;
-            if(type === 'glow') document.getElementById('glow-layer').className = `glow-${item}`;
-            if(type === 'particle') window.particleType = item;
+                const b = document.createElement('button');
+                b.className = 'toy-btn'; 
+                b.textContent = label; 
+                if(index === 0) b.classList.add('active'); 
 
-            // ⭐ STEP 5 — PARTICLE COLOR PALETTE SUPPORT ⭐
-            if(type === 'particleColor') {
-                updateVar('--particle-color', item);
-            }
+                b.onclick = () => {
+                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
+                    b.classList.add('active');
 
-            // ⭐ STEP 6 — GLOW COLOR PALETTE SUPPORT ⭐
-            if(type === 'glowColor') {
-                updateVar('--glow-color', item);
-            }
-        };
+                    if(type === 'color') document.body.className = `${val}-mode`;
+                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
+                    if(type === 'particle') window.particleType = val;
 
-        grid.appendChild(b);
-    });
-}
+                    if(type === 'particleColor') {
+                        updateVar('--particle-color', val);
+                    }
 
-// === 4. PARTICLE ENGINE (10 Types) ===
-window.particleType = 'dust';
+                    if(type === 'glowColor') {
+                        updateVar('--glow-color', val);
+                    }
+                };
 
-// GLOBAL density value
-let particleCount = 50; // default density
-
-// Build particle array
-function buildParticles(w, h) {
-    return Array.from({ length: particleCount }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() * 2 + 0.5,
-        vx: (Math.random() - 0.5),
-        vy: (Math.random() - 0.5)
-    }));
-}
-
-// Update density from slider
-function updateParticleDensity(val) {
-    particleCount = parseInt(val);
-}
-
-let lowGpu = false;
-
-function toggleLowGpu() {
-    lowGpu = !lowGpu;
-
-    const canvas = document.getElementById('particleCanvas');
-
-    if (lowGpu) {
-        canvas.width = window.innerWidth / 2;
-        canvas.height = window.innerHeight / 2;
-        canvas.style.transform = "scale(2)";
-
-        updateVar('--glow-opac', '0.15');
-        updateVar('--anim-speed', '15s');
-
-        window.lowGpuParticleScale = 0.6;
-
-    } else {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.transform = "scale(1)";
-
-        updateVar('--glow-opac', '0.3');
-        updateVar('--anim-speed', '10s');
-
-        window.lowGpuParticleScale = 1;
-    }
-}
-
-function initParticles() {
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        particles = buildParticles(w, h);
-    });
-
-    let particles = buildParticles(w, h);
-
-    function loop() {
-        ctx.clearRect(0, 0, w, h);
-
-        if (particles.length !== particleCount) {
-            particles = buildParticles(w, h);
+                grid.appendChild(b);
+            });
         }
 
-        const color = getComputedStyle(document.documentElement)
-            .getPropertyValue('--particle-color')
-            .trim();
+        // === 5. PARTICLE ENGINE ===
+        window.particleType = 'dust';
 
-        ctx.fillStyle = color;
-        ctx.shadowBlur = lowGpu ? 2 : 8;
-        ctx.shadowColor = color;
+        let particleCount = 50; 
 
-        particles.forEach((p, i) => {
-            let spd = parseFloat(
-                getComputedStyle(document.documentElement)
-                .getPropertyValue('--anim-speed')
-            ) || 10;
+        function buildParticles(w, h) {
+            return Array.from({ length: particleCount }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 2 + 0.5,
+                vx: (Math.random() - 0.5),
+                vy: (Math.random() - 0.5)
+            }));
+        }
 
-            let mult = 10 / spd;
+        function updateParticleDensity(val) {
+            particleCount = parseInt(val);
+        }
 
-            if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
-            else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
-            else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
-            else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-            else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
-            else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-            else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
-            else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-            else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
-            else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+        let lowGpu = false;
 
-            if (p.x < 0) p.x = w;
-            if (p.x > w) p.x = 0;
-            if (p.y < 0) p.y = h;
-            if (p.y > h) p.y = 0;
+        function toggleLowGpu() {
+            lowGpu = !lowGpu;
+            const canvas = document.getElementById('particleCanvas');
 
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fill();
+            if (lowGpu) {
+                canvas.width = window.innerWidth / 2;
+                canvas.height = window.innerHeight / 2;
+                canvas.style.transform = "scale(2)";
+                updateVar('--glow-opac', '0.15');
+                updateVar('--anim-speed', '15s');
+                window.lowGpuParticleScale = 0.6;
+            } else {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                canvas.style.transform = "scale(1)";
+                updateVar('--glow-opac', '0.3');
+                updateVar('--anim-speed', '10s');
+                window.lowGpuParticleScale = 1;
+            }
+        }
+
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+                particles = buildParticles(w, h);
+            });
+
+            let particles = buildParticles(w, h);
+
+            const isDinosaur = navigator.hardwareConcurrency < 4 || window.innerWidth < 1024;
+            let lastTime = 0;
+
+            function loop(timestamp) {
+                requestAnimationFrame(loop);
+
+                if (!timestamp) timestamp = performance.now();
+                if (timestamp - lastTime < (isDinosaur ? 33 : 16)) return;
+                lastTime = timestamp;
+
+                ctx.clearRect(0, 0, w, h);
+
+                if (particles.length !== particleCount) {
+                    particles = buildParticles(w, h);
+                }
+
+                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+                if (color.includes('var(')) {
+                    const varName = color.match(/var\(([^)]+)\)/)[1].trim();
+                    color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                }
+
+                ctx.fillStyle = color;
+                ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); 
+                ctx.shadowColor = color;
+
+                particles.forEach((p, i) => {
+                    let spd = parseFloat(
+                        getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')
+                    ) || 10;
+
+                    let mult = 10 / spd;
+
+                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
+                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+
+                    if (p.x < 0) p.x = w;
+                    if (p.x > w) p.x = 0;
+                    if (p.y < 0) p.y = h;
+                    if (p.y > h) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        // Boot
+        document.addEventListener('DOMContentLoaded', () => {
+            initMixer();
+            populateGrid('color-grid', colors, 'color');
+            populateGrid('particle-grid', particlesList, 'particle');
+            populateGrid('glow-grid', glows, 'glow');
+
+            populateGrid('particle-color-grid', particleColors, 'particleColor');
+            populateGrid('glow-color-grid', glowColors, 'glowColor');
+
+            initParticles();
         });
-
-        requestAnimationFrame(loop);
-    }
-
-    loop();
-}
-
-// Boot
-document.addEventListener('DOMContentLoaded', () => {
-    initMixer();
-    populateGrid('color-grid', colors, 'color');
-    populateGrid('particle-grid', particlesList, 'particle');
-    populateGrid('glow-grid', glows, 'glow');
-
-    // ⭐ STEP 5 + 6: NEW POPULATE CALLS ⭐
-    populateGrid('particle-color-grid', particleColors, 'particleColor');
-    populateGrid('glow-color-grid', glowColors, 'glowColor');
-
-    initParticles();
-});
+    </script>
+</body>
+</html>
