@@ -13,21 +13,35 @@
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            --primary: #d8b4e2; /* Lavender magical baseline */
-            --primary-glow: rgba(216, 180, 226, 0.4);
-            --accent: #2dd4bf; /* Cyan active states */
+            /* GLOBAL CONSTANTS (Does not change with palette) */
             --glass: rgba(10, 15, 25, 0.7);
-            --glass-border: rgba(216, 180, 226, 0.2);
-            --text-main: #fdfbf7;
             --text-muted: #a09ba5;
-            --unison-tempo: 10s;
+            
+            /* DYNAMIC CONTROLS (Updated via JS/Sliders) */
+            --bg-zoom: 1;
+            --bg-bright: 0.85;
+            --glow-opac: 0.3;
+            --anim-speed: 10s;
+
+            /* LUNAR BASELINE (Moonlight Loading Default) */
+            --primary: #e0e7ff; 
+            --primary-glow: rgba(224, 231, 255, 0.4);
+            --accent: #a5b4fc; 
+            --glass-border: rgba(199, 210, 254, 0.2);
+            --text-main: #fdfbf7;
         }
 
-        /* PALETTES */
-        .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --glass: rgba(6, 6, 8, 0.85); --glass-border: rgba(212, 175, 55, 0.2); }
-        .lunar-mode { --primary: #A5F2F3; --accent: #3b82f6; --glass: rgba(4, 8, 12, 0.85); --glass-border: rgba(165, 242, 243, 0.2); }
-        .vellum-mode { --primary: #C2B280; --accent: #d97706; --glass: rgba(12, 10, 8, 0.85); --glass-border: rgba(194, 178, 128, 0.2); }
-        .amethyst-mode { --primary: #d8b4e2; --accent: #2dd4bf; --glass: rgba(10, 15, 25, 0.85); --glass-border: rgba(216, 180, 226, 0.2); }
+        /* 10 COLOR PALETTES */
+        .lunar-mode { --primary: #e0e7ff; --accent: #a5b4fc; --primary-glow: rgba(224,231,255,0.4); --glass-border: rgba(199,210,254,0.2); --text-main: #fdfbf7; }
+        .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --primary-glow: rgba(212,175,55,0.4); --glass-border: rgba(212,175,55,0.2); --text-main: #F4EBD0; }
+        .vellum-mode { --primary: #C2B280; --accent: #d97706; --primary-glow: rgba(194,178,128,0.4); --glass-border: rgba(194,178,128,0.2); --text-main: #fefce8; }
+        .amethyst-mode { --primary: #d8b4e2; --accent: #2dd4bf; --primary-glow: rgba(216,180,226,0.4); --glass-border: rgba(216,180,226,0.2); --text-main: #e9d5ff; }
+        .crimson-mode { --primary: #fb7185; --accent: #be123c; --primary-glow: rgba(251,113,133,0.4); --glass-border: rgba(251,113,133,0.2); --text-main: #fecaca; }
+        .emerald-mode { --primary: #34d399; --accent: #065f46; --primary-glow: rgba(52,211,153,0.4); --glass-border: rgba(52,211,153,0.2); --text-main: #d1fae5; }
+        .solar-mode { --primary: #fbbf24; --accent: #d97706; --primary-glow: rgba(251,191,36,0.4); --glass-border: rgba(251,191,36,0.2); --text-main: #fef3c7; }
+        .void-mode { --primary: #ec4899; --accent: #8b5cf6; --primary-glow: rgba(236,72,153,0.4); --glass-border: rgba(236,72,153,0.2); --text-main: #fbcfe8; }
+        .obsidian-mode { --primary: #9ca3af; --accent: #4b5563; --primary-glow: rgba(156,163,175,0.4); --glass-border: rgba(156,163,175,0.2); --text-main: #f3f4f6; }
+        .ghost-mode { --primary: #f8fafc; --accent: #cbd5e1; --primary-glow: rgba(248,250,252,0.4); --glass-border: rgba(248,250,252,0.2); --text-main: #ffffff; }
 
         body, html {
             margin: 0; padding: 0; background: #000;
@@ -39,268 +53,262 @@
         /* --- VISUAL CANVAS (The Room) --- */
         #bg-anchor {
             position: fixed; inset: 0; 
-            /* Hardwired back to your local Resonance background */
             background: #020204 url('ship.png') no-repeat center center;
             background-size: cover; z-index: 1;
-            animation: breathe var(--unison-tempo) infinite alternate ease-in-out;
-            transition: background-image 1.5s ease;
-        }
-        @keyframes breathe {
-            0%, 100% { filter: brightness(0.85); transform: scale(1); }
-            50% { filter: brightness(1.05); transform: scale(1.03); }
+            transform: scale(var(--bg-zoom));
+            filter: brightness(var(--bg-bright));
+            transition: background-image 1.5s ease, filter 0.3s ease, transform 0.3s ease;
         }
 
+        /* --- 10 GLOW ANIMATIONS --- */
         #glow-layer {
             position: fixed; inset: 0;
             background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, transparent 70%);
-            z-index: 2; opacity: 0.3; transition: opacity 1s ease, background 1s ease;
-            pointer-events: none;
+            z-index: 2; opacity: var(--glow-opac); pointer-events: none;
+            transition: opacity 0.3s ease, background 1s ease;
         }
+        .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-strobe { animation: g-strobe var(--anim-speed) infinite alternate linear; }
+        .glow-phantom { animation: g-phantom var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-wave { animation: g-wave var(--anim-speed) infinite alternate linear; }
+        .glow-flicker { animation: g-flicker calc(var(--anim-speed) / 4) infinite alternate ease-in-out; }
+        .glow-aurora { background: linear-gradient(45deg, var(--primary-glow), transparent); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-radar { background: conic-gradient(from 0deg, transparent, var(--primary-glow), transparent); animation: g-wave var(--anim-speed) infinite linear; }
+        .glow-static { animation: none; }
+        .glow-none { opacity: 0 !important; }
 
-        #particleCanvas {
-            position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0.6;
-        }
+        @keyframes g-pulse { 0% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.5); } 100% { transform: scale(1.1); opacity: var(--glow-opac); } }
+        @keyframes g-breathe { 0%, 100% { filter: brightness(0.8); } 50% { filter: brightness(1.2); } }
+        @keyframes g-strobe { 0%, 49% { opacity: var(--glow-opac); } 50%, 100% { opacity: 0; } }
+        @keyframes g-phantom { 0% { transform: translateY(-5%); opacity: 0; } 50% { opacity: var(--glow-opac); } 100% { transform: translateY(5%); opacity: 0; } }
+        @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
 
-        /* --- FLOATING TOP NAVIGATION --- */
-        #top-nav {
-            position: fixed; top: 0; left: 0; right: 0; padding: 25px 40px;
-            z-index: 100; display: flex; justify-content: space-between; align-items: flex-start;
-            pointer-events: none; /* Let clicks pass to canvas */
-        }
-        #top-nav > * { pointer-events: auto; }
+        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; }
 
-        .nav-logo { 
-            font-size: 1.2rem; letter-spacing: 6px; color: var(--primary); 
-            text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); 
+        /* --- UI LAYOUT (Mobile First & Centered) --- */
+        #ui-wrapper {
+            position: relative; z-index: 100; height: 100vh; width: 100vw;
+            display: flex; flex-direction: column; align-items: center;
+            transition: opacity 0.8s ease; /* Smooth Fade for Cloak */
         }
+        body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
+
+        #top-nav { display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
         
-        .nav-actions { display: flex; gap: 15px; }
+        .nav-logo { 
+            font-size: 1.5rem; letter-spacing: 8px; color: var(--primary); 
+            text-transform: uppercase; text-shadow: 0 0 15px var(--primary-glow); 
+            margin-top: auto; margin-bottom: 20px; text-align: center;
+        }
+
         .artifact-btn {
             background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border); color: var(--primary);
-            padding: 8px 18px; border-radius: 30px; cursor: pointer;
+            padding: 10px 20px; border-radius: 30px; cursor: pointer;
             font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
             transition: 0.4s ease; font-family: inherit;
         }
-        .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 15px rgba(45, 212, 191, 0.4); }
+        .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 15px var(--primary-glow); }
 
-        /* --- THE MAKER PANEL (The Toy) --- */
+        /* --- THE MAKER PANEL --- */
         #maker-panel {
-            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 700px; z-index: 50;
+            width: 95%; max-width: 600px; margin-bottom: 40px;
             background: var(--glass); backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border); border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             display: flex; flex-direction: column; overflow: hidden;
-            transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
         }
-        body.cloaked #maker-panel { opacity: 0; transform: translate(-50%, 20px); pointer-events: none; }
-        body.cloaked #top-nav { opacity: 0.3; }
 
-        /* --- TAB NAVIGATION --- */
-        .tab-bar {
-            display: flex; border-bottom: 1px solid var(--glass-border);
-            background: rgba(0,0,0,0.3);
-        }
+        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); }
         .tab-btn {
             flex: 1; background: transparent; border: none; color: var(--text-muted);
             padding: 16px 0; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
-            cursor: pointer; transition: 0.3s; font-family: inherit;
-            border-bottom: 2px solid transparent;
+            cursor: pointer; transition: 0.3s; font-family: inherit; border-bottom: 2px solid transparent;
         }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.02); }
-        .tab-btn:hover:not(.active) { color: var(--primary); }
-
-        /* --- TAB CONTENT AREAS --- */
-        .tab-content { display: none; padding: 25px; max-height: 50vh; overflow-y: auto; }
-        .tab-content.active { display: flex; flex-direction: column; gap: 20px; }
+        
+        .tab-content { display: none; padding: 20px; max-height: 45vh; overflow-y: auto; }
+        .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
         .tab-content::-webkit-scrollbar { width: 4px; }
         .tab-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
 
-        /* --- UNIVERSAL CONTROLS --- */
+        /* --- CONTROLS --- */
         .upload-zone {
             border: 1px dashed var(--glass-border); padding: 15px; text-align: center;
             border-radius: 10px; cursor: pointer; color: var(--text-muted); font-size: 0.7rem;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
-            background: rgba(0,0,0,0.2);
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.2);
         }
         .upload-zone:hover { background: rgba(255,255,255,0.05); color: var(--primary); border-color: var(--primary); }
         .upload-zone input { display: none; }
 
-        .btn-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .btn-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        @media (max-width: 500px) { .btn-grid { grid-template-columns: repeat(3, 1fr); } }
         
         .toy-btn {
             background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
-            color: var(--text-main); padding: 12px; border-radius: 8px; cursor: pointer;
-            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--text-main); padding: 10px; border-radius: 8px; cursor: pointer;
+            font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
             transition: 0.3s; font-family: inherit;
         }
-        .toy-btn:hover, .toy-btn.active { border-color: var(--accent); background: rgba(45, 212, 191, 0.1); color: var(--accent); }
+        .toy-btn:hover, .toy-btn.active { border-color: var(--accent); background: rgba(255,255,255,0.05); color: var(--accent); }
 
-        h4.section-title { margin: 0 0 10px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+        h4.section-title { margin: 0 0 5px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
 
-        /* --- TAB 1: HEARTHSONG MIXER (Moon's Hearth Style) --- */
+        /* --- AUDIO MIXER --- */
         .mixer-card {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px; background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;
-            margin-bottom: 8px; transition: all 0.3s ease; gap: 15px;
+            padding: 10px 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 10px;
         }
         .mixer-card.playing { border-color: var(--accent); background: rgba(45, 212, 191, 0.05); }
-        
-        .mixer-btn {
-            background: none; border: none; color: var(--text-muted);
-            font-size: 0.85rem; text-align: left; cursor: pointer; font-family: inherit; 
-            flex: 1; padding: 0; transition: 0.3s;
-        }
+        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px rgba(45, 212, 191, 0.5); }
-        
-        .mixer-slider { -webkit-appearance: none; width: 100px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
-        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px rgba(45, 212, 191, 0.6); }
+        .mixer-slider { -webkit-appearance: none; width: 80px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
+        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--primary-glow); }
 
-        /* --- TAB 4: VAULT (Plain Scratchpad) --- */
-        .scratchpad {
-            width: 100%; height: 180px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
-            border-radius: 10px; padding: 15px; color: #fff; font-family: inherit; font-size: 1.1rem;
-            resize: none; outline: none; line-height: 1.6;
+        /* --- SLIDERS (Atmos) --- */
+        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .ctrl-row label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; width: 80px; }
+        .ctrl-slider { flex: 1; -webkit-appearance: none; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; accent-color: var(--primary); }
+
+        /* --- SCRATCHPAD MODAL (Slight Blur) --- */
+        #scratchpad-modal {
+            position: fixed; inset: 0; z-index: 200; display: none;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            align-items: center; justify-content: center; padding: 20px;
         }
-        .scratchpad:focus { border-color: var(--accent); box-shadow: inset 0 0 10px rgba(45, 212, 191, 0.1); }
+        #scratchpad-modal.active { display: flex; }
+        .scratch-bubble {
+            width: 100%; max-width: 500px; height: 300px;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .scratchpad {
+            width: 100%; height: 100%; background: transparent; border: none;
+            color: #fff; font-family: inherit; font-size: 1.1rem; resize: none; outline: none; line-height: 1.6;
+        }
 
     </style>
 </head>
-<body id="os-body" class="noir-mode">
+<body id="os-body" class="lunar-mode" onclick="restoreUI()">
 
     <div id="bg-anchor"></div>
-    <div id="glow-layer"></div>
+    <div id="glow-layer" class="glow-pulse"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <nav id="top-nav">
-        <div class="nav-logo">SomniaScapes</div>
-        <div class="nav-actions">
+    <div id="ui-wrapper">
+        <div id="top-nav" onclick="event.stopPropagation()">
             <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
+            <button class="artifact-btn" onclick="toggleScratch()">Scratch</button>
             <button class="artifact-btn" onclick="alert('Searching for Cast targets...')">Cast</button>
             <button class="artifact-btn" onclick="alert('Vibe Link copied to clipboard.')">Share</button>
-            <button class="artifact-btn" onclick="alert('Connecting to Supabase Vault...')">Sync</button>
-        </div>
-    </nav>
-
-    <main id="maker-panel" onclick="event.stopPropagation()">
-        <div class="tab-bar">
-            <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Hearthsong</button>
-            <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
-            <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmosphere</button>
-            <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
         </div>
 
-        <div id="tab-audio" class="tab-content active">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: -10px;">
-                <h4 class="section-title">Resonance Mixer</h4>
-                <button onclick="stopAllAudio()" style="background:none; border:none; color:#ec4899; cursor:pointer; font-size:0.6rem; letter-spacing:1px; text-transform:uppercase;">Silence All</button>
+        <div class="nav-logo">SOMNIASCAPES</div>
+
+        <main id="maker-panel" onclick="event.stopPropagation()">
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Audio</button>
+                <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
+                <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
+                <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
             </div>
-            
-            <div id="mixer-container">
+
+            <div id="tab-audio" class="tab-content active">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label class="toy-btn" style="flex:1; text-align:center; margin-right:10px;">
+                        + Upload Custom Audio
+                        <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
+                    </label>
+                    <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#ec4899; color:#ec4899;">Silence All</button>
                 </div>
-
-            <label class="upload-zone">
-                <span>+ Upload Local Audio Stem</span>
-                <input type="file" accept="audio/*" onchange="alert('Audio stem added to local mixer.')">
-            </label>
-        </div>
-
-        <div id="tab-canvas" class="tab-content">
-            <h4 class="section-title">Custom Canvas</h4>
-            <label class="upload-zone">
-                <span>+ Upload Local Background Image</span>
-                <input type="file" accept="image/*" onchange="executeImageUpload(this)">
-            </label>
-        </div>
-
-        <div id="tab-atmos" class="tab-content">
-            <h4 class="section-title">Color Palettes</h4>
-            <div class="btn-grid-4">
-                <button class="toy-btn active" onclick="setPalette('noir', this)">Noir</button>
-                <button class="toy-btn" onclick="setPalette('lunar', this)">Lunar</button>
-                <button class="toy-btn" onclick="setPalette('vellum', this)">Vellum</button>
-                <button class="toy-btn" onclick="setPalette('amethyst', this)">Amethyst</button>
+                <div id="mixer-container" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
 
-            <h4 class="section-title" style="margin-top: 10px;">Particle Engine</h4>
-            <div class="btn-grid-4">
-                <button class="toy-btn active" onclick="setParticles('dust', this)">Dust</button>
-                <button class="toy-btn" onclick="setParticles('embers', this)">Embers</button>
-                <button class="toy-btn" onclick="setParticles('snow', this)">Snow</button>
-                <button class="toy-btn" onclick="setParticles('void', this)">Void</button>
+            <div id="tab-canvas" class="tab-content">
+                <h4 class="section-title">Backgrounds</h4>
+                <div class="btn-grid" id="bg-presets">
+                    </div>
+                <h4 class="section-title" style="margin-top:10px;">Custom</h4>
+                <label class="upload-zone">
+                    <span>+ Upload Local Background Image</span>
+                    <input type="file" accept="image/*" onchange="executeImageUpload(this)">
+                </label>
             </div>
-        </div>
 
-        <div id="tab-vault" class="tab-content">
-            <button class="toy-btn" style="border-color: var(--primary); padding: 15px;" onclick="alert('Preset Snapshot saved to local storage.')">💾 Save Current Vibe Preset</button>
-            
-            <h4 class="section-title" style="margin-top: 10px;">Plain Scratchpad</h4>
+            <div id="tab-atmos" class="tab-content">
+                <h4 class="section-title">10 Color Arrays</h4>
+                <div class="btn-grid" id="color-grid"></div>
+
+                <h4 class="section-title" style="margin-top:10px;">10 Particles</h4>
+                <div class="btn-grid" id="particle-grid"></div>
+
+                <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
+                <div class="btn-grid" id="glow-grid"></div>
+
+                <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
+                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
+                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
+                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
+                <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
+            </div>
+
+            <div id="tab-vault" class="tab-content">
+                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
+            </div>
+        </main>
+    </div>
+
+    <div id="scratchpad-modal" onclick="toggleScratch()">
+        <div class="scratch-bubble" onclick="event.stopPropagation()">
             <textarea id="scratchpad-box" class="scratchpad" placeholder="Type your broadcast notes here..."></textarea>
         </div>
-
-    </main>
+    </div>
 
     <script>
-        // === 1. UI NAVIGATION & CLOAK ===
+        // === 1. GLOBAL UI ===
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            
-            if(navigator.vibrate) navigator.vibrate(10);
         }
 
-        function toggleCloak() {
-            document.body.classList.toggle('cloaked');
-        }
-
-        // === 2. ATMOSPHERE (Palettes & Backgrounds) ===
-        function setPalette(mode, btn) {
-            document.body.className = `${mode}-mode`;
-            document.querySelectorAll('#tab-atmos .btn-grid-4:first-of-type .toy-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if(navigator.vibrate) navigator.vibrate(15);
-        }
-
-        function setBg(url) {
-            document.getElementById('bg-anchor').style.backgroundImage = `url('${url}')`;
-        }
+        function toggleCloak() { document.body.classList.toggle('cloaked'); }
+        function restoreUI() { document.body.classList.remove('cloaked'); }
+        function toggleScratch() { document.getElementById('scratchpad-modal').classList.toggle('active'); }
+        
+        function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
         function executeImageUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
+            if (!input.files || !input.files[0]) return;
             const reader = new FileReader();
-            reader.onload = e => setBg(e.target.result);
-            reader.readAsDataURL(file);
+            reader.onload = e => document.getElementById('bg-anchor').style.backgroundImage = `url('${e.target.result}')`;
+            reader.readAsDataURL(input.files[0]);
         }
 
-        // === 3. AUDIO ENGINE (Moon's Hearth Style) ===
+        function savePreset() {
+            const btn = document.getElementById('save-btn');
+            btn.innerText = "✓ SAVED TO VAULT";
+            btn.style.background = "rgba(45, 212, 191, 0.2)";
+            setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
+        }
+
+        // === 2. AUDIO ENGINE (21 Presets + Upload) ===
         const activeAudio = {};
         const soundLibrary = [
-            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" },
-            { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
-            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" },
-            { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" },
-            { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" },
-            { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" },
-            { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
-            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" },
-            { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
-            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" },
-            { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
-            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" },
-            { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
-            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" },
-            { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
-            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" },
-            { id: "darkmusic", name: "🖤 Dark Atmosphere", url: "darkmusic1.mp3" },
+            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
+            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
             { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
         ];
 
@@ -312,84 +320,85 @@
                     <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
                 </div>
             `).join('');
+            Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
+        }
+
+        function handleAudioUpload(input) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            soundLibrary.unshift({ id: 'custom-'+Date.now(), name: "📁 " + file.name.substring(0,15), url: URL.createObjectURL(file) });
+            initMixer();
+            input.value = ""; 
         }
 
         function toggleStem(id, url) {
             const card = document.getElementById(`card-${id}`);
             if (activeAudio[id]) {
-                activeAudio[id].pause();
-                delete activeAudio[id];
-                card.classList.remove('playing');
+                activeAudio[id].pause(); delete activeAudio[id]; card.classList.remove('playing');
             } else {
-                const audio = new Audio(url);
-                audio.loop = true;
-                audio.volume = document.getElementById(`vol-${id}`).value;
-                audio.play().then(() => {
-                    activeAudio[id] = audio;
-                    card.classList.add('playing');
-                }).catch(e => console.log("Click the screen first to unlock audio."));
+                const audio = new Audio(url); audio.loop = true; audio.volume = document.getElementById(`vol-${id}`).value;
+                audio.play().then(() => { activeAudio[id] = audio; card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
             }
         }
+        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
+        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); document.getElementById(`card-${id}`).classList.remove('playing'); delete activeAudio[id]; }); }
 
-        function adjustVol(id, val) {
-            if (activeAudio[id]) activeAudio[id].volume = val;
-        }
-
-        function stopAllAudio() {
-            Object.keys(activeAudio).forEach(id => {
-                activeAudio[id].pause();
-                document.getElementById(`card-${id}`).classList.remove('playing');
-            });
-            for (let prop in activeAudio) delete activeAudio[prop];
-        }
-
-        // === 4. PARTICLE ENGINE ===
-        let particleType = 'dust'; // dust, embers, snow, void
+        // === 3. ATMOS GENERATORS (10 Colors, 10 Glows) ===
+        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
         
-        function setParticles(type, btn) {
-            particleType = type;
-            document.querySelectorAll('#tab-atmos .btn-grid-4:last-of-type .toy-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function populateGrid(id, arr, type) {
+            const grid = document.getElementById(id);
+            arr.forEach((item, index) => {
+                const b = document.createElement('button');
+                b.className = 'toy-btn'; b.textContent = item;
+                if(index === 0) b.classList.add('active'); // default first
+                b.onclick = () => {
+                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
+                    b.classList.add('active');
+                    if(type === 'color') document.body.className = `${item}-mode`;
+                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${item}`;
+                    if(type === 'particle') window.particleType = item;
+                };
+                grid.appendChild(b);
+            });
         }
 
+        // === 4. PARTICLE ENGINE (10 Types) ===
+        window.particleType = 'dust';
         function initParticles() {
             const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
-            let particles = [];
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
             
-            const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-            window.addEventListener('resize', resize); resize();
-            
-            for (let i = 0; i < 50; i++) {
-                particles.push({ 
-                    x: Math.random() * canvas.width, 
-                    y: Math.random() * canvas.height, 
-                    r: Math.random() * 2 + 0.5, 
-                    vx: (Math.random() - 0.5) * 0.5, 
-                    vy: (Math.random() - 0.5) * 0.5 
-                });
-            }
+            let particles = Array.from({length: 100}, () => ({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*2+0.5, vx: (Math.random()-0.5), vy: (Math.random()-0.5) }));
 
             function loop() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, w, h);
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+                ctx.fillStyle = color; ctx.shadowBlur = 8; ctx.shadowColor = color;
                 
-                // Colors based on particle type
-                if (particleType === 'dust') ctx.fillStyle = "rgba(244, 235, 208, 0.4)";
-                else if (particleType === 'embers') ctx.fillStyle = "rgba(245, 158, 11, 0.6)";
-                else if (particleType === 'snow') ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-                else if (particleType === 'void') ctx.fillStyle = "rgba(168, 85, 247, 0.3)";
+                particles.forEach((p, i) => {
+                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
+                    let mult = 10 / spd; // adjust speed via slider
+                    
+                    if (particleType === 'dust') { p.x += p.vx*mult; p.y += p.vy*mult; }
+                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
+                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
 
-                particles.forEach(p => {
-                    // Movement overrides based on type
-                    if (particleType === 'embers') { p.y -= Math.abs(p.vy) + 0.5; p.x += p.vx; } // float up
-                    else if (particleType === 'snow') { p.y += Math.abs(p.vy) + 0.5; p.x += p.vx; } // float down
-                    else { p.x += p.vx; p.y += p.vy; } // standard drift
-
-                    // Wraparound
-                    if (p.x < 0) p.x = canvas.width; 
-                    if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height; 
-                    if (p.y > canvas.height) p.y = 0;
+                    // Wrap
+                    if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+                    if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
 
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
                 });
@@ -401,11 +410,10 @@
         // Boot
         document.addEventListener('DOMContentLoaded', () => {
             initMixer();
+            populateGrid('color-grid', colors, 'color');
+            populateGrid('particle-grid', particlesList, 'particle');
+            populateGrid('glow-grid', glows, 'glow');
             initParticles();
-            // Unlock audio on first click
-            document.body.addEventListener('click', () => {
-                const s = new Audio(); s.play().then(()=>s.pause()).catch(e=>{});
-            }, { once: true });
         });
     </script>
 </body>
