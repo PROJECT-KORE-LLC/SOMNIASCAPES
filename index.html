@@ -243,26 +243,34 @@
                 </label>
             </div>
 
-            <div id="tab-atmos" class="tab-content">
-                <h4 class="section-title">10 Color Arrays</h4>
-                <div class="btn-grid" id="color-grid"></div>
+           <div id="tab-atmos" class="tab-content">
+    <h4 class="section-title">10 Color Arrays</h4>
+    <div class="btn-grid" id="color-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">10 Particles</h4>
-                <div class="btn-grid" id="particle-grid"></div>
+    <h4 class="section-title" style="margin-top:10px;">10 Particles</h4>
+    <div class="btn-grid" id="particle-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
-                <div class="btn-grid" id="glow-grid"></div>
+    <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
+    <div class="btn-grid" id="glow-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
-                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
-                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
-                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
-                <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
-                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
-                <div class="ctrl-row"><label>Low Motion</label><input type="checkbox" id="lowMotionToggle" onclick="toggleLowMotion()"></div>
-                <div class="ctrl-row"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" onclick="toggleLowGpu()"></div>
+    <!-- ⭐ NEW COLOR PALETTE GRIDS ⭐ -->
+    <h4 class="section-title" style="margin-top:10px;">Particle Colors</h4>
+    <div class="btn-grid" id="particle-color-grid"></div>
 
-            </div>
+    <h4 class="section-title" style="margin-top:10px;">Glow Colors</h4>
+    <div class="btn-grid" id="glow-color-grid"></div>
+    <!-- ⭐ END NEW GRIDS ⭐ -->
+
+    <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
+    <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
+    <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
+    <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
+    <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
+    <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
+    <div class="ctrl-row"><label>Low Motion</label><input type="checkbox" id="lowMotionToggle" onclick="toggleLowMotion()"></div>
+    <div class="ctrl-row"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" onclick="toggleLowGpu()"></div>
+</div>
+
 
             <div id="tab-vault" class="tab-content">
                 <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
