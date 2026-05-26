@@ -110,9 +110,10 @@
             border-radius: 4px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
             display: flex;
             flex-direction: column;
+            max-height: 2000px; /* Arbitrary large number to allow full expansion */
         }
 
         .modular-header {
@@ -152,7 +153,7 @@
 
         /* --- MODULAR COLLAPSED STATES --- */
         .modular-panel.collapsed {
-            max-height: 41px; /* Locks execution display to header line alone */
+            max-height: 41px; /* Locks block to header line alone */
         }
         .modular-panel.collapsed .modular-header {
             border-bottom-color: transparent;
@@ -270,7 +271,7 @@
 
             <div class="vault-scroll-container">
                 
-                <div class="modular-panel" id="mod-presets">
+                <div class="modular-panel collapsed" id="mod-presets">
                     <div class="modular-header" onclick="toggleModule('mod-presets')">
                         <h3>▼ Archive Presets</h3>
                         <span class="module-status">3 Slots</span>
@@ -299,7 +300,7 @@
                     </div>
                 </div>
 
-                <div class="modular-panel" id="mod-calibration">
+                <div class="modular-panel collapsed" id="mod-calibration">
                     <div class="modular-header" onclick="toggleModule('mod-calibration')">
                         <h3>▼ Lens Calibration</h3>
                         <span class="module-status">Adjust</span>
@@ -355,11 +356,12 @@
     </div>
 
     <script>
-        let activeSoundscapes = {};
-        let audioPrimed = false;
+        // Move execution handles directly to global window scope to resolve internal binding traps
+        window.activeSoundscapes = {};
+        window.audioPrimed = false;
 
         // The Authentic Soundboard Library Loop Data Array
-        const soundLibrary = [
+        window.soundLibrary = [
             { id: "rain", name: "RAIN", url: "rain.mp3" }, { id: "thunder", name: "THUNDER", url: "thunder.mp3" },
             { id: "wind", name: "WIND", url: "winterwind.mp3" }, { id: "waves", name: "WAVES", url: "waves.mp3" },
             { id: "owls", name: "OWLS", url: "owls.mp3" }, { id: "raven", name: "RAVEN", url: "raven.mp3" },
@@ -374,36 +376,39 @@
         ];
 
         // --- KINETIC HANDSHAKE INTERACTION HARVESTER ---
-        function primeAudio() {
-            if (!audioPrimed) {
+        window.primeAudio = function() {
+            if (!window.audioPrimed) {
                 const silence = new Audio();
-                silence.play().then(() => { silence.pause(); audioPrimed = true; }).catch(e => {});
+                silence.play().then(() => { silence.soundLibrary = true; window.audioPrimed = true; }).catch(e => {});
             }
-        }
-        document.body.addEventListener('click', primeAudio, { once: true });
+        };
+        document.body.addEventListener('click', window.primeAudio, { once: true });
 
         // Instantiating the Sound Matrix Array Panel Items Natively
-        function initGrid() {
+        window.initGrid = function() {
             const grid = document.getElementById('mixer-grid');
-            grid.innerHTML = soundLibrary.map(track => `
+            if (!grid) return;
+            grid.innerHTML = window.soundLibrary.map(track => `
                 <div class="sound-card" id="card-${track.id}">
-                    <button class="sound-btn" onclick="toggleTrack('${track.id}', '${track.url}')">${track.name}</button>
-                    <input type="range" class="volume-rail" min="0" max="1" step="0.05" value="0.5" oninput="changeVolume('${track.id}', this.value)">
+                    <button class="sound-btn" onclick="window.toggleTrack('${track.id}', '${track.url}')">${track.name}</button>
+                    <input type="range" class="volume-rail" min="0" max="1" step="0.05" value="0.5" oninput="window.changeVolume('${track.id}', this.value)">
                 </div>`).join('');
-        }
+        };
 
         window.toggleTrack = function(id, url) {
             const card = document.getElementById(`card-${id}`);
-            if (activeSoundscapes[id]) {
-                activeSoundscapes[id].pause();
-                delete activeSoundscapes[id];
+            if (!card) return;
+            
+            if (window.activeSoundscapes[id]) {
+                window.activeSoundscapes[id].pause();
+                delete window.activeSoundscapes[id];
                 card.classList.remove('active');
             } else {
                 const audio = new Audio(url);
                 audio.loop = true;
                 audio.volume = card.querySelector('.volume-rail').value;
                 audio.play().then(() => {
-                    activeSoundscapes[id] = audio;
+                    window.activeSoundscapes[id] = audio;
                     card.classList.add('active');
                     if (navigator.vibrate) navigator.vibrate(15);
                 }).catch(e => console.warn("Physical strike context verification required."));
@@ -411,16 +416,16 @@
         };
 
         window.changeVolume = function(id, vol) { 
-            if (activeSoundscapes[id]) activeSoundscapes[id].volume = vol; 
+            if (window.activeSoundscapes[id]) window.activeSoundscapes[id].volume = vol; 
         };
 
         window.stopAll = function() {
-            Object.keys(activeSoundscapes).forEach(id => {
-                activeSoundscapes[id].pause();
+            Object.keys(window.activeSoundscapes).forEach(id => {
+                window.activeSoundscapes[id].pause();
                 const card = document.getElementById(`card-${id}`);
                 if (card) card.classList.remove('active');
             });
-            activeSoundscapes = {};
+            window.activeSoundscapes = {};
         };
 
         // === SYSTEM INTERFACE MODULAR COMPONENT ROUTER ===
@@ -433,57 +438,64 @@
         };
 
         // --- VISUAL PALETTE JOLTS ---
-        function jolt(palette) {
+        window.jolt = function(palette) {
             const body = document.getElementById('master-body');
+            if (!body) return;
             body.classList.remove('noir-mode', 'lunar-mode', 'vellum-mode', 'amethyst-mode');
             body.classList.add(`${palette}-mode`);
             
-            // Sync status readout indicator texts
             const statusLabel = document.querySelector('#mod-palettes .module-status');
             if (statusLabel) statusLabel.textContent = palette;
             
             if (navigator.vibrate) navigator.vibrate(20);
-        }
+        };
 
-        function applyCalibration() {
+        window.applyCalibration = function() {
             const blurVal = document.getElementById('ctrl-blur').value;
-            document.getElementById('bg-anchor').style.filter = `blur(${blurVal}px)`;
-        }
+            const bg = document.getElementById('bg-anchor');
+            if (bg) bg.style.filter = `blur(${blurVal}px)`;
+        };
 
-        function executeLocalImage(input) {
+        window.executeLocalImage = function(input) {
             const file = input.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = e => {
-                document.getElementById('bg-anchor').style.backgroundImage = `url('${e.target.result}')`;
+                const bg = document.getElementById('bg-anchor');
+                if (bg) bg.style.backgroundImage = `url('${e.target.result}')`;
             };
             reader.readAsDataURL(file);
-        }
+        };
 
         // --- CLOAK AND SYSTEM VEIL UTILITIES ---
-        function toggleCloak(e) {
-            e.stopPropagation();
+        window.toggleCloak = function(e) {
+            if (e) e.stopPropagation();
             const viewport = document.getElementById('ui-viewport');
+            if (!viewport) return;
             const isCloaked = viewport.classList.toggle('cloaked');
-            document.getElementById('cloak-btn').innerText = isCloaked ? "RESTORE SYSTEM" : "CLOAK SYSTEM";
-        }
+            const btn = document.getElementById('cloak-btn');
+            if (btn) btn.innerText = isCloaked ? "RESTORE SYSTEM" : "CLOAK SYSTEM";
+        };
 
-        function ghostRestore() {
+        window.ghostRestore = function() {
             const viewport = document.getElementById('ui-viewport');
-            if (viewport.classList.contains('cloaked')) {
+            if (viewport && viewport.classList.contains('cloaked')) {
                 viewport.classList.remove('cloaked');
-                document.getElementById('cloak-btn').innerText = "CLOAK SYSTEM";
+                const btn = document.getElementById('cloak-btn');
+                if (btn) btn.innerText = "CLOAK SYSTEM";
             }
-        }
+        };
 
-        function toggleScratchpad(e) {
-            e.stopPropagation();
-            document.getElementById('scratchpad').classList.toggle('hidden');
-        }
+        window.toggleScratchpad = function(e) {
+            if (e) e.stopPropagation();
+            const pad = document.getElementById('scratchpad');
+            if (pad) pad.classList.toggle('hidden');
+        };
 
         // --- HIGH-VELOCITY AMBIENT COSMIC PARTICLE RESIDUE LOOP ENGINE ---
-        function initParticles() {
+        window.initParticles = function() {
             const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let particles = [];
 
@@ -524,11 +536,11 @@
                 requestAnimationFrame(loop);
             };
             loop();
-        }
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
-            initGrid();
-            initParticles();
+            window.initGrid();
+            window.initParticles();
         });
     </script>
 </body>
