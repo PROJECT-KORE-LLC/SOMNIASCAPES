@@ -455,9 +455,10 @@ function initParticles() {
             particles = buildParticles(w, h);
         }
 
-        const color = getComputedStyle(document.documentElement)
-            .getPropertyValue('--primary')
-            .trim();
+       const color = getComputedStyle(document.documentElement)
+    .getPropertyValue('--particle-color')
+    .trim();
+
 
         ctx.fillStyle = color;
 
