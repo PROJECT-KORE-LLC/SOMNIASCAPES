@@ -2,219 +2,407 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SomniaScapes — Unified Core Reset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SomniaScapes — Resonance Vault — Liquid 13.0</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — EMERGENCY ARCHITECTURE RESET
-           Self-Contained • High Visibility • No Shroud Lockouts
+           SOMNIASCAPES — LIQUID 13.0 CORE VAULT SKIN
+           Obsidian Glass • Carved Inlays • High-Fidelity Room Casting
            ============================================================ */
 
+        *, *::before, *::after { box-sizing: border-box; }
+
         :root {
-            --primary: #d4af37;
-            --primary-soft: rgba(212, 175, 55, 0.25);
-            --bg-solid: #08080c;
-            --glass: rgba(12, 12, 18, 0.95);
-            --glass-border: rgba(212, 175, 55, 0.3);
-            --text-main: #e8dcb8;
+            --primary: #D4AF37; 
+            --primary-glow: rgba(212, 175, 55, 0.35);
+            --hijack-glow: rgba(229, 149, 0, 0.6);
+            --glass: rgba(6, 6, 8, 0.96);
+            --glass-heavy: rgba(3, 3, 5, 0.98);
+            --glass-border: rgba(212, 175, 55, 0.22);
+            --text-main: #F4EBD0;
             --text-muted: #a49a7c;
+            --unison-tempo: 8s;
+            --unison-ease: cubic-bezier(0.45, 0.05, 0.55, 0.95);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .noir-mode { --primary: #D4AF37; --hijack-glow: rgba(229, 149, 0, 0.4); --glass: rgba(6, 6, 8, 0.96); --glass-border: rgba(212, 175, 55, 0.22); }
+        .lunar-mode { --primary: #A5F2F3; --hijack-glow: rgba(0, 80, 150, 0.35); --glass: rgba(4, 8, 12, 0.96); --glass-border: rgba(165, 242, 243, 0.25); }
+        .vellum-mode { --primary: #C2B280; --hijack-glow: rgba(101, 67, 33, 0.35); --glass: rgba(12, 10, 8, 0.96); --glass-border: rgba(194, 178, 128, 0.22); }
+        .amethyst-mode { --primary: #9966CC; --hijack-glow: rgba(75, 0, 130, 0.35); --glass: rgba(10, 6, 12, 0.96); --glass-border: rgba(153, 102, 204, 0.25); }
+
+        body, html {
+            margin: 0; padding: 0; background: #000;
+            overflow: hidden; font-family: 'Times New Roman', serif;
+            height: 100%; width: 100%; color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            user-select: none;
         }
 
-        body {
-            background: var(--bg-solid);
-            color: var(--text-main);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+        /* --- THE HEARTH & RESIDUAL ATMOSPHERE LAYER --- */
+        #bg-anchor {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #020204;
+            background-size: cover; background-position: center; z-index: 1;
+            animation: flatlineBreath var(--unison-tempo) infinite alternate var(--unison-ease);
+            will-change: transform; transform: translateZ(0);
+            transition: background-image 1.5s var(--unison-ease);
         }
+        @keyframes flatlineBreath { 0% { transform: scale(1) translateZ(0); } 100% { transform: scale(1.06) translateZ(0); } }
 
-        /* --- THE HEAVY OBSIDIAN PILLAR (Forced Layout Width) --- */
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 360px; /* Expanded width to guarantee the title text doesn't chop */
-            height: 100vh;
-            background: var(--glass);
-            border-right: 2px solid var(--glass-border);
-            box-shadow: 8px 0 30px rgba(0,0,0,0.9);
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-            gap: 22px;
-            z-index: 99; /* Forces the control panel to stay in front of everything */
-            overflow-y: auto;
+        #glow-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 20%, var(--hijack-glow) 80%, var(--hijack-glow) 100%);
+            z-index: 5; pointer-events: none;
+            animation: flatlineGlow var(--unison-tempo) infinite alternate var(--unison-ease);
+            will-change: opacity; opacity: 0.2;
+            transition: background 1.5s var(--unison-ease);
         }
-
-        .logo {
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            text-align: center;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-soft);
-            border-bottom: 2px solid var(--glass-border);
-            padding-bottom: 12px;
-            margin-bottom: 10px;
-        }
-
-        .panel {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--glass-border);
-            border-radius: 6px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .panel h3 {
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-            border-bottom: 1px solid rgba(212,175,55,0.1);
-            padding-bottom: 4px;
-        }
-
-        /* --- HEAVY MECHANICAL UTILITY CONTROLS --- */
-        button {
-            background: linear-gradient(180deg, #14141a 0%, #0a0a0f 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 4px;
-            color: var(--text-main);
-            padding: 12px;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        .tool-btn-highlight {
-            border-color: var(--primary);
-            color: var(--primary);
-            font-weight: bold;
-            margin-top: auto;
-        }
-
-        /* --- IMMUTABLE SCREEN ENVIRONMENT BACKDROP --- */
-        #viewport-matrix {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at center, #111116 0%, #040406 100%);
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .ambient-text {
-            margin-left: 380px; /* Offset to sit perfectly clear of our sidebar vault */
-            color: var(--text-muted);
-            font-style: italic;
-            letter-spacing: 2px;
-            text-align: center;
-            font-size: 1rem;
-        }
+        @keyframes flatlineGlow { 0% { opacity: 0.15; } 100% { opacity: 0.65; } }
 
         #particleCanvas {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 5;
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 6; opacity: 0.5;
+        }
+
+        /* --- IMMUTABLE SYSTEM VIEWPORT OVERLAY --- */
+        #ui-viewport {
+            position: relative; z-index: 100;
+            height: 100vh; width: 100%;
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 0; box-sizing: border-box;
+            transition: opacity 0.6s var(--unison-ease), transform 0.6s var(--unison-ease);
+        }
+        #ui-viewport.cloaked { opacity: 0 !important; pointer-events: none !important; transform: scale(0.98); }
+
+        /* --- THE HEAVY OBSIDIAN SIDEBAR PILLAR --- */
+        .vault-sidebar {
+            width: 360px; height: 100vh;
+            background: var(--glass);
+            border-right: 2px solid var(--primary);
+            padding: 24px; box-sizing: border-box;
+            display: flex; flex-direction: column;
+            box-shadow: 10px 0 50px #000, inset -5px 0 30px rgba(0,0,0,0.6);
+            gap: 20px;
+        }
+
+        .vault-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 12px; flex-shrink: 0;
+        }
+        .vault-header h2 { 
+            margin: 0; font-size: 1.3rem; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow); text-align: center;
+        }
+
+        .vault-scroll-container {
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
+            padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+        }
+        .vault-scroll-container::-webkit-scrollbar { width: 3px; }
+        .vault-scroll-container::-webkit-scrollbar-thumb { background: var(--primary); }
+
+        .vault-panel {
+            background: rgba(0, 0, 0, 0.45); border: 1px solid var(--glass-border);
+            border-radius: 4px; padding: 14px; display: flex; flex-direction: column; gap: 10px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+        .vault-panel h3 {
+            margin: 0; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--primary); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px;
+        }
+
+        /* --- GRID AND SOUND CARD ARRANGEMENT CONFIG --- */
+        .mixer-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+        }
+        .sound-card {
+            background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px; text-align: center; transition: all 0.2s ease; border-radius: 2px;
+        }
+        .sound-card.active { background: var(--primary-glow); border-color: var(--primary); box-shadow: 0 0 8px var(--primary-glow); }
+
+        /* --- MECHANICAL ELEMENT CONTROLS --- */
+        button, .sound-btn {
+            background: linear-gradient(180deg, rgba(15,15,20,0.6) 0%, rgba(5,5,8,0.8) 100%);
+            border: 1px solid var(--glass-border); color: var(--text-main);
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; padding: 8px; font-family: inherit; width: 100%;
+            transition: all 0.25s ease; text-align: center; border-radius: 3px;
+        }
+        button:hover, .sound-btn:hover { background: var(--primary-soft); border-color: var(--primary); }
+        
+        .sound-btn { border: none; padding: 2px 0 6px 0; color: var(--primary); }
+        .sound-card.active .sound-btn { color: #fff; text-shadow: 0 0 5px #fff; }
+
+        .volume-rail {
+            -webkit-appearance: none; width: 100%; height: 2px;
+            background: rgba(255, 255, 255, 0.08); outline: none; margin-top: 4px;
+        }
+        .volume-rail::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 8px; height: 8px; 
+            background: var(--primary); cursor: pointer; border-radius: 0;
+            box-shadow: 0 0 4px var(--primary);
+        }
+
+        .slider-group {
+            display: flex; flex-direction: column; gap: 2px; font-size: 0.7rem; color: var(--text-muted);
+        }
+
+        .command-array {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+        }
+        .file-label {
+            display: block; text-align: center; padding: 6px; border: 1px dashed var(--glass-border);
+            font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); cursor: pointer;
+        }
+        .file-label input { display: none; }
+
+        textarea {
+            background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border);
+            padding: 8px; color: #fff; font-family: inherit; font-size: 0.75rem;
+            resize: none; outline: none; height: 50px;
+        }
+
+        /* --- CLOAK BUTTON PARADIGM --- */
+        #cloak-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 2000;
+            background: var(--glass-heavy); border: 1px solid var(--primary);
+            color: var(--primary); padding: 8px 16px; cursor: pointer; 
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 3px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8); transition: 0.3s;
+        }
+        #cloak-btn:hover { background: var(--primary-glow); box-shadow: 0 0 15px var(--primary); }
+
+        /* --- THE BROADCAST SCRATCHPAD OVERLAY --- */
+        #scratchpad {
+            position: fixed; inset: 0; background: rgba(3,3,5,0.82);
+            backdrop-filter: blur(20px); z-index: 1500;
+            display: flex; justify-content: center; align-items: center;
+        }
+        #scratchpad.hidden { display: none !important; }
+        .scratchpad-vault {
+            background: var(--glass-heavy); border: 2px solid var(--primary);
+            padding: 24px; width: 80%; max-width: 750px;
+            box-shadow: 0 20px 60px #000; display: flex; flex-direction: column; gap: 16px;
+        }
+        .scratchpad-vault textarea {
+            height: 240px; font-size: 1.1rem; line-height: 1.5; padding: 14px;
+            color: #fff; background: #000; border: 1px solid var(--glass-border);
+        }
+
+        /* --- SCREEN VISIBILITY BUFFER MATRIX --- */
+        .canvas-notice {
+            flex: 1; display: flex; justify-content: center; align-items: center;
+            color: var(--text-muted); font-style: italic; font-size: 0.85rem;
+            letter-spacing: 1px; text-align: center; padding: 40px;
         }
     </style>
 </head>
-<body>
+<body id="master-body" class="noir-mode" onclick="ghostRestore()">
 
-    <aside id="sidebar">
-        <h2 class="logo">SOMNIASCAPES</h2>
+    <button id="cloak-btn" onclick="toggleCloak(event)">CLOAK SYSTEM</button>
 
-        <section class="panel">
-            <h3>Library Environments</h3>
-            <button id="btn-env-1" onclick="alert('Dreamroot state calibrated.')">Dreamroot Sanctuary</button>
-            <button id="btn-env-2" onclick="alert('Lunar Tide state calibrated.')">Lunar Tide</button>
-        </section>
+    <div id="bg-anchor"></div>
+    <div id="glow-layer"></div>
+    <canvas id="particleCanvas"></canvas>
 
-        <section class="panel">
-            <h3>Audio Core Mixer</h3>
-            <button id="btn-audio-init">Initialize Chamber Audio Context</button>
-        </section>
+    <div id="ui-viewport">
+        <aside class="vault-sidebar" onclick="event.stopPropagation()">
+            <div class="vault-header">
+                <h2>SomniaScapes</h2>
+            </div>
 
-        <section class="panel">
-            <h3>Tools Vectors</h3>
-            <button onclick="alert('Scratchpad activated.')">Toggle Scratchpad</button>
-        </section>
+            <div class="vault-scroll-container">
+                <section class="vault-panel">
+                    <h3>Visual Palettes</h3>
+                    <div class="command-array">
+                        <button onclick="jolt('noir')">Noir</button>
+                        <button onclick="jolt('lunar')">Lunar</button>
+                        <button onclick="jolt('vellum')">Vellum</button>
+                        <button onclick="jolt('amethyst')">Amethyst</button>
+                    </div>
+                </section>
 
-        <button id="cloakButton" class="tool-btn-highlight">Cloak Vault Interface</button>
-    </aside>
+                <section class="vault-panel">
+                    <h3>Room Calibration</h3>
+                    <label class="slider-group">
+                        <span>Background Calibration Blur</span>
+                        <input type="range" id="ctrl-blur" min="0" max="25" step="1" value="0" oninput="applyCalibration()">
+                    </label>
+                    <label class="file-label">
+                        <span>Upload Custom Backdrop</span>
+                        <input type="file" id="imageUpload" accept="image/*" onchange="executeLocalImage(this)">
+                    </label>
+                </section>
 
-    <main id="viewport-matrix">
-        <p class="ambient-text">Resonance Chamber Stable. Awaiting Master Engine Broadcast Pipeline...</p>
-        <canvas id="particleCanvas"></canvas>
-    </main>
+                <section class="vault-panel">
+                    <h3>Resonance Soundboard</h3>
+                    <div id="mixer-grid" class="mixer-grid"></div>
+                    <button onclick="stopAll()" style="border-color: rgba(255,68,68,0.4); color: rgba(255,68,68,0.8); margin-top: 6px;">Mute All Elements</button>
+                </section>
+
+                <section class="vault-panel">
+                    <h3>Broadcast Field Anchor</h3>
+                    <textarea id="prompt-field" placeholder="AI parameters, scenario coordinates, or vibe anchor notes..."></textarea>
+                    <button onclick="toggleScratchpad(event)" style="border-color: var(--primary);">Open Utility Scratchpad</button>
+                </section>
+            </div>
+        </aside>
+
+        <main class="canvas-notice">
+            <p>Resonance Chamber Instantiated. Awaiting Local Room Casting Handshake Vector...</p>
+        </main>
+    </div>
+
+    <div id="scratchpad" class="hidden" onclick="toggleScratchpad(event)">
+        <div class="scratchpad-vault" onclick="event.stopPropagation()">
+            <textarea id="scratchpad-text" placeholder="Type family night scoreboards, party tricks, homeschool pranks, or live messages here..."></textarea>
+            <button onclick="toggleScratchpad(event)">Dismiss Broadcast Pad</button>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cloakBtn = document.getElementById("cloakButton");
-            const sidebar = document.getElementById("sidebar");
+        let activeSoundscapes = {};
+        let audioPrimed = false;
 
-            // Safe, direct visibility cloak routing logic
-            if (cloakBtn && sidebar) {
-                cloakBtn.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    const isHidden = sidebar.style.transform === "translateX(-100%)";
-                    if (isHidden) {
-                        sidebar.style.transform = "translateX(0)";
-                        cloakBtn.textContent = "Cloak Vault Interface";
-                    } else {
-                        sidebar.style.transform = "translateX(-100%)";
-                        cloakBtn.textContent = "Uncloak Architecture";
-                    }
-                });
+        // The Authentic Library Matrix Loop Layer
+        const soundLibrary = [
+            { id: "rain", name: "RAIN", url: "rain.mp3" }, { id: "thunder", name: "THUNDER", url: "thunder.mp3" },
+            { id: "wind", name: "WIND", url: "winterwind.mp3" }, { id: "waves", name: "WAVES", url: "waves.mp3" },
+            { id: "owls", name: "OWLS", url: "owls.mp3" }, { id: "raven", name: "RAVEN", url: "raven.mp3" },
+            { id: "frogs", name: "FROGS", url: "frogs.mp3" }, { id: "crickets", name: "CRICKETS", url: "crickets.mp3" },
+            { id: "fire", name: "FIRE", url: "fire.mp3" }, { id: "pot", name: "POT", url: "simmeringpot.mp3" },
+            { id: "tea", name: "TEA", url: "teacup.mp3" }, { id: "clock", name: "CLOCK", url: "clock.mp3" },
+            { id: "cat", name: "CAT", url: "cat.mp3" }, { id: "chimes", name: "CHIMES", url: "windchimes.mp3" },
+            { id: "box1", name: "BOX I", url: "musicbox1.mp3" }, { id: "box2", name: "BOX II", url: "musicbox2.mp3" },
+            { id: "box3", name: "BOX III", url: "musicbox3.mp3" }, { id: "yule1", name: "YULE I", url: "xmasmusicbox1.mp3" },
+            { id: "yule2", name: "YULE II", url: "xmasmusicbox2.mp3" }, { id: "yule3", name: "YULE III", url: "xmasmusicbox3.mp3" },
+            { id: "dark", name: "DARK", url: "darkmusic1.mp3" }, { id: "bin", name: "BINARY", url: "binarymusicbox.mp3" }
+        ];
+
+        // --- KINETIC HANDSHAKE INTERACTION TRIGGER ---
+        function primeAudio() {
+            if (!audioPrimed) {
+                const silence = new Audio();
+                silence.play().then(() => { silence.pause(); audioPrimed = true; }).catch(e => {});
             }
+        }
+        document.body.addEventListener('click', primeAudio, { once: true });
 
-            // High-Velocity Particle Loop (No External Stutter)
-            const canvas = document.getElementById("particleCanvas");
-            const ctx = canvas.getContext("2d");
+        // Instantiating the Sound Board Elements Grid Natively
+        function initGrid() {
+            const grid = document.getElementById('mixer-grid');
+            grid.innerHTML = soundLibrary.map(track => `
+                <div class="sound-card" id="card-${track.id}">
+                    <button class="sound-btn" onclick="toggleTrack('${track.id}', '${track.url}')">${track.name}</button>
+                    <input type="range" class="volume-rail" min="0" max="1" step="0.05" value="0.5" oninput="changeVolume('${track.id}', this.value)">
+                </div>`).join('');
+        }
+
+        window.toggleTrack = function(id, url) {
+            const card = document.getElementById(`card-${id}`);
+            if (activeSoundscapes[id]) {
+                activeSoundscapes[id].pause();
+                delete activeSoundscapes[id];
+                card.classList.remove('active');
+            } else {
+                const audio = new Audio(url);
+                audio.loop = true;
+                audio.volume = card.querySelector('.volume-rail').value;
+                audio.play().then(() => {
+                    activeSoundscapes[id] = audio;
+                    card.classList.add('active');
+                    if (navigator.vibrate) navigator.vibrate(15);
+                }).catch(e => console.warn("Kinetic strike required to fire stem nodes safely."));
+            }
+        };
+
+        window.changeVolume = function(id, vol) { 
+            if (activeSoundscapes[id]) activeSoundscapes[id].volume = vol; 
+        };
+
+        window.stopAll = function() {
+            Object.keys(activeSoundscapes).forEach(id => {
+                activeSoundscapes[id].pause();
+                const card = document.getElementById(`card-${id}`);
+                if (card) card.classList.remove('active');
+            });
+            activeSoundscapes = {};
+        };
+
+        // --- VISUAL MUTATION CALIBRATIONS ---
+        function jolt(palette) {
+            const body = document.getElementById('master-body');
+            body.classList.remove('noir-mode', 'lunar-mode', 'vellum-mode', 'amethyst-mode');
+            body.classList.add(`${palette}-mode`);
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        function applyCalibration() {
+            const blurVal = document.getElementById('ctrl-blur').value;
+            document.getElementById('bg-anchor').style.filter = `blur(${blurVal}px)`;
+        }
+
+        function executeLocalImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('bg-anchor').style.backgroundImage = `url('${e.target.result}')`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // --- SYSTEM SYSTEM CLOAKING COMMAND VECTOR ---
+        function toggleCloak(e) {
+            e.stopPropagation();
+            const viewport = document.getElementById('ui-viewport');
+            const isCloaked = viewport.classList.toggle('cloaked');
+            document.getElementById('cloak-btn').innerText = isCloaked ? "RESTORE SYSTEM" : "CLOAK SYSTEM";
+        }
+
+        function ghostRestore() {
+            const viewport = document.getElementById('ui-viewport');
+            if (viewport.classList.contains('cloaked')) {
+                viewport.classList.remove('cloaked');
+                document.getElementById('cloak-btn').innerText = "CLOAK SYSTEM";
+            }
+        }
+
+        // --- BROADCAST SCRATCHPAD EXECUTION GATE ---
+        function toggleScratchpad(e) {
+            e.stopPropagation();
+            const pad = document.getElementById('scratchpad');
+            pad.classList.toggle('hidden');
+        }
+
+        // --- HIGH-VELOCITY PARTICLE RESONANCE SIMULATION ENGINE ---
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
             let particles = [];
 
             const resize = () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             };
-            window.addEventListener("resize", resize);
+            window.addEventListener('resize', resize);
             resize();
 
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 45; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    r: Math.random() * 2 + 0.5,
-                    vX: (Math.random() - 0.5) * 0.5,
-                    vY: (Math.random() - 0.5) * 0.5
+                    r: Math.random() * 1.5 + 0.5,
+                    vX: (Math.random() - 0.5) * 0.4,
+                    vY: (Math.random() - 0.5) * 0.4
                 });
             }
 
             const loop = () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+                ctx.fillStyle = "rgba(244, 235, 208, 0.25)"; // Matches our warm ivory text value color
                 
                 particles.forEach(p => {
                     p.x += p.vX;
@@ -232,8 +420,11 @@
                 requestAnimationFrame(loop);
             };
             loop();
+        }
 
-            console.log("Unified sandbox environment successfully painted.");
+        document.addEventListener('DOMContentLoaded', () => {
+            initGrid();
+            initParticles();
         });
     </script>
 </body>
