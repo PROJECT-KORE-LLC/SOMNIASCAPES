@@ -1,548 +1,431 @@
-/* ============================
-   SCRATCHPAD
-============================ */
+/* ============================================================
+   SOMNIASCAPES — HEAVY RPG VAULT ENGINE SKIN
+   Obsidian Glass • Carved Gold Inlays • Zero Minimalist Bloat
+   ============================================================ */
 
-.hidden {
-    display: none !important;
+:root {
+    --primary: #d4af37;
+    --primary-soft: rgba(212, 175, 55, 0.25);
+    --primary-glow: rgba(212, 175, 55, 0.12);
+    --bg-solid: #08080c;
+    --glass: rgba(10, 10, 15, 0.82);
+    --glass-heavy: rgba(5, 5, 8, 0.95);
+    --glass-border: rgba(212, 175, 55, 0.2);
+    --text-main: #e8dcb8;
+    --text-muted: #a49a7c;
+    --font-serif: "Cinzel", serif;
+    --font-sans: "Inter", sans-serif;
 }
 
-#scratchpad {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
+/* --- THE PALETTE MUTATIONS --- */
+.lunar {
+    --primary: #a8e6f0;
+    --primary-soft: rgba(168, 230, 240, 0.25);
+    --primary-glow: rgba(168, 230, 240, 0.12);
+    --glass: rgba(6, 10, 16, 0.85);
+    --glass-border: rgba(168, 230, 240, 0.25);
+    --text-main: #d0f4f9;
+    --text-muted: #8faeb2;
+}
+.vellum {
+    --primary: #c2b280;
+    --primary-soft: rgba(194, 178, 128, 0.25);
+    --primary-glow: rgba(194, 178, 128, 0.12);
+    --glass: rgba(12, 10, 8, 0.88);
+    --glass-border: rgba(194, 178, 128, 0.2);
+    --text-main: #f4ebd0;
+    --text-muted: #b2aa94;
+}
+.amethyst {
+    --primary: #a370e8;
+    --primary-soft: rgba(163, 112, 232, 0.25);
+    --primary-glow: rgba(163, 112, 232, 0.12);
+    --glass: rgba(8, 6, 12, 0.88);
+    --glass-border: rgba(163, 112, 232, 0.22);
+    --text-main: #ecd8fd;
+    --text-muted: #aa9bb5;
+}
+
+/* --- GLOBAL STABILIZATION --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: var(--bg-solid);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    overflow: hidden;
     height: 100vh;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(18px) saturate(140%);
+    width: 100vw;
+    user-select: none;
+}
+
+/* --- INITIALIZATION PORTAL OVERLAY --- */
+#awakening-portal {
+    position: fixed;
+    inset: 0;
+    background: #040406;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 30px;
-    z-index: 20;
-    animation: fadeIn 0.3s ease;
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), pointer-events 1s;
+}
+#awakening-portal.shattered {
+    opacity: 0;
+    pointer-events: none;
+}
+.portal-content {
+    text-align: center;
+}
+.portal-logo {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    letter-spacing: 12px;
+    color: var(--primary);
+    text-shadow: 0 0 25px var(--primary-soft);
+    margin-bottom: 8px;
+}
+.portal-subtitle {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    letter-spacing: 6px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+.portal-btn {
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(15,15,20,0.8) 100%);
+    border: 1px solid var(--primary);
+    padding: 16px 32px;
+    color: var(--primary);
+    font-family: var(--font-serif);
+    letter-spacing: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 0 15px var(--primary-glow);
+    transition: all 0.3s ease;
+}
+.portal-btn:hover {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 30px var(--primary);
+    transform: translateY(-2px);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-#scratchpad textarea {
-    width: 80%;
-    max-width: 900px;
-    height: 60%;
-    padding: 24px;
-    font-size: 1.2rem;
-    font-family: "Cinzel", serif;
-    color: #222;
-    border-radius: 18px;
-    border: 1px solid var(--glass-border, rgba(255,255,255,0.35));
-    background: rgba(255,255,255,0.85);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
-    outline: none;
-    resize: none;
-    line-height: 1.6;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-#scratchpad textarea:focus {
-    background: rgba(255,255,255,0.95);
-    box-shadow: 0 12px 50px rgba(0,0,0,0.45);
-}
-
-/* ============================
-   VIBE CONTAINER + IMAGE
-============================ */
-
-#vibe-container {
+/* --- THE PILLAR REVOLUTION: SIDEBAR ARCHIVE --- */
+#sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 320px;
     height: 100vh;
-    overflow: hidden;
-    z-index: 0;
+    background: var(--glass);
+    backdrop-filter: blur(24px) saturate(140%);
+    border-right: 2px solid var(--glass-border);
+    box-shadow: inset -10px 0 30px rgba(0,0,0,0.8), 5px 0 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+}
+body.cloaked #sidebar {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
+.sidebar-header {
+    padding: 24px;
+    flex-shrink: 0;
+}
+.sidebar-header .logo {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    letter-spacing: 6px;
+    text-align: center;
+    color: var(--primary);
+    text-shadow: 0 0 12px var(--primary-soft);
+}
+.vault-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 10%, var(--glass-border) 50%, transparent 90%);
+    margin-top: 14px;
+}
+
+.sidebar-scroll-vault {
+    padding: 0 20px 24px 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* Custom heavy scrollbar tracking */
+.sidebar-scroll-vault::-webkit-scrollbar { width: 4px; }
+.sidebar-scroll-vault::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scroll-vault::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
+
+/* --- CORE HEAVY RPG CONTAINERS --- */
+.panel {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--glass-border);
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.panel h3 {
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    padding-bottom: 6px;
+}
+
+/* --- INTERACTIVE MECHANICAL ELEMENT FIELDS --- */
+.vault-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.panel-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.picker-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+/* --- THE CARVED BUTTON PARADIGM --- */
+button, .action-btn-sm, .tool-btn {
+    background: linear-gradient(180deg, rgba(20,20,25,0.7) 0%, rgba(10,10,12,0.9) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    color: var(--text-main);
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    padding: 10px 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-align: center;
+}
+button:hover {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 10px var(--primary-glow);
+    transform: translateY(-1px);
+}
+.starred-vibe-btn {
+    text-align: left;
+    font-size: 0.7rem;
+}
+.starred-vibe-btn.empty {
+    opacity: 0.4;
+    border-style: dashed;
+}
+.starred-vibe-btn.active {
+    border-color: var(--primary);
+    background: rgba(212, 175, 55, 0.08);
+}
+
+/* --- MECHANICAL CONTROL SLIDERS --- */
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-serif);
+    letter-spacing: 1px;
+}
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px var(--primary);
+    transition: transform 0.1s ease;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.3);
+}
+
+/* --- THE INPUT FILES VAULT UTILITY --- */
+.vault-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 4px 0;
+}
+.file-vault-label {
+    display: block;
+    text-align: center;
+    padding: 8px;
+    border: 1px dashed var(--glass-border);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-family: var(--font-serif);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.file-vault-label:hover { background: rgba(255,255,255,0.02); color: var(--primary); }
+.file-vault-label input[type="file"] { display: none; }
+
+textarea {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    padding: 10px;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    resize: none;
+    outline: none;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+}
+textarea:focus { border-color: var(--primary); }
+
+/* --- SIDEBAR PANEL SYSTEM CONSOLE FOOTER --- */
+.sidebar-footer {
+    padding: 20px;
+    background: var(--glass-heavy);
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.tool-btn { width: 100%; font-weight: 600; }
+.tool-btn.highlight { border-color: var(--primary); color: var(--primary); }
+
+/* --- THE VIEWPORT MATRIX: CORE SENSORY SANCTUARY --- */
+#chamber-viewport {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    background: #040406;
+}
+#vibe-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+.image-parallax-layer {
+    width: 104%;
+    height: 104%;
+    position: absolute;
+    top: -2%;
+    left: -2%;
+    will-change: transform;
+}
 #vibe-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     opacity: 0;
-    transition: opacity 0.6s ease, transform 0.4s ease, filter 0.4s ease;
+    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
+}
+#vibe-image.unloaded { opacity: 0 !important; }
+
+/* --- SPATIAL FIELD DEPTH SHROUDS --- */
+#vignette-shroud {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
-    transform-origin: center;
-    will-change: transform, filter;
+    z-index: 5;
+    background: radial-gradient(circle at center, rgba(0,0,0,0) 30%, rgba(0,0,0,0.4) 70%, #050508 100%);
 }
-
-/* ============================
-   PARTICLES
-============================ */
-
-#particleCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* ============================
-   CONTROLS
-============================ */
-
-#controls {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    padding: 12px 20px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border, rgba(255,255,255,0.2));
-    border-radius: 14px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    z-index: 10;
-    opacity: 1;
-    transition: opacity 0.6s ease;
-}
-
-.hidden-controls {
-    opacity: 0;
-    pointer-events: none;
-}
-
-#controls label {
-    color: #fff;
-    font-size: 0.8rem;
-    font-family: "Cinzel", serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#controls input[type="file"] {
-    display: none;
-}
-
-#controls input[type="range"] {
-    width: 120px;
-    margin-top: 6px;
-    accent-color: #fff;
-    cursor: pointer;
-}
-
-#controls label::after,
-#toggleScratchpad,
-.paletteBtn,
-#castButton,
-#cloakButton {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid var(--glass-border, rgba(255,255,255,0.2));
-    padding: 8px 16px;
-    border-radius: 10px;
-    color: #fff;
-    font-family: "Cinzel", serif;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-#toggleScratchpad:hover,
-.paletteBtn:hover,
-#castButton:hover,
-#cloakButton:hover {
-    background: rgba(255,255,255,0.25);
-    transform: translateY(-2px);
-}
-
-/* ============================
-   VIGNETTE + BLUR PULSE
-============================ */
-
-#vignette {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(0,0,0,0) 40%,
-        rgba(0,0,0,0.25) 70%,
-        rgba(0,0,0,0.55) 100%
-    );
-    transition: background 0.6s ease;
-}
-
 #blurPulse {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: absolute;
+    inset: 0;
     pointer-events: none;
-    z-index: 0;
-    backdrop-filter: blur(0px);
-    transition: backdrop-filter 1.5s ease, background 1.5s ease;
+    z-index: 4;
+    mix-blend-mode: screen;
+    transition: backdrop-filter 0.5s ease;
 }
-
-/* ============================
-   PALETTE MODES
-============================ */
-
-:root {
-    --primary: #d4af37;
-    --primary-soft: rgba(212,175,55,0.55);
-    --glass: rgba(10,10,16,0.72);
-    --glass-border: rgba(212,175,55,0.18);
-    --glow: rgba(229,149,0,0.45);
-    --particle-color: rgba(255,255,255,0.6);
-}
-
-/* NOIR */
-.noir {
-    --particle-color: rgba(212,175,55,0.55);
-}
-
-.noir #blurPulse {
-    background: radial-gradient(circle, rgba(212,175,55,0.05), rgba(0,0,0,0));
-}
-
-/* LUNAR */
-.lunar {
-    --primary: #a8e6f0;
-    --primary-soft: rgba(168,230,240,0.55);
-    --glass: rgba(8,12,18,0.72);
-    --glass-border: rgba(168,230,240,0.18);
-    --glow: rgba(0,120,200,0.35);
-    --particle-color: rgba(168,230,240,0.55);
-}
-
-.lunar #blurPulse {
-    background: radial-gradient(circle, rgba(168,230,240,0.05), rgba(0,0,0,0));
-}
-
-.lunar #vignette {
-    background: radial-gradient(
-        circle at center,
-        rgba(0,0,20,0) 40%,
-        rgba(0,40,80,0.2) 70%,
-        rgba(0,40,80,0.45) 100%
-    );
-}
-
-/* VELLUM */
-.vellum {
-    --primary: #c2b280;
-    --primary-soft: rgba(194,178,128,0.55);
-    --glass: rgba(14,12,10,0.72);
-    --glass-border: rgba(194,178,128,0.18);
-    --glow: rgba(101,67,33,0.35);
-    --particle-color: rgba(194,178,128,0.55);
-}
-
-.vellum #blurPulse {
-    background: radial-gradient(circle, rgba(194,178,128,0.05), rgba(0,0,0,0));
-}
-
-.vellum #vignette {
-    background: radial-gradient(
-        circle at center,
-        rgba(20,15,10,0) 40%,
-        rgba(60,45,30,0.25) 70%,
-        rgba(60,45,30,0.55) 100%
-    );
-}
-
-/* AMETHYST */
-.amethyst {
-    --primary: #9b6ad8;
-    --primary-soft: rgba(155,106,216,0.55);
-    --glass: rgba(12,8,16,0.72);
-    --glass-border: rgba(155,106,216,0.18);
-    --glow: rgba(120,0,200,0.35);
-    --particle-color: rgba(155,106,216,0.55);
-}
-
-.amethyst #blurPulse {
-    background: radial-gradient(circle, rgba(155,106,216,0.05), rgba(0,0,0,0));
-}
-
-.amethyst #vignette {
-    background: radial-gradient(
-        circle at center,
-        rgba(20,0,30,0) 40%,
-        rgba(80,0,120,0.25) 70%,
-        rgba(80,0,120,0.55) 100%
-    );
-}
-
-/* ============================
-   CLOAK MODE
-============================ */
-
-body.cloaked #controls,
-body.cloaked #scratchpad {
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-
-/* ============================
-   SIDEBAR (ADDED)
-============================ */
-
-#sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 260px;
-    height: 100vh;
-    background: var(--glass);
-    border-right: 1px solid var(--glass-border);
-    backdrop-filter: blur(14px);
-    padding: 20px;
-    overflow-y: auto;
-    z-index: 15;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.4);
-}
-
-#sidebar h2.logo {
-    font-family: "Cinzel", serif;
-    color: var(--primary);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.panel {
-    margin-bottom: 24px;
-}
-
-.panel h3 {
-    font-family: "Cinzel", serif;
-    color: var(--primary-soft);
-    margin-bottom: 8px;
-    font-size: 1rem;
-}
-
-.picker-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-/* ============================
-   PREVIEW AREA (ADDED)
-============================ */
-
-#preview-area {
-    position: fixed;
-    left: 260px;
-    top: 0;
-    width: calc(100vw - 260px);
-    height: 100vh;
-    z-index: 2;
+#particleCanvas {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
+    z-index: 6;
 }
 
-#scene-canvas {
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-/* ============================================================
-   SOMNIASCAPES — ARCANE RPG UI SKIN
-   ============================================================ */
-
-/* === GLOBAL === */
-body {
-  background: #0b0b0f;
-  color: #e8dcb8;
-  font-family: "Cinzel", serif;
-  letter-spacing: 0.5px;
-}
-
-/* ============================================================
-   SOMNIASCAPES — VERTICAL RESONANCE VAULT (FINAL)
-   Obsidian Glass • Gold Inlay • ND‑Friendly • Warm • Heavy
-   ============================================================ */
-
-/* === VAULT PILLAR === */
-#sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px; /* ND‑friendly narrow width */
-    height: 100vh;
-    padding: 24px;
-    overflow-y: auto;
-
-    /* Obsidian glass core */
-    background: var(--glass);
-    backdrop-filter: blur(16px) saturate(180%);
-
-    /* Carved gold inlay */
-    border-right: 2px solid var(--glass-border);
-    box-shadow:
-        inset 0 0 40px var(--primary-soft),
-        4px 0 25px rgba(0,0,0,0.6);
-
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
-
-    z-index: 20;
-}
-
-/* === VAULT HEADER === */
-#sidebar .logo {
-    font-family: "Cinzel", serif;
-    font-size: 1.3rem;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    text-align: center;
-
-    color: var(--primary);
-    text-shadow: 0 0 12px var(--primary-soft);
-
-    margin-bottom: 10px;
-}
-
-/* === VAULT PANEL === */
-.panel {
-    padding: 16px;
-    border-radius: 10px;
-
-    /* Obsidian interior */
-    background: rgba(255,255,255,0.03);
-
-    /* Carved glow */
-    border: 1px solid var(--glass-border);
-    box-shadow:
-        inset 0 0 18px rgba(255,255,255,0.05),
-        inset 0 0 28px var(--primary-soft);
-
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.panel h3 {
-    margin: 0;
-    font-family: "Cinzel", serif;
-    font-size: 0.85rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-
-    color: var(--primary);
-    text-shadow: 0 0 8px var(--primary-soft);
-}
-
-/* === ENGRAVED BUTTONS === */
-button,
-.paletteBtn,
-#toggleScratchpad,
-#castButton,
-#cloakButton {
-    background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
-    border: 1px solid var(--glass-border);
-    border-radius: 8px;
-
-    padding: 10px 14px;
-    color: var(--primary);
-    font-family: "Cinzel", serif;
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-button:hover,
-.paletteBtn:hover,
-#toggleScratchpad:hover,
-#castButton:hover,
-#cloakButton:hover {
-    background: var(--primary-soft);
-    color: #000;
-    box-shadow: 0 0 14px var(--primary-soft);
-    transform: translateY(-2px);
-}
-
-/* === STARRED VIBES === */
-.starred-vibe-btn {
-    padding: 8px;
-    text-align: left;
-}
-
-.starred-vibe-btn.empty {
-    opacity: 0.5;
-    font-style: italic;
-}
-
-/* === ARCANE SLIDERS === */
-input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.1);
-    margin: 6px 0 12px;
-    border-radius: 4px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
-    background: var(--primary);
-    border: 1px solid rgba(0,0,0,0.6);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary-soft);
-}
-
-/* === TEXTAREA (PROMPT + SCRATCHPAD) === */
-textarea {
-    background: rgba(0,0,0,0.45);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    padding: 12px;
-    color: var(--primary);
-    font-family: "Cinzel", serif;
-    resize: none;
-
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.4),
-                inset 0 0 25px var(--primary-soft);
-}
-
-/* === SCRATCHPAD OVERLAY === */
+/* --- THE BROADCAST SCRATCHPAD VAULT --- */
 #scratchpad {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(14px);
+    background: rgba(3, 3, 5, 0.75);
+    backdrop-filter: blur(20px);
+    z-index: 80;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 50;
+    transition: opacity 0.4s ease;
 }
-
-#scratchpad textarea {
-    width: 80%;
-    max-width: 900px;
-    height: 60%;
+#scratchpad.hidden { display: none !important; opacity: 0; pointer-events: none; }
+.scratchpad-modal {
+    background: var(--glass-heavy);
+    border: 2px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 85%;
+    max-width: 800px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(212,175,55,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.scratchpad-modal textarea {
+    height: 300px;
     font-size: 1.2rem;
+    line-height: 1.6;
+    padding: 20px;
+    color: #fff;
+    border-radius: 6px;
+    font-family: var(--font-serif);
 }
 
-/* === CLOAK MODE === */
-body.cloaked #sidebar {
-    opacity: 0;
-    pointer-events: none;
+/* --- AUDIO TRACK ROW INJECTOR STYLING --- */
+.audio-track-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(255,255,255,0.02);
+    padding: 6px 10px;
+    border-radius: 4px;
+    border-left: 2px solid var(--primary);
 }
+.audio-track-row span { font-size: 0.65rem; font-family: var(--font-serif); color: var(--text-muted); }
+.audio-track-row input[type="range"] { width: 45%; }
+.mute-btn-sm { font-size: 0.55rem; padding: 4px 8px; }
