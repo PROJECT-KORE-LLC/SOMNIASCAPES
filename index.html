@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SomniaScapes — Resonance Vault — Liquid 13.0</title>
+    <title>SomniaScapes — Modular Resonance Vault — Liquid 13.0</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — LIQUID 13.0 CORE VAULT SKIN
-           Obsidian Glass • Carved Inlays • High-Fidelity Room Casting
+           SOMNIASCAPES — LIQUID 13.0 UNIFIED ARCHITECTURE
+           Obsidian Glass • Modular Panel Toggles • Heavy RPG Skin
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
             --primary: #D4AF37; 
+            --primary-soft: rgba(212, 175, 55, 0.25);
             --primary-glow: rgba(212, 175, 55, 0.35);
-            --hijack-glow: rgba(229, 149, 0, 0.6);
+            --hijack-glow: rgba(229, 149, 0, 0.4);
             --glass: rgba(6, 6, 8, 0.96);
             --glass-heavy: rgba(3, 3, 5, 0.98);
             --glass-border: rgba(212, 175, 55, 0.22);
@@ -38,7 +39,7 @@
             user-select: none;
         }
 
-        /* --- THE HEARTH & RESIDUAL ATMOSPHERE LAYER --- */
+        /* --- IMMUTABLE VISUAL LANDSCAPE LAYERS --- */
         #bg-anchor {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #020204;
@@ -64,7 +65,7 @@
             pointer-events: none; z-index: 6; opacity: 0.5;
         }
 
-        /* --- IMMUTABLE SYSTEM VIEWPORT OVERLAY --- */
+        /* --- THE MASTER SYSTEM VIEWPORT LAYER --- */
         #ui-viewport {
             position: relative; z-index: 100;
             height: 100vh; width: 100%;
@@ -74,7 +75,7 @@
         }
         #ui-viewport.cloaked { opacity: 0 !important; pointer-events: none !important; transform: scale(0.98); }
 
-        /* --- THE HEAVY OBSIDIAN SIDEBAR PILLAR --- */
+        /* --- THE HEAVY OBSIDIAN SIDEBAR ARCHIVE --- */
         .vault-sidebar {
             width: 360px; height: 100vh;
             background: var(--glass);
@@ -96,43 +97,96 @@
         }
 
         .vault-scroll-container {
-            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 18px;
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
             padding-right: 4px; scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
         }
         .vault-scroll-container::-webkit-scrollbar { width: 3px; }
         .vault-scroll-container::-webkit-scrollbar-thumb { background: var(--primary); }
 
-        .vault-panel {
-            background: rgba(0, 0, 0, 0.45); border: 1px solid var(--glass-border);
-            border-radius: 4px; padding: 14px; display: flex; flex-direction: column; gap: 10px;
+        /* === MODERN MODULAR PANEL ENGINE STYLES === */
+        .modular-panel {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--glass-border);
+            border-radius: 4px;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
-        }
-        .vault-panel h3 {
-            margin: 0; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
-            color: var(--primary); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- GRID AND SOUND CARD ARRANGEMENT CONFIG --- */
+        .modular-header {
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .modular-header:hover {
+            background: rgba(212, 175, 55, 0.04);
+        }
+
+        .modular-header h3 {
+            margin: 0; font-size: 0.75rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        .module-status {
+            font-size: 0.55rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .modular-content {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* --- MODULAR COLLAPSED STATES --- */
+        .modular-panel.collapsed {
+            max-height: 41px; /* Locks execution display to header line alone */
+        }
+        .modular-panel.collapsed .modular-header {
+            border-bottom-color: transparent;
+        }
+        .modular-panel.collapsed .modular-header h3 {
+            color: var(--text-muted);
+        }
+        .modular-panel.collapsed .modular-content {
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+        }
+
+        /* --- SYSTEM GRIDS AND SOUND BOARD MECHANICS --- */
         .mixer-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
         }
         .sound-card {
-            background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 10px; text-align: center; transition: all 0.2s ease; border-radius: 2px;
+            background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 8px; text-align: center; transition: all 0.2s ease; border-radius: 2px;
         }
-        .sound-card.active { background: var(--primary-glow); border-color: var(--primary); box-shadow: 0 0 8px var(--primary-glow); }
+        .sound-card.active { background: var(--primary-glow); border-color: var(--primary); box-shadow: 0 0 6px var(--primary-glow); }
 
-        /* --- MECHANICAL ELEMENT CONTROLS --- */
+        /* --- CARVED USER INTERACTION PLATFORMS --- */
         button, .sound-btn {
             background: linear-gradient(180deg, rgba(15,15,20,0.6) 0%, rgba(5,5,8,0.8) 100%);
             border: 1px solid var(--glass-border); color: var(--text-main);
             font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
             cursor: pointer; padding: 8px; font-family: inherit; width: 100%;
-            transition: all 0.25s ease; text-align: center; border-radius: 3px;
+            transition: all 0.2s ease; text-align: center; border-radius: 3px;
         }
         button:hover, .sound-btn:hover { background: var(--primary-soft); border-color: var(--primary); }
         
-        .sound-btn { border: none; padding: 2px 0 6px 0; color: var(--primary); }
+        .sound-btn { border: none; padding: 2px 0 4px 0; color: var(--primary); }
         .sound-card.active .sound-btn { color: #fff; text-shadow: 0 0 5px #fff; }
 
         .volume-rail {
@@ -142,13 +196,11 @@
         .volume-rail::-webkit-slider-thumb {
             -webkit-appearance: none; width: 8px; height: 8px; 
             background: var(--primary); cursor: pointer; border-radius: 0;
-            box-shadow: 0 0 4px var(--primary);
         }
 
         .slider-group {
-            display: flex; flex-direction: column; gap: 2px; font-size: 0.7rem; color: var(--text-muted);
+            display: flex; flex-direction: column; gap: 2px; font-size: 0.65rem; color: var(--text-muted);
         }
-
         .command-array {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
         }
@@ -161,10 +213,13 @@
         textarea {
             background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border);
             padding: 8px; color: #fff; font-family: inherit; font-size: 0.75rem;
-            resize: none; outline: none; height: 50px;
+            resize: none; outline: none; height: 50px; border-radius: 2px;
         }
+        textarea:focus { border-color: var(--primary); }
 
-        /* --- CLOAK BUTTON PARADIGM --- */
+        .vault-divider { height: 1px; background: rgba(255,255,255,0.05); margin: 2px 0; }
+
+        /* --- CLOAK HARDWARE OVERRIDE GAVEL --- */
         #cloak-btn {
             position: fixed; top: 20px; right: 20px; z-index: 2000;
             background: var(--glass-heavy); border: 1px solid var(--primary);
@@ -174,24 +229,24 @@
         }
         #cloak-btn:hover { background: var(--primary-glow); box-shadow: 0 0 15px var(--primary); }
 
-        /* --- THE BROADCAST SCRATCHPAD OVERLAY --- */
+        /* --- THE BROADCAST CONTROL SCRATCHPAD OVERLAY --- */
         #scratchpad {
-            position: fixed; inset: 0; background: rgba(3,3,5,0.82);
+            position: fixed; inset: 0; background: rgba(3,3,5,0.85);
             backdrop-filter: blur(20px); z-index: 1500;
             display: flex; justify-content: center; align-items: center;
         }
         #scratchpad.hidden { display: none !important; }
         .scratchpad-vault {
             background: var(--glass-heavy); border: 2px solid var(--primary);
-            padding: 24px; width: 80%; max-width: 750px;
-            box-shadow: 0 20px 60px #000; display: flex; flex-direction: column; gap: 16px;
+            padding: 24px; width: 80%; max-width: 750px; box-shadow: 0 20px 60px #000;
+            display: flex; flex-direction: column; gap: 16px; border-radius: 4px;
         }
         .scratchpad-vault textarea {
             height: 240px; font-size: 1.1rem; line-height: 1.5; padding: 14px;
             color: #fff; background: #000; border: 1px solid var(--glass-border);
         }
 
-        /* --- SCREEN VISIBILITY BUFFER MATRIX --- */
+        /* --- SECONDARY DISPLAY MONITOR CANVAS GRAPHICS SPACER --- */
         .canvas-notice {
             flex: 1; display: flex; justify-content: center; align-items: center;
             color: var(--text-muted); font-style: italic; font-size: 0.85rem;
@@ -214,50 +269,87 @@
             </div>
 
             <div class="vault-scroll-container">
-                <section class="vault-panel">
-                    <h3>Visual Palettes</h3>
-                    <div class="command-array">
-                        <button onclick="jolt('noir')">Noir</button>
-                        <button onclick="jolt('lunar')">Lunar</button>
-                        <button onclick="jolt('vellum')">Vellum</button>
-                        <button onclick="jolt('amethyst')">Amethyst</button>
+                
+                <div class="modular-panel" id="mod-presets">
+                    <div class="modular-header" onclick="toggleModule('mod-presets')">
+                        <h3>▼ Archive Presets</h3>
+                        <span class="module-status">3 Slots</span>
                     </div>
-                </section>
+                    <div class="modular-content">
+                        <div class="command-array">
+                            <button class="active" style="border-color: var(--primary);">★ Dreamroot</button>
+                            <button class="empty" onclick="alert('Profile Slot II registered.')">☆ Add Vibe</button>
+                            <button class="empty" onclick="alert('Profile Slot III registered.')">☆ Add Vibe</button>
+                        </div>
+                    </div>
+                </div>
 
-                <section class="vault-panel">
-                    <h3>Room Calibration</h3>
-                    <label class="slider-group">
-                        <span>Background Calibration Blur</span>
-                        <input type="range" id="ctrl-blur" min="0" max="25" step="1" value="0" oninput="applyCalibration()">
-                    </label>
-                    <label class="file-label">
-                        <span>Upload Custom Backdrop</span>
-                        <input type="file" id="imageUpload" accept="image/*" onchange="executeLocalImage(this)">
-                    </label>
-                </section>
+                <div class="modular-panel" id="mod-palettes">
+                    <div class="modular-header" onclick="toggleModule('mod-palettes')">
+                        <h3>▼ Visual Palettes</h3>
+                        <span class="module-status">Noir</span>
+                    </div>
+                    <div class="modular-content">
+                        <div class="command-array">
+                            <button onclick="jolt('noir')">Noir</button>
+                            <button onclick="jolt('lunar')">Lunar</button>
+                            <button onclick="jolt('vellum')">Vellum</button>
+                            <button onclick="jolt('amethyst')">Amethyst</button>
+                        </div>
+                    </div>
+                </div>
 
-                <section class="vault-panel">
-                    <h3>Resonance Soundboard</h3>
-                    <div id="mixer-grid" class="mixer-grid"></div>
-                    <button onclick="stopAll()" style="border-color: rgba(255,68,68,0.4); color: rgba(255,68,68,0.8); margin-top: 6px;">Mute All Elements</button>
-                </section>
+                <div class="modular-panel" id="mod-calibration">
+                    <div class="modular-header" onclick="toggleModule('mod-calibration')">
+                        <h3>▼ Lens Calibration</h3>
+                        <span class="module-status">Adjust</span>
+                    </div>
+                    <div class="modular-content">
+                        <label class="slider-group">
+                            <span>Background Focal Blur</span>
+                            <input type="range" id="ctrl-blur" min="0" max="25" step="1" value="0" oninput="applyCalibration()">
+                        </label>
+                        <div class="vault-divider"></div>
+                        <label class="file-label">
+                            <span>Upload Custom Backdrop</span>
+                            <input type="file" id="imageUpload" accept="image/*" onchange="executeLocalImage(this)">
+                        </label>
+                    </div>
+                </div>
 
-                <section class="vault-panel">
-                    <h3>Broadcast Field Anchor</h3>
-                    <textarea id="prompt-field" placeholder="AI parameters, scenario coordinates, or vibe anchor notes..."></textarea>
-                    <button onclick="toggleScratchpad(event)" style="border-color: var(--primary);">Open Utility Scratchpad</button>
-                </section>
+                <div class="modular-panel" id="mod-acoustics">
+                    <div class="modular-header" onclick="toggleModule('mod-acoustics')">
+                        <h3>▼ Resonance Matrix</h3>
+                        <span class="module-status">22 Stems Available</span>
+                    </div>
+                    <div class="modular-content">
+                        <div id="mixer-grid" class="mixer-grid"></div>
+                        <button onclick="stopAll()" style="border-color: rgba(255,68,68,0.4); color: rgba(255,68,68,0.8); margin-top: 4px;">Mute All Elements</button>
+                    </div>
+                </div>
+
+                <div class="modular-panel collapsed" id="mod-broadcast">
+                    <div class="modular-header" onclick="toggleModule('mod-broadcast')">
+                        <h3>▼ Broadcast Utility</h3>
+                        <span class="module-status">Anchors</span>
+                    </div>
+                    <div class="modular-content">
+                        <textarea id="prompt-field" placeholder="Scenario coordinates, structural parameters, or environment anchor notes..."></textarea>
+                        <button onclick="toggleScratchpad(event)" style="border-color: var(--primary);">Open Broadcast Pad</button>
+                    </div>
+                </div>
+
             </div>
         </aside>
 
         <main class="canvas-notice">
-            <p>Resonance Chamber Instantiated. Awaiting Local Room Casting Handshake Vector...</p>
+            <p>Resonance Chamber Active. Awaiting Room Casting Handshake Vector...</p>
         </main>
     </div>
 
     <div id="scratchpad" class="hidden" onclick="toggleScratchpad(event)">
         <div class="scratchpad-vault" onclick="event.stopPropagation()">
-            <textarea id="scratchpad-text" placeholder="Type family night scoreboards, party tricks, homeschool pranks, or live messages here..."></textarea>
+            <textarea id="scratchpad-text" placeholder="Type family night scoreboards, beerpong points, homeschool lessons, or room pranks here..."></textarea>
             <button onclick="toggleScratchpad(event)">Dismiss Broadcast Pad</button>
         </div>
     </div>
@@ -266,7 +358,7 @@
         let activeSoundscapes = {};
         let audioPrimed = false;
 
-        // The Authentic Library Matrix Loop Layer
+        // The Authentic Soundboard Library Loop Data Array
         const soundLibrary = [
             { id: "rain", name: "RAIN", url: "rain.mp3" }, { id: "thunder", name: "THUNDER", url: "thunder.mp3" },
             { id: "wind", name: "WIND", url: "winterwind.mp3" }, { id: "waves", name: "WAVES", url: "waves.mp3" },
@@ -281,7 +373,7 @@
             { id: "dark", name: "DARK", url: "darkmusic1.mp3" }, { id: "bin", name: "BINARY", url: "binarymusicbox.mp3" }
         ];
 
-        // --- KINETIC HANDSHAKE INTERACTION TRIGGER ---
+        // --- KINETIC HANDSHAKE INTERACTION HARVESTER ---
         function primeAudio() {
             if (!audioPrimed) {
                 const silence = new Audio();
@@ -290,7 +382,7 @@
         }
         document.body.addEventListener('click', primeAudio, { once: true });
 
-        // Instantiating the Sound Board Elements Grid Natively
+        // Instantiating the Sound Matrix Array Panel Items Natively
         function initGrid() {
             const grid = document.getElementById('mixer-grid');
             grid.innerHTML = soundLibrary.map(track => `
@@ -314,7 +406,7 @@
                     activeSoundscapes[id] = audio;
                     card.classList.add('active');
                     if (navigator.vibrate) navigator.vibrate(15);
-                }).catch(e => console.warn("Kinetic strike required to fire stem nodes safely."));
+                }).catch(e => console.warn("Physical strike context verification required."));
             }
         };
 
@@ -331,11 +423,25 @@
             activeSoundscapes = {};
         };
 
-        // --- VISUAL MUTATION CALIBRATIONS ---
+        // === SYSTEM INTERFACE MODULAR COMPONENT ROUTER ===
+        window.toggleModule = function(moduleId) {
+            const mod = document.getElementById(moduleId);
+            if (mod) {
+                mod.classList.toggle('collapsed');
+                if (navigator.vibrate) navigator.vibrate(12);
+            }
+        };
+
+        // --- VISUAL PALETTE JOLTS ---
         function jolt(palette) {
             const body = document.getElementById('master-body');
             body.classList.remove('noir-mode', 'lunar-mode', 'vellum-mode', 'amethyst-mode');
             body.classList.add(`${palette}-mode`);
+            
+            // Sync status readout indicator texts
+            const statusLabel = document.querySelector('#mod-palettes .module-status');
+            if (statusLabel) statusLabel.textContent = palette;
+            
             if (navigator.vibrate) navigator.vibrate(20);
         }
 
@@ -354,7 +460,7 @@
             reader.readAsDataURL(file);
         }
 
-        // --- SYSTEM SYSTEM CLOAKING COMMAND VECTOR ---
+        // --- CLOAK AND SYSTEM VEIL UTILITIES ---
         function toggleCloak(e) {
             e.stopPropagation();
             const viewport = document.getElementById('ui-viewport');
@@ -370,14 +476,12 @@
             }
         }
 
-        // --- BROADCAST SCRATCHPAD EXECUTION GATE ---
         function toggleScratchpad(e) {
             e.stopPropagation();
-            const pad = document.getElementById('scratchpad');
-            pad.classList.toggle('hidden');
+            document.getElementById('scratchpad').classList.toggle('hidden');
         }
 
-        // --- HIGH-VELOCITY PARTICLE RESONANCE SIMULATION ENGINE ---
+        // --- HIGH-VELOCITY AMBIENT COSMIC PARTICLE RESIDUE LOOP ENGINE ---
         function initParticles() {
             const canvas = document.getElementById('particleCanvas');
             const ctx = canvas.getContext('2d');
@@ -402,7 +506,7 @@
 
             const loop = () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "rgba(244, 235, 208, 0.25)"; // Matches our warm ivory text value color
+                ctx.fillStyle = "rgba(244, 235, 208, 0.25)";
                 
                 particles.forEach(p => {
                     p.x += p.vX;
