@@ -687,6 +687,28 @@
 
             initParticles();
         });
+
+        document.querySelector(".artifact-btn").addEventListener("click", shareSomnia);
+        async function shareSomnia() {
+  const canvas = document.querySelector("canvas");
+  if (!canvas) return;
+
+  const dataUrl = canvas.toDataURL("image/png");
+  const blob = await (await fetch(dataUrl)).blob();
+  const file = new File([blob], "somniascape.png", { type: "image/png" });
+
+  try {
+    await navigator.share({
+      title: "My SomniaScape",
+      text: "Made with SomniaScapes ✨",
+      files: [file]
+    });
+  } catch (err) {
+    console.log("Share canceled or unsupported");
+  }
+}
+
+
     </script>
 </body>
 </html>
