@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SOMNIASCAPES // AMBIENCE MAKER</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* ============================================================
            SOMNIASCAPES — THE DIGITAL TOY SHELL
@@ -177,13 +178,13 @@
         .ctrl-slider { flex: 1; -webkit-appearance: none; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; accent-color: var(--primary); }
 
         
-        /* --- MODALS (Scratchpad & Cast) --- */
-        #scratchpad-modal, #cast-modal {
+        /* --- MODALS (Scratchpad, Cast & QR) --- */
+        #scratchpad-modal, #cast-modal, #qr-modal {
             position: fixed; inset: 0; z-index: 200; display: none;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
             align-items: center; justify-content: center; padding: 20px;
         }
-        #scratchpad-modal.active, #cast-modal.active { display: flex; }
+        #scratchpad-modal.active, #cast-modal.active, #qr-modal.active { display: flex; }
         .scratch-bubble {
             width: 100%; max-width: 500px; height: 300px;
             background: var(--glass); border: 1px solid var(--glass-border);
@@ -197,7 +198,11 @@
             width: 100%; max-width: 400px; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 20px;
             padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center;
+            display: flex; flex-direction: column; align-items: center;
         }
+        
+        /* QR Container Style */
+        #qrcode { background: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
 
     </style>
 </head>
@@ -213,7 +218,6 @@
             <button class="artifact-btn" onclick="toggleScratch()">Scratch</button>
             <button class="artifact-btn" onclick="toggleCast()">Full Screen</button>
             <button id="shareButton" class="artifact-btn">Share</button>
-
         </div>
 
         <div class="nav-logo">SOMNIASCAPES</div>
@@ -306,6 +310,17 @@
         </div>
     </div>
 
+    <div id="qr-modal" onclick="toggleQR()">
+        <div class="cast-box" onclick="event.stopPropagation()">
+            <h3 style="color: var(--primary); letter-spacing: 3px; margin-top: 0; margin-bottom: 5px;">LOCAL UPLOAD</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                Scan this code with your phone to open the local companion portal and beam custom audio/images directly to this display.
+            </p>
+            <div id="qrcode"></div>
+            <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 15px;">Network Portal: <span style="color: var(--accent);">http://somniascapes.local</span></p>
+        </div>
+    </div>
+
     <script>
         // === 1. GLOBAL UI ===
         function switchTab(tabId, btn) {
@@ -320,6 +335,7 @@
         
         function toggleScratch() { document.getElementById('scratchpad-modal').classList.toggle('active'); }
         function toggleCast() { document.getElementById('cast-modal').classList.toggle('active'); }
+        function toggleQR() { document.getElementById('qr-modal').classList.toggle('active'); }
         
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
@@ -363,8 +379,8 @@
             input.value = ""; 
         }
 
-        // === 2. VAULT MEMORY ENGINE ===
-        let savedVault = [];
+        // === 2. VAULT MEMORY ENGINE (Wired to LocalStorage) ===
+        let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
 
         function savePreset() {
             const btn = document.getElementById('save-btn');
@@ -394,6 +410,14 @@
             };
 
             savedVault.push(state);
+            
+            try {
+                localStorage.setItem('somniaVault', JSON.stringify(savedVault));
+            } catch(e) {
+                console.error("Storage limit exceeded.", e);
+                alert("Vault Warning: Preset is too large to save (usually caused by a massive custom background image).");
+            }
+            
             renderVault();
         }
 
@@ -419,6 +443,7 @@
 
         function deletePreset(index) {
             savedVault.splice(index, 1);
+            localStorage.setItem('somniaVault', JSON.stringify(savedVault));
             renderVault();
         }
 
@@ -687,28 +712,28 @@
             populateGrid('glow-color-grid', glowColors, 'glowColor');
 
             initParticles();
+            renderVault(); // Load LocalStorage on boot
         });
 
+        // === 6. QR SHARE PORTAL ===
         document.getElementById("shareButton").addEventListener("click", shareSomnia);
-  async function shareSomnia() {
-  const canvas = document.querySelector("canvas");
-  if (!canvas) return;
-
-  const dataUrl = canvas.toDataURL("image/png");
-  const blob = await (await fetch(dataUrl)).blob();
-  const file = new File([blob], "somniascape.png", { type: "image/png" });
-
-  try {
-    await navigator.share({
-      title: "My SomniaScape",
-      text: "Made with SomniaScapes ✨",
-      files: [file]
-    });
-  } catch (err) {
-    console.log("Share canceled or unsupported");
-  }
-}
-
+        
+        function shareSomnia() {
+            const qrModal = document.getElementById('qr-modal');
+            qrModal.classList.add('active');
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ""; // Clear previous
+            
+            // Generate QR Code for the local TV portal fantasy
+            new QRCode(qrContainer, {
+                text: "http://somniascapes.local", // In a live TV app, this would dynamically pull the local IP address.
+                width: 150,
+                height: 150,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
 
     </script>
 </body>
