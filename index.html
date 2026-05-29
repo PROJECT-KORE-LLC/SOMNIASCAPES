@@ -212,7 +212,7 @@
             <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
             <button class="artifact-btn" onclick="toggleScratch()">Scratch</button>
             <button class="artifact-btn" onclick="toggleCast()">Full Screen</button>
-            <button class="artifact-btn">Share</button>
+            <button id="shareButton" class="artifact-btn">Share</button>
 
         </div>
 
@@ -689,8 +689,8 @@
             initParticles();
         });
 
-        document.querySelector(".artifact-btn").addEventListener("click", shareSomnia);
-        async function shareSomnia() {
+        document.getElementById("shareButton").addEventListener("click", shareSomnia);
+  async function shareSomnia() {
   const canvas = document.querySelector("canvas");
   if (!canvas) return;
 
