@@ -62,10 +62,12 @@
             transform: scale(var(--bg-zoom));
             filter: brightness(var(--bg-bright));
             transition: background-image 1.5s ease, filter 0.3s ease, transform 0.3s ease;
+            will-change: transform, filter;
         }
         
         #bg-video, #live-stream-video {
             position: absolute; width: 100%; height: 100%; object-fit: cover; display: none; z-index: -1;
+            will-change: transform;
         }
 
         /* Screen Motions */
@@ -81,12 +83,14 @@
         #drawCanvas { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
         .drawing-active #drawCanvas { pointer-events: auto; cursor: crosshair; }
 
-        /* --- 10 GLOW ANIMATIONS --- */
+        /* --- 15 GLOW ANIMATIONS --- */
         #glow-layer {
             position: fixed; inset: 0;
             background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%);
             z-index: 3; opacity: var(--glow-opac); pointer-events: none;
             transition: opacity 0.3s ease, background 1s ease;
+            mix-blend-mode: screen;
+            will-change: opacity, background;
         }
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
@@ -96,6 +100,11 @@
         .glow-flicker { animation: g-flicker calc(var(--anim-speed) / 4) infinite alternate ease-in-out; }
         .glow-aurora { background: linear-gradient(45deg, var(--primary-glow), transparent); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-radar { background: conic-gradient(from 0deg, transparent, var(--primary-glow), transparent); animation: g-wave var(--anim-speed) infinite linear; }
+        .glow-neon { background: radial-gradient(circle, var(--glow-color) 10%, transparent 80%); filter: saturate(200%); animation: g-pulse calc(var(--anim-speed)/2) infinite alternate ease-in-out; }
+        .glow-plasma { background: repeating-radial-gradient(circle, var(--glow-color), transparent 20%); animation: g-wave var(--anim-speed) infinite linear; mix-blend-mode: color-dodge; }
+        .glow-ethereal { background: radial-gradient(ellipse at center, var(--glow-color) 0%, transparent 100%); animation: g-phantom var(--anim-speed) infinite alternate ease-in-out; }
+        .glow-ember { background: radial-gradient(circle at bottom, var(--glow-color) 0%, transparent 60%); animation: g-flicker calc(var(--anim-speed)/3) infinite alternate ease-in-out; mix-blend-mode: overlay; }
+        .glow-void-pulse { background: radial-gradient(circle, transparent 20%, var(--glow-color) 80%); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-static { animation: none; }
         .glow-none { opacity: 0 !important; }
 
@@ -106,12 +115,13 @@
         @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
 
-        #particleCanvas { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; }
+        #particleCanvas { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; mix-blend-mode: screen; will-change: transform; }
 
         /* LIVE VFX OVERLAYS */
         .vfx-popup {
             position: absolute; z-index: 5; pointer-events: none;
             animation: vfx-pop 2s forwards ease-out; filter: drop-shadow(0 0 20px var(--primary-glow));
+            will-change: transform, opacity;
         }
         @keyframes vfx-pop { 0% { transform: scale(0.5) translateY(50px); opacity: 0; } 20% { transform: scale(1.2) translateY(0); opacity: 1; } 80% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0.8) translateY(-50px); opacity: 0; } }
 
@@ -122,6 +132,14 @@
             transition: opacity 0.8s ease; 
         }
         body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
+        
+        #broadcast-indicator {
+            position: fixed; top: 20px; left: 20px; z-index: 200;
+            color: #ef4444; font-weight: bold; font-size: 0.8rem; letter-spacing: 2px;
+            text-transform: uppercase; display: none; text-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+            animation: g-flicker 2s infinite alternate ease-in-out;
+        }
+        body.cloaked #broadcast-indicator { display: block; }
 
         #top-nav { display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
         
@@ -214,14 +232,23 @@
         }
         #scratchpad-modal.active, #cast-modal.active, #qr-modal.active { display: flex; }
         .scratch-bubble {
-            width: 100%; max-width: 500px; height: 300px;
+            width: 100%; max-width: 800px; height: 500px;
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex; gap: 20px;
         }
         .scratchpad {
-            width: 100%; height: 100%; background: transparent; border: none;
+            flex: 2; height: 100%; background: transparent; border: none;
             color: #fff; font-family: inherit; font-size: 1.1rem; resize: none; outline: none; line-height: 1.6;
         }
+        .scoreboard-panel {
+            flex: 1; border-left: 1px solid var(--glass-border); padding-left: 20px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .score-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;}
+        .score-val { font-size: 1.5rem; color: var(--accent); font-weight: bold; }
+        .score-btn { background: none; border: 1px solid var(--glass-border); color: #fff; border-radius: 5px; cursor: pointer; width: 30px; height: 30px;}
+        
         .cast-box {
             width: 100%; max-width: 400px; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 20px;
@@ -235,6 +262,8 @@
 </head>
 <body id="os-body" class="lunar-mode">
 
+    <div id="broadcast-indicator">● BROADCAST MODE ACTIVE</div>
+
     <div id="bg-anchor">
         <video id="bg-video" loop autoplay muted></video>
         <video id="live-stream-video" autoplay></video>
@@ -247,9 +276,10 @@
 
     <div id="ui-wrapper" onclick="event.stopPropagation()">
         <div id="top-nav">
-            <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
+            <button class="artifact-btn" onclick="toggleCloak()" id="cloakBtn">Broadcast Mode</button>
             <button class="artifact-btn" onclick="toggleScratch()">Scratch</button>
             <button class="artifact-btn" onclick="toggleCast()">Full Screen</button>
+            <button class="artifact-btn" onclick="startScreenCapture()">🔴 Record</button>
             <button id="tvSyncButton" class="artifact-btn">TV Sync</button>
             <button class="artifact-btn" onclick="shareSocial()">Share</button>
         </div>
@@ -266,13 +296,19 @@
             </div>
 
             <div id="tab-audio" class="tab-content active">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <label class="toy-btn" style="flex:1; text-align:center; margin-right:10px;">
                         + Upload Custom Audio
                         <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
                     </label>
                     <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#ec4899; color:#ec4899;">Silence All</button>
                 </div>
+                
+                <div class="ctrl-row" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                    <label style="color: var(--primary);">Master Gain</label>
+                    <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
+                </div>
+
                 <div id="mixer-container" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
 
@@ -300,8 +336,13 @@
                 
                 <h4 class="section-title">Creator Tools</h4>
                 <div class="btn-grid">
-                    <button class="toy-btn" id="drawToggleBtn" onclick="toggleDrawMode()" style="border-color: var(--primary);">🖌️ Toggle Draw</button>
+                    <button class="toy-btn" id="drawToggleBtn" onclick="toggleDrawMode()" style="border-color: var(--primary);">🖌️ Draw Mode</button>
+                    <button class="toy-btn" id="eraseToggleBtn" onclick="toggleEraseMode()">Eraser</button>
                     <button class="toy-btn" onclick="clearDraw()" style="color: #ec4899;">Clear Ink</button>
+                </div>
+                <div class="ctrl-row" style="margin-top: 10px;">
+                    <label>Brush Size</label>
+                    <input type="range" class="ctrl-slider" id="brushSize" min="1" max="50" value="5">
                 </div>
             </div>
 
@@ -309,10 +350,10 @@
                 <h4 class="section-title">10 Color Arrays</h4>
                 <div class="btn-grid" id="color-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">Particles</h4>
+                <h4 class="section-title" style="margin-top:10px;">15 Particles</h4>
                 <div class="btn-grid" id="particle-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">Screen Glows</h4>
+                <h4 class="section-title" style="margin-top:10px;">15 Screen Glows</h4>
                 <div class="btn-grid" id="glow-grid"></div>
 
                 <h4 class="section-title" style="margin-top:10px;">Particle Colors</h4>
@@ -326,7 +367,7 @@
                 <div class="ctrl-row"><label>Glow Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
                 <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
                 <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
-                <div class="ctrl-row"><label>Particle Density</label><input type="range" class="ctrl-slider" min="10" max="300" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
+                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="300" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
             </div>
 
             <div id="tab-sfx" class="tab-content">
@@ -336,7 +377,9 @@
                     <button class="toy-btn" onclick="triggerVFX('🦋', 'left')">Mascot L</button>
                     <button class="toy-btn" onclick="triggerVFX('🔮', 'right')">Mascot R</button>
                     <button class="toy-btn" onclick="triggerVFX('🖤', 'random')">Heart</button>
-                    <label class="toy-btn" style="text-align:center;">
+                    <button class="toy-btn" onclick="triggerVFX('⚡', 'center')">Zap</button>
+                    <button class="toy-btn" onclick="triggerVFX('🔥', 'bottom')">Flame</button>
+                    <label class="toy-btn" style="text-align:center; grid-column: span 2;">
                         + SVG <input type="file" accept=".svg,.png" style="display:none;" onchange="uploadVFX(this)">
                     </label>
                 </div>
@@ -355,12 +398,12 @@
             <div id="tab-vault" class="tab-content">
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                     <button class="toy-btn" id="save-btn" style="flex: 2; border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe</button>
-                    <button class="toy-btn" style="flex: 1;" onclick="exportVault()">📤 Export</button>
+                    <button class="toy-btn" style="flex: 1;" onclick="exportVault()">📤 Export File</button>
                     <label class="toy-btn" style="flex: 1; text-align: center;">
-                        📥 Import <input type="file" accept=".json" style="display:none;" onchange="importVault(this)">
+                        📥 Import File <input type="file" accept=".json" style="display:none;" onchange="importVault(this)">
                     </label>
                 </div>
-                <div id="vault-list"></div>
+                <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
             </div>
         </main>
     </div>
@@ -368,6 +411,27 @@
     <div id="scratchpad-modal" onclick="toggleScratch()">
         <div class="scratch-bubble" onclick="event.stopPropagation()">
             <textarea id="scratchpad-box" class="scratchpad" placeholder="Type your broadcast notes here..."></textarea>
+            
+            <div class="scoreboard-panel">
+                <h4 class="section-title">Scoreboard</h4>
+                <div class="score-row">
+                    <span style="color: var(--text-muted);">Team 1</span>
+                    <div>
+                        <button class="score-btn" onclick="updateScore(1, -1)">-</button>
+                        <span class="score-val" id="score1">0</span>
+                        <button class="score-btn" onclick="updateScore(1, 1)">+</button>
+                    </div>
+                </div>
+                <div class="score-row">
+                    <span style="color: var(--text-muted);">Team 2</span>
+                    <div>
+                        <button class="score-btn" onclick="updateScore(2, -1)">-</button>
+                        <span class="score-val" id="score2">0</span>
+                        <button class="score-btn" onclick="updateScore(2, 1)">+</button>
+                    </div>
+                </div>
+                <button class="toy-btn" onclick="resetScores()" style="margin-top: auto;">Reset</button>
+            </div>
         </div>
     </div>
 
@@ -401,8 +465,19 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        function toggleCloak() { document.body.classList.toggle('cloaked'); }
-        function restoreUI() { document.body.classList.remove('cloaked'); }
+        function toggleCloak() { 
+            document.body.classList.toggle('cloaked'); 
+            const btn = document.getElementById('cloakBtn');
+            if(document.body.classList.contains('cloaked')) {
+                btn.innerText = "Studio Mode";
+            } else {
+                btn.innerText = "Broadcast Mode";
+            }
+        }
+        function restoreUI() { 
+            document.body.classList.remove('cloaked'); 
+            document.getElementById('cloakBtn').innerText = "Broadcast Mode";
+        }
         
         function toggleScratch() { document.getElementById('scratchpad-modal').classList.toggle('active'); }
         function toggleCast() { document.getElementById('cast-modal').classList.toggle('active'); }
@@ -420,6 +495,34 @@
             if (navigator.share) {
                 navigator.share({ title: 'SomniaScapes', text: 'Step into my Digital Sanctuary.', url: 'https://somniascapes.com' });
             } else { alert("Share link copied: https://somniascapes.com"); }
+        }
+
+        let s1 = 0, s2 = 0;
+        function updateScore(team, val) {
+            if(team === 1) { s1 += val; document.getElementById('score1').innerText = s1; }
+            if(team === 2) { s2 += val; document.getElementById('score2').innerText = s2; }
+        }
+        function resetScores() { s1=0; s2=0; document.getElementById('score1').innerText = 0; document.getElementById('score2').innerText = 0; }
+
+        let mediaRecorder;
+        let recordedChunks = [];
+        async function startScreenCapture() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: "video/webm" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url; a.download = "SomniaScapes_Capture.webm";
+                    a.click();
+                    recordedChunks = [];
+                };
+                mediaRecorder.start();
+                alert("Recording Started. Broadcast Mode is recommended.");
+                toggleCloak();
+            } catch (err) { console.error("Error: " + err); }
         }
 
         // === 2. MEDIA UPLOADS (Image, Video, Live) ===
@@ -470,9 +573,10 @@
             btn.classList.add('active');
         }
 
-        // === 3. AUDIO ENGINE PRO (21 Tracks + Panning) ===
+        // === 3. AUDIO ENGINE PRO (Master Gain, Filters, Panning) ===
         const activeAudio = {};
         let audioCtx; 
+        let masterGainNode;
 
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
@@ -491,8 +595,15 @@
         function initAudioContext() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                masterGainNode = audioCtx.createGain();
+                masterGainNode.gain.value = document.getElementById('master-gain-slider').value;
+                masterGainNode.connect(audioCtx.destination);
             }
             if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function setMasterGain(val) {
+            if (masterGainNode) masterGainNode.gain.value = val;
         }
 
         function initMixer() {
@@ -508,10 +619,13 @@
                         <span>PAN</span>
                         <input type="range" id="pan-${track.id}" class="mixer-slider" min="-1" max="1" step="0.1" value="0" oninput="adjustPan('${track.id}', this.value)">
                     </div>
+                    <div class="mixer-controls" style="margin-top: 5px;">
+                        <span>LPF</span>
+                        <input type="range" id="filter-${track.id}" class="mixer-slider" min="200" max="20000" step="100" value="20000" oninput="adjustFilter('${track.id}', this.value)">
+                    </div>
                 </div>
             `).join('');
             
-            // Re-highlight if playing (for redraws)
             Object.keys(activeAudio).forEach(id => {
                 const c = document.getElementById(`card-${id}`);
                 if(c) c.classList.add('playing');
@@ -541,16 +655,21 @@
                 const source = audioCtx.createMediaElementSource(audio);
                 const panner = audioCtx.createStereoPanner();
                 const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+                
+                filter.type = 'lowpass';
                 
                 gain.gain.value = document.getElementById(`vol-${id}`) ? document.getElementById(`vol-${id}`).value : 0.5;
                 panner.pan.value = document.getElementById(`pan-${id}`) ? document.getElementById(`pan-${id}`).value : 0;
+                filter.frequency.value = document.getElementById(`filter-${id}`) ? document.getElementById(`filter-${id}`).value : 20000;
                 
-                source.connect(panner);
+                source.connect(filter);
+                filter.connect(panner);
                 panner.connect(gain);
-                gain.connect(audioCtx.destination);
+                gain.connect(masterGainNode); // Connect to Master, not destination directly
                 
                 audio.play().then(() => { 
-                    activeAudio[id] = { audio, gain, panner }; 
+                    activeAudio[id] = { audio, gain, panner, filter }; 
                     if(card) card.classList.add('playing'); 
                 }).catch(e => console.log("Unlock audio first."));
             }
@@ -558,6 +677,7 @@
         
         function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].gain.gain.value = val; }
         function adjustPan(id, val) { if (activeAudio[id]) activeAudio[id].panner.pan.value = val; }
+        function adjustFilter(id, val) { if (activeAudio[id]) activeAudio[id].filter.frequency.value = val; }
         function stopAllAudio() { 
             Object.keys(activeAudio).forEach(id => { 
                 activeAudio[id].audio.pause(); 
@@ -587,10 +707,9 @@
             initAudioContext();
             const audio = new Audio(url);
             const source = audioCtx.createMediaElementSource(audio);
-            source.connect(audioCtx.destination); // Direct to master out, no loop, full volume
+            source.connect(masterGainNode); // Connect SFX to master gain
             audio.play().catch(e => console.log("SFX file missing or locked."));
             
-            // Visual pop on the button
             if(btn) {
                 btn.style.borderColor = "var(--accent)";
                 setTimeout(() => btn.style.borderColor = "var(--glass-border)", 500);
@@ -605,49 +724,114 @@
             input.value = "";
         }
 
-        // === 4. DRAWING ENGINE ===
+        // === 4. DRAWING ENGINE PRO (CapCut Style) ===
         const drawCanvas = document.getElementById('drawCanvas');
         const drawCtx = drawCanvas.getContext('2d');
         let isDrawing = false;
+        let isErasing = false;
         
-        function resizeDrawCanvas() { drawCanvas.width = window.innerWidth; drawCanvas.height = window.innerHeight; }
+        function resizeDrawCanvas() { 
+            drawCanvas.width = window.innerWidth; 
+            drawCanvas.height = window.innerHeight; 
+        }
         window.addEventListener('resize', resizeDrawCanvas);
         resizeDrawCanvas();
 
         function toggleDrawMode() {
-            document.body.classList.toggle('drawing-active');
-            const btn = document.getElementById('drawToggleBtn');
-            btn.classList.toggle('active');
+            document.body.classList.add('drawing-active');
+            isErasing = false;
+            document.getElementById('drawToggleBtn').classList.add('active');
+            document.getElementById('eraseToggleBtn').classList.remove('active');
         }
 
-        function clearDraw() { drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); }
+        function toggleEraseMode() {
+            document.body.classList.add('drawing-active');
+            isErasing = true;
+            document.getElementById('drawToggleBtn').classList.remove('active');
+            document.getElementById('eraseToggleBtn').classList.add('active');
+        }
 
-        drawCanvas.addEventListener('mousedown', e => { isDrawing = true; drawCtx.beginPath(); drawCtx.moveTo(e.clientX, e.clientY); });
+        function clearDraw() { 
+            drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); 
+            document.body.classList.remove('drawing-active');
+            document.getElementById('drawToggleBtn').classList.remove('active');
+            document.getElementById('eraseToggleBtn').classList.remove('active');
+        }
+
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: (evt.clientX || evt.touches[0].clientX) - rect.left,
+                y: (evt.clientY || evt.touches[0].clientY) - rect.top
+            };
+        }
+
+        drawCanvas.addEventListener('mousedown', e => { 
+            isDrawing = true; 
+            const pos = getMousePos(drawCanvas, e);
+            drawCtx.beginPath(); 
+            drawCtx.moveTo(pos.x, pos.y); 
+        });
+        
         drawCanvas.addEventListener('mousemove', e => {
             if (!isDrawing) return;
-            drawCtx.lineTo(e.clientX, e.clientY);
-            drawCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#fff';
-            drawCtx.lineWidth = 3;
-            drawCtx.lineCap = 'round';
-            drawCtx.shadowBlur = 10;
-            drawCtx.shadowColor = drawCtx.strokeStyle;
+            const pos = getMousePos(drawCanvas, e);
+            drawCtx.lineTo(pos.x, pos.y);
+            
+            if (isErasing) {
+                drawCtx.globalCompositeOperation = "destination-out";
+                drawCtx.lineWidth = document.getElementById('brushSize').value * 2;
+                drawCtx.shadowBlur = 0;
+            } else {
+                drawCtx.globalCompositeOperation = "source-over";
+                drawCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#fff';
+                drawCtx.lineWidth = document.getElementById('brushSize').value;
+                drawCtx.lineCap = 'round';
+                drawCtx.lineJoin = 'round';
+                drawCtx.shadowBlur = 10;
+                drawCtx.shadowColor = drawCtx.strokeStyle;
+            }
             drawCtx.stroke();
         });
         drawCanvas.addEventListener('mouseup', () => { isDrawing = false; });
-        drawCanvas.addEventListener('touchstart', e => { isDrawing = true; drawCtx.beginPath(); drawCtx.moveTo(e.touches[0].clientX, e.touches[0].clientY); });
+        drawCanvas.addEventListener('mouseout', () => { isDrawing = false; });
+
+        drawCanvas.addEventListener('touchstart', e => { 
+            isDrawing = true; 
+            const pos = getMousePos(drawCanvas, e);
+            drawCtx.beginPath(); 
+            drawCtx.moveTo(pos.x, pos.y); 
+            e.preventDefault();
+        }, {passive: false});
+        
         drawCanvas.addEventListener('touchmove', e => {
             if (!isDrawing) return;
-            drawCtx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+            const pos = getMousePos(drawCanvas, e);
+            drawCtx.lineTo(pos.x, pos.y);
+            
+             if (isErasing) {
+                drawCtx.globalCompositeOperation = "destination-out";
+                drawCtx.lineWidth = document.getElementById('brushSize').value * 2;
+                drawCtx.shadowBlur = 0;
+            } else {
+                drawCtx.globalCompositeOperation = "source-over";
+                drawCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#fff';
+                drawCtx.lineWidth = document.getElementById('brushSize').value;
+                drawCtx.lineCap = 'round';
+                drawCtx.lineJoin = 'round';
+                drawCtx.shadowBlur = 10;
+                drawCtx.shadowColor = drawCtx.strokeStyle;
+            }
             drawCtx.stroke();
-        });
+            e.preventDefault();
+        }, {passive: false});
         drawCanvas.addEventListener('touchend', () => { isDrawing = false; });
 
         // === 5. ATMOS GENERATORS & VFX ===
         const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','mist','fog','clouds','lightning','emojis'];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','neon','plasma','ethereal','ember','void-pulse','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','mist','fog','clouds','lightning','emojis','fireflies','orbs','feathers','petals','runes'];
 
-        // Fully Restored Color Arrays to fix Button breaking
         const particleColors = [
             { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' },
             { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' },
@@ -665,8 +849,8 @@
 
         function populateGrid(id, arr, type) {
             const grid = document.getElementById(id);
-            if (!grid) return; // Fail-safe
-            grid.innerHTML = ''; // Clear out just in case
+            if (!grid) return; 
+            grid.innerHTML = ''; 
             arr.forEach((item, index) => {
                 const isObj = typeof item === 'object';
                 const label = isObj ? item.name : item;
@@ -699,6 +883,7 @@
             
             if (pos === 'left') { el.style.left = '10%'; el.style.bottom = '10%'; }
             else if (pos === 'right') { el.style.right = '10%'; el.style.bottom = '10%'; }
+            else if (pos === 'bottom') { el.style.left = '45%'; el.style.bottom = '0%'; }
             else if (pos === 'random') { el.style.left = Math.random() * 80 + '%'; el.style.top = Math.random() * 80 + '%'; }
             else { el.style.left = '45%'; el.style.top = '40%'; }
             
@@ -723,7 +908,8 @@
                 x: Math.random() * w, y: Math.random() * h,
                 r: Math.random() * 2 + 0.5,
                 vx: (Math.random() - 0.5), vy: (Math.random() - 0.5),
-                emoji: ['✨','🌙','🔮','🦋'][Math.floor(Math.random()*4)]
+                emoji: ['✨','🌙','🔮','🦋','🌸','⚡'][Math.floor(Math.random()*6)],
+                angle: Math.random() * Math.PI * 2
             }));
         }
 
@@ -755,7 +941,6 @@
 
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
                 
-                // Variable resolution for CSS vars
                 if (color.includes('var(')) {
                     const varName = color.match(/var\(([^)]+)\)/)[1].trim();
                     color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
@@ -765,7 +950,6 @@
                 ctx.shadowBlur = 8; 
                 ctx.shadowColor = color;
 
-                // Environmental effects
                 if (particleType === 'lightning' && Math.random() < 0.02) {
                     ctx.fillStyle = 'rgba(255,255,255,0.8)';
                     ctx.fillRect(0,0,w,h);
@@ -791,17 +975,41 @@
                     else if (particleType === 'emojis') {
                         p.y -= mult; ctx.font = "20px Arial"; ctx.fillText(p.emoji, p.x, p.y); return;
                     }
+                    else if (particleType === 'fireflies') {
+                        p.x += Math.sin(Date.now()/1000 + i) * mult; p.y += Math.cos(Date.now()/1000 + i) * mult;
+                        ctx.globalAlpha = Math.abs(Math.sin(Date.now()/500 + i));
+                    }
+                    else if (particleType === 'orbs') {
+                        p.y -= 0.5 * mult; p.r = 10 + Math.sin(Date.now()/1000 + i) * 5;
+                        ctx.globalAlpha = 0.3;
+                    }
+                    else if (particleType === 'feathers') {
+                        p.y += mult; p.x += Math.sin(p.y/20) * mult; p.angle += 0.02 * mult;
+                        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+                        ctx.fillRect(-1, -10, 2, 20); ctx.restore(); return;
+                    }
+                    else if (particleType === 'petals') {
+                        p.y += 2*mult; p.x += Math.cos(p.y/40) * 2 * mult; p.angle += 0.05 * mult;
+                        ctx.fillStyle = '#fb7185';
+                        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+                        ctx.beginPath(); ctx.ellipse(0, 0, p.r*2, p.r, 0, 0, Math.PI*2); ctx.fill(); ctx.restore(); return;
+                    }
+                    else if (particleType === 'runes') {
+                        p.y += mult; ctx.font = "15px Courier New";
+                        ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random() * 80)), p.x, p.y); return;
+                    }
 
                     if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
                     if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
 
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                    ctx.globalAlpha = 1; // reset
                 });
             }
             requestAnimationFrame(loop);
         }
 
-        // === 7. VAULT MEMORY ENGINE (Pro Import/Export) ===
+        // === 7. VAULT MEMORY ENGINE (Pro Import/Export & Rename) ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
 
         function savePreset() {
@@ -811,6 +1019,7 @@
             setTimeout(() => { btn.innerText = "💾 Save Current Vibe"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
 
             const state = {
+                id: Date.now(),
                 name: "Vibe Protocol " + (savedVault.length + 1),
                 bodyClass: document.body.className,
                 glowClass: document.getElementById('glow-layer').className,
@@ -828,7 +1037,8 @@
                 audio: Object.keys(activeAudio).map(id => ({
                     id: id,
                     vol: activeAudio[id].gain ? activeAudio[id].gain.gain.value : 0.5,
-                    pan: activeAudio[id].panner ? activeAudio[id].panner.pan.value : 0
+                    pan: activeAudio[id].panner ? activeAudio[id].panner.pan.value : 0,
+                    filter: activeAudio[id].filter ? activeAudio[id].filter.frequency.value : 20000
                 }))
             };
             
@@ -836,7 +1046,6 @@
             try {
                 localStorage.setItem('somniaVault', JSON.stringify(savedVault));
             } catch(e) {
-                console.error("Storage limit exceeded.", e);
                 alert("Vault Warning: Preset is too large to save (usually caused by a massive custom background image).");
             }
             renderVault();
@@ -847,10 +1056,20 @@
             if(!list) return;
             list.innerHTML = savedVault.map((preset, index) => `
                 <div class="mixer-card" style="flex-direction:row; align-items:center;">
-                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
+                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ <span id="preset-name-${index}">${preset.name}</span></button>
+                    <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; margin-right: 5px;" onclick="renamePreset(${index})">✏️</button>
                     <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; border-color: #ec4899; color: #ec4899;" onclick="deletePreset(${index})">DEL</button>
                 </div>
             `).join('');
+        }
+        
+        function renamePreset(index) {
+            const newName = prompt("Rename Preset:", savedVault[index].name);
+            if(newName) {
+                savedVault[index].name = newName;
+                localStorage.setItem('somniaVault', JSON.stringify(savedVault));
+                renderVault();
+            }
         }
 
         function loadPreset(index) {
@@ -877,8 +1096,10 @@
                     if (sound) {
                         const volSlider = document.getElementById(`vol-${track.id}`);
                         const panSlider = document.getElementById(`pan-${track.id}`);
+                        const filterSlider = document.getElementById(`filter-${track.id}`);
                         if (volSlider) volSlider.value = track.vol;
                         if (panSlider) panSlider.value = track.pan;
+                        if (filterSlider) filterSlider.value = track.filter || 20000;
                         toggleStem(track.id, sound.url);
                     }
                 });
