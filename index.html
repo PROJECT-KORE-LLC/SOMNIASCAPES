@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // AMBIENCE MAKER PRO</title>
+    <title>SOMNIASCAPES // AMBIENCE MAKER</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* ============================================================
-           SOMNIASCAPES — THE DIGITAL TOY SHELL & CREATOR STUDIO
+           SOMNIASCAPES — THE DIGITAL TOY SHELL
            Luxurious • Calm • ND-Friendly • Frosted Glass Tabs
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            /* GLOBAL CONSTANTS */
+            /* GLOBAL CONSTANTS (Does not change with palette) */
             --glass: rgba(10, 15, 25, 0.7);
             --text-muted: #a09ba5;
             
-            /* DYNAMIC CONTROLS */
+            /* DYNAMIC CONTROLS (Updated via JS/Sliders) */
             --bg-zoom: 1;
             --bg-bright: 0.85;
             --glow-opac: 0.3;
             --anim-speed: 10s;
 
-            /* LUNAR BASELINE */
+            /* LUNAR BASELINE (Moonlight Loading Default) */
             --primary: #e0e7ff; 
             --primary-glow: rgba(224, 231, 255, 0.4);
             --accent: #a5b4fc; 
@@ -62,35 +62,14 @@
             transform: scale(var(--bg-zoom));
             filter: brightness(var(--bg-bright));
             transition: background-image 1.5s ease, filter 0.3s ease, transform 0.3s ease;
-            will-change: transform, filter;
-        }
-        
-        #bg-video, #live-stream-video {
-            position: absolute; width: 100%; height: 100%; object-fit: cover; display: none; z-index: -1;
-            will-change: transform;
         }
 
-        /* Screen Motions */
-        .motion-pan { animation: bg-pan 30s infinite alternate linear; }
-        .motion-zoom { animation: bg-zoom 20s infinite alternate ease-in-out; }
-        .motion-breathe { animation: bg-breathe 15s infinite alternate ease-in-out; }
-        
-        @keyframes bg-pan { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-        @keyframes bg-zoom { 0% { transform: scale(var(--bg-zoom)); } 100% { transform: scale(calc(var(--bg-zoom) + 0.15)); } }
-        @keyframes bg-breathe { 0% { filter: brightness(var(--bg-bright)) blur(0px); } 100% { filter: brightness(calc(var(--bg-bright) - 0.2)) blur(2px); } }
-
-        /* --- DRAWING LAYER --- */
-        #drawCanvas { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
-        .drawing-active #drawCanvas { pointer-events: auto; cursor: crosshair; }
-
-        /* --- 15 GLOW ANIMATIONS --- */
+        /* --- 10 GLOW ANIMATIONS --- */
         #glow-layer {
             position: fixed; inset: 0;
             background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%);
-            z-index: 3; opacity: var(--glow-opac); pointer-events: none;
+            z-index: 2; opacity: var(--glow-opac); pointer-events: none;
             transition: opacity 0.3s ease, background 1s ease;
-            mix-blend-mode: screen;
-            will-change: opacity, background;
         }
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
@@ -100,11 +79,6 @@
         .glow-flicker { animation: g-flicker calc(var(--anim-speed) / 4) infinite alternate ease-in-out; }
         .glow-aurora { background: linear-gradient(45deg, var(--primary-glow), transparent); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-radar { background: conic-gradient(from 0deg, transparent, var(--primary-glow), transparent); animation: g-wave var(--anim-speed) infinite linear; }
-        .glow-neon { background: radial-gradient(circle, var(--glow-color) 10%, transparent 80%); filter: saturate(200%); animation: g-pulse calc(var(--anim-speed)/2) infinite alternate ease-in-out; }
-        .glow-plasma { background: repeating-radial-gradient(circle, var(--glow-color), transparent 20%); animation: g-wave var(--anim-speed) infinite linear; mix-blend-mode: color-dodge; }
-        .glow-ethereal { background: radial-gradient(ellipse at center, var(--glow-color) 0%, transparent 100%); animation: g-phantom var(--anim-speed) infinite alternate ease-in-out; }
-        .glow-ember { background: radial-gradient(circle at bottom, var(--glow-color) 0%, transparent 60%); animation: g-flicker calc(var(--anim-speed)/3) infinite alternate ease-in-out; mix-blend-mode: overlay; }
-        .glow-void-pulse { background: radial-gradient(circle, transparent 20%, var(--glow-color) 80%); animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-static { animation: none; }
         .glow-none { opacity: 0 !important; }
 
@@ -115,31 +89,15 @@
         @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
 
-        #particleCanvas { position: fixed; inset: 0; z-index: 4; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; mix-blend-mode: screen; will-change: transform; }
-
-        /* LIVE VFX OVERLAYS */
-        .vfx-popup {
-            position: absolute; z-index: 5; pointer-events: none;
-            animation: vfx-pop 2s forwards ease-out; filter: drop-shadow(0 0 20px var(--primary-glow));
-            will-change: transform, opacity;
-        }
-        @keyframes vfx-pop { 0% { transform: scale(0.5) translateY(50px); opacity: 0; } 20% { transform: scale(1.2) translateY(0); opacity: 1; } 80% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0.8) translateY(-50px); opacity: 0; } }
+        #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.3s ease; }
 
         /* --- UI LAYOUT (Mobile First & Centered) --- */
         #ui-wrapper {
             position: relative; z-index: 100; height: 100vh; width: 100vw;
             display: flex; flex-direction: column; align-items: center;
-            transition: opacity 0.8s ease; 
+            transition: opacity 0.8s ease; /* Smooth Fade for Cloak */
         }
         body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
-        
-        #broadcast-indicator {
-            position: fixed; top: 20px; left: 20px; z-index: 200;
-            color: #ef4444; font-weight: bold; font-size: 0.8rem; letter-spacing: 2px;
-            text-transform: uppercase; display: none; text-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
-            animation: g-flicker 2s infinite alternate ease-in-out;
-        }
-        body.cloaked #broadcast-indicator { display: block; }
 
         #top-nav { display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
         
@@ -170,10 +128,9 @@
         .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); }
         .tab-btn {
             flex: 1; background: transparent; border: none; color: var(--text-muted);
-            padding: 16px 0; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+            padding: 16px 0; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
             cursor: pointer; transition: 0.3s; font-family: inherit; border-bottom: 2px solid transparent;
         }
-        @media (max-width: 500px) { .tab-btn { font-size: 0.6rem; letter-spacing: 1px; padding: 12px 0;} }
         .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.02); }
         
         .tab-content { display: none; padding: 20px; max-height: 45vh; overflow-y: auto; }
@@ -203,28 +160,25 @@
 
         h4.section-title { margin: 0 0 5px 0; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
 
-        /* --- AUDIO MIXER PRO --- */
+        /* --- AUDIO MIXER --- */
         .mixer-card {
-            display: flex; flex-direction: column; padding: 10px 14px; 
-            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 8px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; gap: 10px;
         }
         .mixer-card.playing { border-color: var(--accent); background: rgba(45, 212, 191, 0.05); }
-        
-        .mixer-header { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px;}
         .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.8rem; text-align: left; cursor: pointer; font-family: inherit; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .mixer-card.playing .mixer-btn { color: var(--accent); text-shadow: 0 0 10px rgba(45, 212, 191, 0.5); }
-        
-        .mixer-controls { display: flex; align-items: center; gap: 10px; width: 100%; font-size: 0.6rem; color: var(--text-muted); }
-        .mixer-slider { flex: 1; -webkit-appearance: none; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
+        .mixer-slider { -webkit-appearance: none; width: 80px; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; }
         .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px var(--primary-glow); }
 
         /* --- SLIDERS (Atmos) --- */
-        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 5px;}
+        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
         .ctrl-row label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; width: 80px; }
         .ctrl-slider { flex: 1; -webkit-appearance: none; height: 3px; background: rgba(255,255,255,0.1); outline: none; border-radius: 2px; accent-color: var(--primary); }
 
         
-        /* --- MODALS --- */
+        /* --- MODALS (Scratchpad, Cast & QR) --- */
         #scratchpad-modal, #cast-modal, #qr-modal {
             position: fixed; inset: 0; z-index: 200; display: none;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
@@ -232,23 +186,14 @@
         }
         #scratchpad-modal.active, #cast-modal.active, #qr-modal.active { display: flex; }
         .scratch-bubble {
-            width: 100%; max-width: 800px; height: 500px;
+            width: 100%; max-width: 500px; height: 300px;
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex; gap: 20px;
         }
         .scratchpad {
-            flex: 2; height: 100%; background: transparent; border: none;
+            width: 100%; height: 100%; background: transparent; border: none;
             color: #fff; font-family: inherit; font-size: 1.1rem; resize: none; outline: none; line-height: 1.6;
         }
-        .scoreboard-panel {
-            flex: 1; border-left: 1px solid var(--glass-border); padding-left: 20px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .score-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;}
-        .score-val { font-size: 1.5rem; color: var(--accent); font-weight: bold; }
-        .score-btn { background: none; border: 1px solid var(--glass-border); color: #fff; border-radius: 5px; cursor: pointer; width: 30px; height: 30px;}
-        
         .cast-box {
             width: 100%; max-width: 400px; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 20px;
@@ -256,104 +201,65 @@
             display: flex; flex-direction: column; align-items: center;
         }
         
+        /* QR Container Style */
         #qrcode { background: #fff; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
 
     </style>
 </head>
-<body id="os-body" class="lunar-mode">
+<body id="os-body" class="lunar-mode" onclick="restoreUI()">
 
-    <div id="broadcast-indicator">● BROADCAST MODE ACTIVE</div>
-
-    <div id="bg-anchor">
-        <video id="bg-video" loop autoplay muted></video>
-        <video id="live-stream-video" autoplay></video>
-    </div>
-    
-    <canvas id="drawCanvas"></canvas>
-    
+    <div id="bg-anchor"></div>
     <div id="glow-layer" class="glow-pulse"></div>
     <canvas id="particleCanvas"></canvas>
 
-    <div id="ui-wrapper" onclick="event.stopPropagation()">
-        <div id="top-nav">
-            <button class="artifact-btn" onclick="toggleCloak()" id="cloakBtn">Broadcast Mode</button>
+    <div id="ui-wrapper">
+        <div id="top-nav" onclick="event.stopPropagation()">
+            <button class="artifact-btn" onclick="toggleCloak()">Cloak</button>
             <button class="artifact-btn" onclick="toggleScratch()">Scratch</button>
             <button class="artifact-btn" onclick="toggleCast()">Full Screen</button>
-            <button class="artifact-btn" onclick="startScreenCapture()">🔴 Record</button>
-            <button id="tvSyncButton" class="artifact-btn">TV Sync</button>
-            <button class="artifact-btn" onclick="shareSocial()">Share</button>
+            <button id="shareButton" class="artifact-btn">Share</button>
         </div>
 
-        <div class="nav-logo" onclick="restoreUI()">SOMNIASCAPES</div>
+        <div class="nav-logo">SOMNIASCAPES</div>
 
-        <main id="maker-panel">
+        <main id="maker-panel" onclick="event.stopPropagation()">
             <div class="tab-bar">
                 <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Audio</button>
                 <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
                 <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
-                <button class="tab-btn" onclick="switchTab('tab-sfx', this)">FX Board</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
             </div>
 
             <div id="tab-audio" class="tab-content active">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <label class="toy-btn" style="flex:1; text-align:center; margin-right:10px;">
                         + Upload Custom Audio
                         <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
                     </label>
                     <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#ec4899; color:#ec4899;">Silence All</button>
                 </div>
-                
-                <div class="ctrl-row" style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
-                    <label style="color: var(--primary);">Master Gain</label>
-                    <input type="range" class="ctrl-slider" id="master-gain-slider" min="0" max="2" step="0.1" value="1" oninput="setMasterGain(this.value)">
-                </div>
-
                 <div id="mixer-container" style="display:flex; flex-direction:column; gap:8px;"></div>
             </div>
 
             <div id="tab-canvas" class="tab-content">
-                <h4 class="section-title">Media Uploads</h4>
-                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <label class="upload-zone" style="flex: 1;">
-                        <span>+ Image</span>
-                        <input type="file" accept="image/*" onchange="executeImageUpload(this)">
-                    </label>
-                    <label class="upload-zone" style="flex: 1;">
-                        <span>+ Video</span>
-                        <input type="file" accept="video/*" onchange="executeVideoUpload(this)">
-                    </label>
-                    <button class="toy-btn" style="flex: 1; border-color: var(--accent);" onclick="toggleLiveStream()">🎥 Live Input</button>
-                </div>
+                <h4 class="section-title">Backgrounds</h4>
+                <div class="btn-grid" id="bg-presets"></div>
 
-                <h4 class="section-title">Canvas Motions</h4>
-                <div class="btn-grid" style="margin-bottom: 15px;">
-                    <button class="toy-btn active" onclick="setMotion('none', this)">Static</button>
-                    <button class="toy-btn" onclick="setMotion('motion-pan', this)">Pan</button>
-                    <button class="toy-btn" onclick="setMotion('motion-zoom', this)">Zoom</button>
-                    <button class="toy-btn" onclick="setMotion('motion-breathe', this)">Breathe</button>
-                </div>
-                
-                <h4 class="section-title">Creator Tools</h4>
-                <div class="btn-grid">
-                    <button class="toy-btn" id="drawToggleBtn" onclick="toggleDrawMode()" style="border-color: var(--primary);">🖌️ Draw Mode</button>
-                    <button class="toy-btn" id="eraseToggleBtn" onclick="toggleEraseMode()">Eraser</button>
-                    <button class="toy-btn" onclick="clearDraw()" style="color: #ec4899;">Clear Ink</button>
-                </div>
-                <div class="ctrl-row" style="margin-top: 10px;">
-                    <label>Brush Size</label>
-                    <input type="range" class="ctrl-slider" id="brushSize" min="1" max="50" value="5">
-                </div>
+                <h4 class="section-title" style="margin-top:10px;">Custom</h4>
+                <label class="upload-zone">
+                    <span>+ Upload Local Background Image</span>
+                    <input type="file" accept="image/*" onchange="executeImageUpload(this)">
+                </label>
             </div>
 
             <div id="tab-atmos" class="tab-content">
                 <h4 class="section-title">10 Color Arrays</h4>
                 <div class="btn-grid" id="color-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">15 Particles</h4>
+                <h4 class="section-title" style="margin-top:10px;">10 Particles</h4>
                 <div class="btn-grid" id="particle-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">15 Screen Glows</h4>
+                <h4 class="section-title" style="margin-top:10px;">10 Screen Glows</h4>
                 <div class="btn-grid" id="glow-grid"></div>
 
                 <h4 class="section-title" style="margin-top:10px;">Particle Colors</h4>
@@ -362,48 +268,18 @@
                 <h4 class="section-title" style="margin-top:10px;">Glow Colors</h4>
                 <div class="btn-grid" id="glow-color-grid"></div>
 
-                <h4 class="section-title" style="margin-top:10px;">Master Engine Sliders</h4>
+                <h4 class="section-title" style="margin-top:10px;">Master Sliders</h4>
                 <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s')"></div>
-                <div class="ctrl-row"><label>Glow Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
+                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value)"></div>
                 <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value)"></div>
                 <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value)"></div>
-                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="300" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
-            </div>
-
-            <div id="tab-sfx" class="tab-content">
-                <h4 class="section-title">Live Trigger VFX Overlays</h4>
-                <div class="btn-grid">
-                    <button class="toy-btn" onclick="triggerVFX('✨', 'center')">Burst</button>
-                    <button class="toy-btn" onclick="triggerVFX('🦋', 'left')">Mascot L</button>
-                    <button class="toy-btn" onclick="triggerVFX('🔮', 'right')">Mascot R</button>
-                    <button class="toy-btn" onclick="triggerVFX('🖤', 'random')">Heart</button>
-                    <button class="toy-btn" onclick="triggerVFX('⚡', 'center')">Zap</button>
-                    <button class="toy-btn" onclick="triggerVFX('🔥', 'bottom')">Flame</button>
-                    <label class="toy-btn" style="text-align:center; grid-column: span 2;">
-                        + SVG <input type="file" accept=".svg,.png" style="display:none;" onchange="uploadVFX(this)">
-                    </label>
-                </div>
-                
-                <h4 class="section-title" style="margin-top: 15px;">Sound FX Triggers (One-Shots)</h4>
-                <div class="btn-grid" id="sfx-grid"></div>
-                
-                <div style="margin-top:15px; border-top: 1px solid var(--glass-border); padding-top: 15px;">
-                    <label class="upload-zone" style="display: block;">
-                        <span>+ Upload Custom SFX Trigger</span>
-                        <input type="file" accept="audio/*" onchange="uploadSFX(this)">
-                    </label>
-                </div>
+                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value)"></div>
+                <div class="ctrl-row"><label>Low Motion</label><input type="checkbox" id="lowMotionToggle" onclick="toggleLowMotion()"></div>
+                <div class="ctrl-row"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" onclick="toggleLowGpu()"></div>
             </div>
 
             <div id="tab-vault" class="tab-content">
-                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button class="toy-btn" id="save-btn" style="flex: 2; border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe</button>
-                    <button class="toy-btn" style="flex: 1;" onclick="exportVault()">📤 Export File</button>
-                    <label class="toy-btn" style="flex: 1; text-align: center;">
-                        📥 Import File <input type="file" accept=".json" style="display:none;" onchange="importVault(this)">
-                    </label>
-                </div>
-                <div id="vault-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 15px;" onclick="savePreset()">💾 Save Current Vibe Preset</button>
             </div>
         </main>
     </div>
@@ -411,27 +287,6 @@
     <div id="scratchpad-modal" onclick="toggleScratch()">
         <div class="scratch-bubble" onclick="event.stopPropagation()">
             <textarea id="scratchpad-box" class="scratchpad" placeholder="Type your broadcast notes here..."></textarea>
-            
-            <div class="scoreboard-panel">
-                <h4 class="section-title">Scoreboard</h4>
-                <div class="score-row">
-                    <span style="color: var(--text-muted);">Team 1</span>
-                    <div>
-                        <button class="score-btn" onclick="updateScore(1, -1)">-</button>
-                        <span class="score-val" id="score1">0</span>
-                        <button class="score-btn" onclick="updateScore(1, 1)">+</button>
-                    </div>
-                </div>
-                <div class="score-row">
-                    <span style="color: var(--text-muted);">Team 2</span>
-                    <div>
-                        <button class="score-btn" onclick="updateScore(2, -1)">-</button>
-                        <span class="score-val" id="score2">0</span>
-                        <button class="score-btn" onclick="updateScore(2, 1)">+</button>
-                    </div>
-                </div>
-                <button class="toy-btn" onclick="resetScores()" style="margin-top: auto;">Reset</button>
-            </div>
         </div>
     </div>
 
@@ -441,23 +296,33 @@
             <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px;">
                 SomniaScapes runs a live, multi-track rendering engine. To project the full visual and audio experience to a TV, use your browser's native Tab Mirroring.
             </p>
-            <button class="toy-btn" style="width: 100%; margin-bottom: 15px; padding: 15px; border-color: var(--accent); color: var(--accent);" onclick="toggleFullscreen()">⛶ Enter Fullscreen</button>
+            <button class="toy-btn" style="width: 100%; margin-bottom: 15px; padding: 15px; border-color: var(--accent); color: var(--accent);" onclick="toggleFullscreen()">⛶ Enter Fullscreen (Local Monitor)</button>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                <p style="font-size: 0.75rem; color: var(--primary); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">How to Cast to TV:</p>
+                <p style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.6; margin: 0; text-align: left;">
+                    1. Right-click anywhere on the background (or open your browser menu).<br>
+                    2. Select <b>"Cast..."</b><br>
+                    3. Choose your TV/Display from the list.<br>
+                    <i>* Ensure "Cast Tab" is selected in the cast sources menu.</i>
+                </p>
+            </div>
         </div>
     </div>
 
     <div id="qr-modal" onclick="toggleQR()">
         <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 3px; margin-top: 0; margin-bottom: 5px;">TV SYNC</h3>
+            <h3 style="color: var(--primary); letter-spacing: 3px; margin-top: 0; margin-bottom: 5px;">LOCAL UPLOAD</h3>
             <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                Scan this code with your phone to open the companion remote and sync media to this display.
+                Scan this code with your phone to open the local companion portal and beam custom audio/images directly to this display.
             </p>
             <div id="qrcode"></div>
-            <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 15px;">Network Portal: <span style="color: var(--accent);">https://somniascapes.com</span></p>
+            <p style="font-size: 0.65rem; color: var(--text-muted); margin-top: 15px;">Network Portal: <span style="color: var(--accent);">http://somniascapes.local</span></p>
         </div>
     </div>
 
     <script>
-        // === 1. GLOBAL UI & CORE UTILS ===
+        // === 1. GLOBAL UI ===
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -465,561 +330,65 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        function toggleCloak() { 
-            document.body.classList.toggle('cloaked'); 
-            const btn = document.getElementById('cloakBtn');
-            if(document.body.classList.contains('cloaked')) {
-                btn.innerText = "Studio Mode";
-            } else {
-                btn.innerText = "Broadcast Mode";
-            }
-        }
-        function restoreUI() { 
-            document.body.classList.remove('cloaked'); 
-            document.getElementById('cloakBtn').innerText = "Broadcast Mode";
-        }
+        function toggleCloak() { document.body.classList.toggle('cloaked'); }
+        function restoreUI() { document.body.classList.remove('cloaked'); }
         
         function toggleScratch() { document.getElementById('scratchpad-modal').classList.toggle('active'); }
         function toggleCast() { document.getElementById('cast-modal').classList.toggle('active'); }
         function toggleQR() { document.getElementById('qr-modal').classList.toggle('active'); }
         
         function toggleFullscreen() {
-            if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(e => console.log(e)); } 
-            else { document.exitFullscreen(); }
-            toggleCast();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => console.log(e));
+            } else {
+                document.exitFullscreen();
+            }
+            toggleCast(); // Close modal after clicking
         }
 
+        function toggleLowMotion() { console.log("Low motion toggled"); }
+        
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
-        function shareSocial() {
-            if (navigator.share) {
-                navigator.share({ title: 'SomniaScapes', text: 'Step into my Digital Sanctuary.', url: 'https://somniascapes.com' });
-            } else { alert("Share link copied: https://somniascapes.com"); }
-        }
-
-        let s1 = 0, s2 = 0;
-        function updateScore(team, val) {
-            if(team === 1) { s1 += val; document.getElementById('score1').innerText = s1; }
-            if(team === 2) { s2 += val; document.getElementById('score2').innerText = s2; }
-        }
-        function resetScores() { s1=0; s2=0; document.getElementById('score1').innerText = 0; document.getElementById('score2').innerText = 0; }
-
-        let mediaRecorder;
-        let recordedChunks = [];
-        async function startScreenCapture() {
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: "video/webm" });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url; a.download = "SomniaScapes_Capture.webm";
-                    a.click();
-                    recordedChunks = [];
-                };
-                mediaRecorder.start();
-                alert("Recording Started. Broadcast Mode is recommended.");
-                toggleCloak();
-            } catch (err) { console.error("Error: " + err); }
-        }
-
-        // === 2. MEDIA UPLOADS (Image, Video, Live) ===
         function executeImageUpload(input) {
             if (!input.files || !input.files[0]) return;
+            
+            const file = input.files[0];
             const reader = new FileReader();
+            
             reader.onload = e => {
-                document.getElementById('bg-anchor').style.backgroundImage = `url('${e.target.result}')`;
-                document.getElementById('bg-video').style.display = 'none';
-                document.getElementById('live-stream-video').style.display = 'none';
-            };
-            reader.readAsDataURL(input.files[0]);
-            input.value = ""; 
-        }
-
-        function executeVideoUpload(input) {
-            if (!input.files || !input.files[0]) return;
-            const video = document.getElementById('bg-video');
-            const fileURL = URL.createObjectURL(input.files[0]);
-            video.src = fileURL;
-            video.style.display = 'block';
-            document.getElementById('bg-anchor').style.backgroundImage = 'none';
-            document.getElementById('live-stream-video').style.display = 'none';
-            input.value = "";
-        }
-
-        async function toggleLiveStream() {
-            const liveVid = document.getElementById('live-stream-video');
-            if (liveVid.srcObject) {
-                liveVid.srcObject.getTracks().forEach(track => track.stop());
-                liveVid.srcObject = null;
-                liveVid.style.display = 'none';
-            } else {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-                    liveVid.srcObject = stream;
-                    liveVid.style.display = 'block';
-                    document.getElementById('bg-video').style.display = 'none';
-                    document.getElementById('bg-anchor').style.backgroundImage = 'none';
-                } catch (e) { alert("Camera access denied or unavailable."); }
-            }
-        }
-
-        function setMotion(motionClass, btn) {
-            const anchor = document.getElementById('bg-anchor');
-            anchor.className = motionClass === 'none' ? '' : motionClass;
-            document.querySelectorAll('#tab-canvas .btn-grid .toy-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        // === 3. AUDIO ENGINE PRO (Master Gain, Filters, Panning) ===
-        const activeAudio = {};
-        let audioCtx; 
-        let masterGainNode;
-
-        const soundLibrary = [
-            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
-            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
-            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
-            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
-            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
-            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
-            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
-            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
-        ];
-
-        function initAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                masterGainNode = audioCtx.createGain();
-                masterGainNode.gain.value = document.getElementById('master-gain-slider').value;
-                masterGainNode.connect(audioCtx.destination);
-            }
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        function setMasterGain(val) {
-            if (masterGainNode) masterGainNode.gain.value = val;
-        }
-
-        function initMixer() {
-            const container = document.getElementById('mixer-container');
-            container.innerHTML = soundLibrary.map(track => `
-                <div class="mixer-card" id="card-${track.id}">
-                    <div class="mixer-header">
-                        <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
-                    </div>
-                    <div class="mixer-controls">
-                        <span>VOL</span>
-                        <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
-                        <span>PAN</span>
-                        <input type="range" id="pan-${track.id}" class="mixer-slider" min="-1" max="1" step="0.1" value="0" oninput="adjustPan('${track.id}', this.value)">
-                    </div>
-                    <div class="mixer-controls" style="margin-top: 5px;">
-                        <span>LPF</span>
-                        <input type="range" id="filter-${track.id}" class="mixer-slider" min="200" max="20000" step="100" value="20000" oninput="adjustFilter('${track.id}', this.value)">
-                    </div>
-                </div>
-            `).join('');
-            
-            Object.keys(activeAudio).forEach(id => {
-                const c = document.getElementById(`card-${id}`);
-                if(c) c.classList.add('playing');
-            });
-        }
-
-        function handleAudioUpload(input) {
-            if (!input.files || input.files.length === 0) return;
-            const file = input.files[0];
-            soundLibrary.unshift({ id: 'custom-'+Date.now(), name: "📁 " + file.name.substring(0,15), url: URL.createObjectURL(file) });
-            initMixer();
-            input.value = ""; 
-        }
-
-        function toggleStem(id, url) {
-            initAudioContext();
-            const card = document.getElementById(`card-${id}`);
-            
-            if (activeAudio[id]) {
-                activeAudio[id].audio.pause(); 
-                delete activeAudio[id]; 
-                if(card) card.classList.remove('playing');
-            } else {
-                const audio = new Audio(url); 
-                audio.loop = true; 
+                const imgData = e.target.result;
+                document.getElementById('bg-anchor').style.backgroundImage = `url('${imgData}')`;
+                const grid = document.getElementById('bg-presets');
+                grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
                 
-                const source = audioCtx.createMediaElementSource(audio);
-                const panner = audioCtx.createStereoPanner();
-                const gain = audioCtx.createGain();
-                const filter = audioCtx.createBiquadFilter();
+                const btn = document.createElement('button');
+                btn.className = 'toy-btn active';
+                btn.textContent = "📁 " + file.name.substring(0, 6); 
                 
-                filter.type = 'lowpass';
-                
-                gain.gain.value = document.getElementById(`vol-${id}`) ? document.getElementById(`vol-${id}`).value : 0.5;
-                panner.pan.value = document.getElementById(`pan-${id}`) ? document.getElementById(`pan-${id}`).value : 0;
-                filter.frequency.value = document.getElementById(`filter-${id}`) ? document.getElementById(`filter-${id}`).value : 20000;
-                
-                source.connect(filter);
-                filter.connect(panner);
-                panner.connect(gain);
-                gain.connect(masterGainNode); // Connect to Master, not destination directly
-                
-                audio.play().then(() => { 
-                    activeAudio[id] = { audio, gain, panner, filter }; 
-                    if(card) card.classList.add('playing'); 
-                }).catch(e => console.log("Unlock audio first."));
-            }
-        }
-        
-        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].gain.gain.value = val; }
-        function adjustPan(id, val) { if (activeAudio[id]) activeAudio[id].panner.pan.value = val; }
-        function adjustFilter(id, val) { if (activeAudio[id]) activeAudio[id].filter.frequency.value = val; }
-        function stopAllAudio() { 
-            Object.keys(activeAudio).forEach(id => { 
-                activeAudio[id].audio.pause(); 
-                const card = document.getElementById(`card-${id}`);
-                if(card) card.classList.remove('playing'); 
-                delete activeAudio[id]; 
-            }); 
-        }
-
-        // === 3.5. SFX BOARD (One-Shots & Triggers) ===
-        const sfxLibrary = [
-            { id: "sfx-chime", name: "✨ Magic Chime", url: "chime.mp3" },
-            { id: "sfx-boom", name: "💥 Cinema Boom", url: "boom.mp3" },
-            { id: "sfx-glitch", name: "👾 Glitch", url: "glitch.mp3" },
-            { id: "sfx-swoosh", name: "💨 Swoosh", url: "swoosh.mp3" },
-            { id: "sfx-bell", name: "🔔 Singing Bowl", url: "bowl.mp3" }
-        ];
-
-        function renderSFXGrid() {
-            const grid = document.getElementById('sfx-grid');
-            grid.innerHTML = sfxLibrary.map(sfx => `
-                <button class="toy-btn" onclick="playSFX('${sfx.url}', this)">${sfx.name}</button>
-            `).join('');
-        }
-
-        function playSFX(url, btn) {
-            initAudioContext();
-            const audio = new Audio(url);
-            const source = audioCtx.createMediaElementSource(audio);
-            source.connect(masterGainNode); // Connect SFX to master gain
-            audio.play().catch(e => console.log("SFX file missing or locked."));
-            
-            if(btn) {
-                btn.style.borderColor = "var(--accent)";
-                setTimeout(() => btn.style.borderColor = "var(--glass-border)", 500);
-            }
-        }
-
-        function uploadSFX(input) {
-            if (!input.files || input.files.length === 0) return;
-            const file = input.files[0];
-            sfxLibrary.unshift({ id: 'custom-sfx-'+Date.now(), name: "📁 " + file.name.substring(0,8), url: URL.createObjectURL(file) });
-            renderSFXGrid();
-            input.value = "";
-        }
-
-        // === 4. DRAWING ENGINE PRO (CapCut Style) ===
-        const drawCanvas = document.getElementById('drawCanvas');
-        const drawCtx = drawCanvas.getContext('2d');
-        let isDrawing = false;
-        let isErasing = false;
-        
-        function resizeDrawCanvas() { 
-            drawCanvas.width = window.innerWidth; 
-            drawCanvas.height = window.innerHeight; 
-        }
-        window.addEventListener('resize', resizeDrawCanvas);
-        resizeDrawCanvas();
-
-        function toggleDrawMode() {
-            document.body.classList.add('drawing-active');
-            isErasing = false;
-            document.getElementById('drawToggleBtn').classList.add('active');
-            document.getElementById('eraseToggleBtn').classList.remove('active');
-        }
-
-        function toggleEraseMode() {
-            document.body.classList.add('drawing-active');
-            isErasing = true;
-            document.getElementById('drawToggleBtn').classList.remove('active');
-            document.getElementById('eraseToggleBtn').classList.add('active');
-        }
-
-        function clearDraw() { 
-            drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height); 
-            document.body.classList.remove('drawing-active');
-            document.getElementById('drawToggleBtn').classList.remove('active');
-            document.getElementById('eraseToggleBtn').classList.remove('active');
-        }
-
-        function getMousePos(canvas, evt) {
-            var rect = canvas.getBoundingClientRect();
-            return {
-                x: (evt.clientX || evt.touches[0].clientX) - rect.left,
-                y: (evt.clientY || evt.touches[0].clientY) - rect.top
-            };
-        }
-
-        drawCanvas.addEventListener('mousedown', e => { 
-            isDrawing = true; 
-            const pos = getMousePos(drawCanvas, e);
-            drawCtx.beginPath(); 
-            drawCtx.moveTo(pos.x, pos.y); 
-        });
-        
-        drawCanvas.addEventListener('mousemove', e => {
-            if (!isDrawing) return;
-            const pos = getMousePos(drawCanvas, e);
-            drawCtx.lineTo(pos.x, pos.y);
-            
-            if (isErasing) {
-                drawCtx.globalCompositeOperation = "destination-out";
-                drawCtx.lineWidth = document.getElementById('brushSize').value * 2;
-                drawCtx.shadowBlur = 0;
-            } else {
-                drawCtx.globalCompositeOperation = "source-over";
-                drawCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#fff';
-                drawCtx.lineWidth = document.getElementById('brushSize').value;
-                drawCtx.lineCap = 'round';
-                drawCtx.lineJoin = 'round';
-                drawCtx.shadowBlur = 10;
-                drawCtx.shadowColor = drawCtx.strokeStyle;
-            }
-            drawCtx.stroke();
-        });
-        drawCanvas.addEventListener('mouseup', () => { isDrawing = false; });
-        drawCanvas.addEventListener('mouseout', () => { isDrawing = false; });
-
-        drawCanvas.addEventListener('touchstart', e => { 
-            isDrawing = true; 
-            const pos = getMousePos(drawCanvas, e);
-            drawCtx.beginPath(); 
-            drawCtx.moveTo(pos.x, pos.y); 
-            e.preventDefault();
-        }, {passive: false});
-        
-        drawCanvas.addEventListener('touchmove', e => {
-            if (!isDrawing) return;
-            const pos = getMousePos(drawCanvas, e);
-            drawCtx.lineTo(pos.x, pos.y);
-            
-             if (isErasing) {
-                drawCtx.globalCompositeOperation = "destination-out";
-                drawCtx.lineWidth = document.getElementById('brushSize').value * 2;
-                drawCtx.shadowBlur = 0;
-            } else {
-                drawCtx.globalCompositeOperation = "source-over";
-                drawCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#fff';
-                drawCtx.lineWidth = document.getElementById('brushSize').value;
-                drawCtx.lineCap = 'round';
-                drawCtx.lineJoin = 'round';
-                drawCtx.shadowBlur = 10;
-                drawCtx.shadowColor = drawCtx.strokeStyle;
-            }
-            drawCtx.stroke();
-            e.preventDefault();
-        }, {passive: false});
-        drawCanvas.addEventListener('touchend', () => { isDrawing = false; });
-
-        // === 5. ATMOS GENERATORS & VFX ===
-        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','neon','plasma','ethereal','ember','void-pulse','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','mist','fog','clouds','lightning','emojis','fireflies','orbs','feathers','petals','runes'];
-
-        const particleColors = [
-            { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' },
-            { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' },
-            { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' },
-            { name: 'Ghost', value: '#f8fafc' }
-        ];
-
-        const glowColors = [
-            { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' },
-            { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' },
-            { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' },
-            { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' },
-            { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' }
-        ];
-
-        function populateGrid(id, arr, type) {
-            const grid = document.getElementById(id);
-            if (!grid) return; 
-            grid.innerHTML = ''; 
-            arr.forEach((item, index) => {
-                const isObj = typeof item === 'object';
-                const label = isObj ? item.name : item;
-                const val = isObj ? item.value : item;
-
-                const b = document.createElement('button');
-                b.className = 'toy-btn'; 
-                b.textContent = label; 
-                if(index === 0) b.classList.add('active'); 
-                
-                b.onclick = () => {
-                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
-                    b.classList.add('active');
-                    
-                    if(type === 'color') document.body.className = `${val}-mode`;
-                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
-                    if(type === 'particle') window.particleType = val;
-                    if(type === 'particleColor') updateVar('--particle-color', val);
-                    if(type === 'glowColor') updateVar('--glow-color', val);
+                btn.onclick = () => {
+                    grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('bg-anchor').style.backgroundImage = `url('${imgData}')`;
                 };
-                grid.appendChild(b);
-            });
-        }
-
-        // Live VFX Engine
-        function triggerVFX(symbol, pos) {
-            const el = document.createElement('div');
-            el.className = 'vfx-popup';
-            el.innerHTML = symbol.includes('<svg') || symbol.includes('<img') ? symbol : `<span style="font-size: 150px;">${symbol}</span>`;
-            
-            if (pos === 'left') { el.style.left = '10%'; el.style.bottom = '10%'; }
-            else if (pos === 'right') { el.style.right = '10%'; el.style.bottom = '10%'; }
-            else if (pos === 'bottom') { el.style.left = '45%'; el.style.bottom = '0%'; }
-            else if (pos === 'random') { el.style.left = Math.random() * 80 + '%'; el.style.top = Math.random() * 80 + '%'; }
-            else { el.style.left = '45%'; el.style.top = '40%'; }
-            
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 2000);
-        }
-
-        function uploadVFX(input) {
-            if (!input.files || !input.files[0]) return;
-            const reader = new FileReader();
-            reader.onload = e => triggerVFX(`<img src="${e.target.result}" style="width:200px;">`, 'center');
-            reader.readAsDataURL(input.files[0]);
-            input.value = "";
-        }
-
-        // === 6. PARTICLE ENGINE PRO ===
-        window.particleType = 'dust';
-        let particleCount = 50; 
-
-        function buildParticles(w, h) {
-            return Array.from({ length: particleCount }, () => ({
-                x: Math.random() * w, y: Math.random() * h,
-                r: Math.random() * 2 + 0.5,
-                vx: (Math.random() - 0.5), vy: (Math.random() - 0.5),
-                emoji: ['✨','🌙','🔮','🦋','🌸','⚡'][Math.floor(Math.random()*6)],
-                angle: Math.random() * Math.PI * 2
-            }));
-        }
-
-        function updateParticleDensity(val) { particleCount = parseInt(val); }
-
-        function initParticles() {
-            const canvas = document.getElementById('particleCanvas');
-            const ctx = canvas.getContext('2d');
-            let w = canvas.width = window.innerWidth;
-            let h = canvas.height = window.innerHeight;
-
-            window.addEventListener('resize', () => {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-                particles = buildParticles(w, h);
-            });
-
-            let particles = buildParticles(w, h);
-            let lastTime = 0;
-
-            function loop(timestamp) {
-                requestAnimationFrame(loop);
-                if (!timestamp) timestamp = performance.now();
-                if (timestamp - lastTime < 16) return;
-                lastTime = timestamp;
-
-                ctx.clearRect(0, 0, w, h);
-                if (particles.length !== particleCount) particles = buildParticles(w, h);
-
-                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
                 
-                if (color.includes('var(')) {
-                    const varName = color.match(/var\(([^)]+)\)/)[1].trim();
-                    color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-                }
-
-                ctx.fillStyle = color;
-                ctx.shadowBlur = 8; 
-                ctx.shadowColor = color;
-
-                if (particleType === 'lightning' && Math.random() < 0.02) {
-                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-                    ctx.fillRect(0,0,w,h);
-                }
-
-                particles.forEach((p, i) => {
-                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
-                    let mult = 10 / spd;
-
-                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
-                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
-                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
-                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-                    else if (particleType === 'rain') { p.y += 15*mult; p.x -= 2*mult; ctx.fillRect(p.x, p.y, 2, 15); return; }
-                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
-                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-                    else if (particleType === 'mist' || particleType === 'fog' || particleType === 'clouds') { 
-                        p.x += (p.vx > 0 ? 0.5 : -0.5) * mult; 
-                        ctx.beginPath(); ctx.arc(p.x, p.y, p.r*20, 0, Math.PI*2); 
-                        ctx.fillStyle = color.replace(')', ', 0.05)').replace('rgb', 'rgba'); ctx.fill(); return; 
-                    }
-                    else if (particleType === 'emojis') {
-                        p.y -= mult; ctx.font = "20px Arial"; ctx.fillText(p.emoji, p.x, p.y); return;
-                    }
-                    else if (particleType === 'fireflies') {
-                        p.x += Math.sin(Date.now()/1000 + i) * mult; p.y += Math.cos(Date.now()/1000 + i) * mult;
-                        ctx.globalAlpha = Math.abs(Math.sin(Date.now()/500 + i));
-                    }
-                    else if (particleType === 'orbs') {
-                        p.y -= 0.5 * mult; p.r = 10 + Math.sin(Date.now()/1000 + i) * 5;
-                        ctx.globalAlpha = 0.3;
-                    }
-                    else if (particleType === 'feathers') {
-                        p.y += mult; p.x += Math.sin(p.y/20) * mult; p.angle += 0.02 * mult;
-                        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
-                        ctx.fillRect(-1, -10, 2, 20); ctx.restore(); return;
-                    }
-                    else if (particleType === 'petals') {
-                        p.y += 2*mult; p.x += Math.cos(p.y/40) * 2 * mult; p.angle += 0.05 * mult;
-                        ctx.fillStyle = '#fb7185';
-                        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
-                        ctx.beginPath(); ctx.ellipse(0, 0, p.r*2, p.r, 0, 0, Math.PI*2); ctx.fill(); ctx.restore(); return;
-                    }
-                    else if (particleType === 'runes') {
-                        p.y += mult; ctx.font = "15px Courier New";
-                        ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random() * 80)), p.x, p.y); return;
-                    }
-
-                    if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-                    if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-                    ctx.globalAlpha = 1; // reset
-                });
-            }
-            requestAnimationFrame(loop);
+                grid.prepend(btn); 
+            };
+            
+            reader.readAsDataURL(file);
+            input.value = ""; 
         }
 
-        // === 7. VAULT MEMORY ENGINE (Pro Import/Export & Rename) ===
+        // === 2. VAULT MEMORY ENGINE (Wired to LocalStorage) ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
 
         function savePreset() {
             const btn = document.getElementById('save-btn');
             btn.innerText = "✓ SAVED TO VAULT";
             btn.style.background = "rgba(45, 212, 191, 0.2)";
-            setTimeout(() => { btn.innerText = "💾 Save Current Vibe"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
+            setTimeout(() => { btn.innerText = "💾 Save Current Vibe Preset"; btn.style.background = "rgba(0,0,0,0.4)"; }, 2000);
 
             const state = {
-                id: Date.now(),
                 name: "Vibe Protocol " + (savedVault.length + 1),
                 bodyClass: document.body.className,
                 glowClass: document.getElementById('glow-layer').className,
@@ -1036,74 +405,40 @@
                 },
                 audio: Object.keys(activeAudio).map(id => ({
                     id: id,
-                    vol: activeAudio[id].gain ? activeAudio[id].gain.gain.value : 0.5,
-                    pan: activeAudio[id].panner ? activeAudio[id].panner.pan.value : 0,
-                    filter: activeAudio[id].filter ? activeAudio[id].filter.frequency.value : 20000
+                    vol: document.getElementById(`vol-${id}`).value
                 }))
             };
-            
+
             savedVault.push(state);
+            
             try {
                 localStorage.setItem('somniaVault', JSON.stringify(savedVault));
             } catch(e) {
+                console.error("Storage limit exceeded.", e);
                 alert("Vault Warning: Preset is too large to save (usually caused by a massive custom background image).");
             }
+            
             renderVault();
         }
 
         function renderVault() {
-            const list = document.getElementById('vault-list');
-            if(!list) return;
-            list.innerHTML = savedVault.map((preset, index) => `
-                <div class="mixer-card" style="flex-direction:row; align-items:center;">
-                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ <span id="preset-name-${index}">${preset.name}</span></button>
-                    <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; margin-right: 5px;" onclick="renamePreset(${index})">✏️</button>
+            let container = document.getElementById('vault-list');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'vault-list';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+                container.style.gap = '10px';
+                container.style.marginTop = '20px';
+                document.getElementById('tab-vault').appendChild(container);
+            }
+
+            container.innerHTML = savedVault.map((preset, index) => `
+                <div class="mixer-card">
+                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
                     <button class="toy-btn" style="padding: 5px 10px; font-size: 0.6rem; border-color: #ec4899; color: #ec4899;" onclick="deletePreset(${index})">DEL</button>
                 </div>
             `).join('');
-        }
-        
-        function renamePreset(index) {
-            const newName = prompt("Rename Preset:", savedVault[index].name);
-            if(newName) {
-                savedVault[index].name = newName;
-                localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-                renderVault();
-            }
-        }
-
-        function loadPreset(index) {
-            const state = savedVault[index];
-            if (!state) return;
-            
-            document.body.className = state.bodyClass;
-            document.getElementById('glow-layer').className = state.glowClass;
-            window.particleType = state.particleType;
-            particleCount = state.particleCount;
-            if (state.bgImage) document.getElementById('bg-anchor').style.backgroundImage = state.bgImage;
-            
-            updateVar('--anim-speed', state.vars.speed);
-            updateVar('--glow-opac', state.vars.opac);
-            updateVar('--bg-bright', state.vars.bright);
-            updateVar('--bg-zoom', state.vars.zoom);
-            updateVar('--particle-color', state.vars.pColor);
-            updateVar('--glow-color', state.vars.gColor);
-
-            stopAllAudio(); 
-            if(state.audio) {
-                state.audio.forEach(track => {
-                    const sound = soundLibrary.find(s => s.id === track.id);
-                    if (sound) {
-                        const volSlider = document.getElementById(`vol-${track.id}`);
-                        const panSlider = document.getElementById(`pan-${track.id}`);
-                        const filterSlider = document.getElementById(`filter-${track.id}`);
-                        if (volSlider) volSlider.value = track.vol;
-                        if (panSlider) panSlider.value = track.pan;
-                        if (filterSlider) filterSlider.value = track.filter || 20000;
-                        toggleStem(track.id, sound.url);
-                    }
-                });
-            }
         }
 
         function deletePreset(index) {
@@ -1112,58 +447,294 @@
             renderVault();
         }
 
-        function exportVault() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(savedVault));
-            const a = document.createElement('a');
-            a.setAttribute("href", dataStr);
-            a.setAttribute("download", "somniascapes_vault.json");
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        }
+        function loadPreset(index) {
+            const state = savedVault[index];
+            if (!state) return;
 
-        function importVault(input) {
-            if (!input.files || !input.files[0]) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    savedVault = [...savedVault, ...imported];
-                    localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-                    renderVault();
-                    alert("Vault imported successfully.");
-                } catch(err) { alert("Invalid Vault File."); }
-            };
-            reader.readAsText(input.files[0]);
-            input.value = "";
-        }
+            document.body.className = state.bodyClass;
+            document.getElementById('glow-layer').className = state.glowClass;
+            window.particleType = state.particleType;
+            particleCount = state.particleCount;
+            if (state.bgImage) document.getElementById('bg-anchor').style.backgroundImage = state.bgImage;
 
-        // === 8. QR TV SYNC ===
-        document.getElementById("tvSyncButton").addEventListener("click", () => {
-            const qrModal = document.getElementById('qr-modal');
-            qrModal.classList.add('active');
-            const qrContainer = document.getElementById('qrcode');
-            qrContainer.innerHTML = ""; 
-            new QRCode(qrContainer, {
-                text: "https://somniascapes.com", 
-                width: 150, height: 150, colorDark : "#000000", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H
+            updateVar('--anim-speed', state.vars.speed);
+            updateVar('--glow-opac', state.vars.opac);
+            updateVar('--bg-bright', state.vars.bright);
+            updateVar('--bg-zoom', state.vars.zoom);
+            updateVar('--particle-color', state.vars.pColor);
+            updateVar('--glow-color', state.vars.gColor);
+
+            stopAllAudio(); 
+            state.audio.forEach(track => {
+                const sound = soundLibrary.find(s => s.id === track.id);
+                if (sound) {
+                    const slider = document.getElementById(`vol-${track.id}`);
+                    if (slider) slider.value = track.vol; 
+                    toggleStem(track.id, sound.url); 
+                }
             });
-        });
+        }
 
-        // Boot Pipeline
+        // === 3. AUDIO ENGINE (21 Presets + Upload) ===
+        const activeAudio = {};
+        const soundLibrary = [
+            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
+            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
+            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
+            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
+            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
+            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
+            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
+            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
+            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
+            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
+            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
+        ];
+
+        function initMixer() {
+            const container = document.getElementById('mixer-container');
+            container.innerHTML = soundLibrary.map(track => `
+                <div class="mixer-card" id="card-${track.id}">
+                    <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
+                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
+                </div>
+            `).join('');
+            Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
+        }
+
+        function handleAudioUpload(input) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            soundLibrary.unshift({ id: 'custom-'+Date.now(), name: "📁 " + file.name.substring(0,15), url: URL.createObjectURL(file) });
+            initMixer();
+            input.value = ""; 
+        }
+
+        function toggleStem(id, url) {
+            const card = document.getElementById(`card-${id}`);
+            if (activeAudio[id]) {
+                activeAudio[id].pause(); delete activeAudio[id]; card.classList.remove('playing');
+            } else {
+                const audio = new Audio(url); audio.loop = true; audio.volume = document.getElementById(`vol-${id}`).value;
+                audio.play().then(() => { activeAudio[id] = audio; card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
+            }
+        }
+        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
+        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); document.getElementById(`card-${id}`).classList.remove('playing'); delete activeAudio[id]; }); }
+
+        // === 4. ATMOS GENERATORS (10 Colors, 10 Glows) ===
+        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
+        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
+
+        const particleColors = [
+            { name: 'Lunar', value: '#e0e7ff' },
+            { name: 'Noir', value: '#D4AF37' },
+            { name: 'Vellum', value: '#C2B280' },
+            { name: 'Amethyst', value: '#d8b4e2' },
+            { name: 'Crimson', value: '#fb7185' },
+            { name: 'Emerald', value: '#34d399' },
+            { name: 'Solar', value: '#fbbf24' },
+            { name: 'Void', value: '#ec4899' },
+            { name: 'Obsidian', value: '#9ca3af' },
+            { name: 'Ghost', value: '#f8fafc' }
+        ];
+
+        const glowColors = [
+            { name: 'Lunar', value: 'rgba(224,231,255,0.4)' },
+            { name: 'Noir', value: 'rgba(212,175,55,0.4)' },
+            { name: 'Vellum', value: 'rgba(194,178,128,0.4)' },
+            { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' },
+            { name: 'Crimson', value: 'rgba(251,113,133,0.4)' },
+            { name: 'Emerald', value: 'rgba(52,211,153,0.4)' },
+            { name: 'Solar', value: 'rgba(251,191,36,0.4)' },
+            { name: 'Void', value: 'rgba(236,72,153,0.4)' },
+            { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' },
+            { name: 'Ghost', value: 'rgba(248,250,252,0.4)' }
+        ];
+
+        function populateGrid(id, arr, type) {
+            const grid = document.getElementById(id);
+            arr.forEach((item, index) => {
+                const isObj = typeof item === 'object';
+                const label = isObj ? item.name : item;
+                const val = isObj ? item.value : item;
+
+                const b = document.createElement('button');
+                b.className = 'toy-btn'; 
+                b.textContent = label; 
+                if(index === 0) b.classList.add('active'); 
+
+                b.onclick = () => {
+                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
+                    b.classList.add('active');
+
+                    if(type === 'color') document.body.className = `${val}-mode`;
+                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
+                    if(type === 'particle') window.particleType = val;
+
+                    if(type === 'particleColor') {
+                        updateVar('--particle-color', val);
+                    }
+
+                    if(type === 'glowColor') {
+                        updateVar('--glow-color', val);
+                    }
+                };
+
+                grid.appendChild(b);
+            });
+        }
+
+        // === 5. PARTICLE ENGINE ===
+        window.particleType = 'dust';
+
+        let particleCount = 50; 
+
+        function buildParticles(w, h) {
+            return Array.from({ length: particleCount }, () => ({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 2 + 0.5,
+                vx: (Math.random() - 0.5),
+                vy: (Math.random() - 0.5)
+            }));
+        }
+
+        function updateParticleDensity(val) {
+            particleCount = parseInt(val);
+        }
+
+        let lowGpu = false;
+
+        function toggleLowGpu() {
+            lowGpu = !lowGpu;
+            const canvas = document.getElementById('particleCanvas');
+
+            if (lowGpu) {
+                canvas.width = window.innerWidth / 2;
+                canvas.height = window.innerHeight / 2;
+                canvas.style.transform = "scale(2)";
+                updateVar('--glow-opac', '0.15');
+                updateVar('--anim-speed', '15s');
+                window.lowGpuParticleScale = 0.6;
+            } else {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                canvas.style.transform = "scale(1)";
+                updateVar('--glow-opac', '0.3');
+                updateVar('--anim-speed', '10s');
+                window.lowGpuParticleScale = 1;
+            }
+        }
+
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+                particles = buildParticles(w, h);
+            });
+
+            let particles = buildParticles(w, h);
+
+            const isDinosaur = navigator.hardwareConcurrency < 4 || window.innerWidth < 1024;
+            let lastTime = 0;
+
+            function loop(timestamp) {
+                requestAnimationFrame(loop);
+
+                if (!timestamp) timestamp = performance.now();
+                if (timestamp - lastTime < (isDinosaur ? 33 : 16)) return;
+                lastTime = timestamp;
+
+                ctx.clearRect(0, 0, w, h);
+
+                if (particles.length !== particleCount) {
+                    particles = buildParticles(w, h);
+                }
+
+                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+                if (color.includes('var(')) {
+                    const varName = color.match(/var\(([^)]+)\)/)[1].trim();
+                    color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+                }
+
+                ctx.fillStyle = color;
+                ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); 
+                ctx.shadowColor = color;
+
+                particles.forEach((p, i) => {
+                    let spd = parseFloat(
+                        getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')
+                    ) || 10;
+
+                    let mult = 10 / spd;
+
+                    if (particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
+                    else if (particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
+                    else if (particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
+                    else if (particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
+                    else if (particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
+                    else if (particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
+                    else if (particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
+                    else if (particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
+                    else if (particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+
+                    if (p.x < 0) p.x = w;
+                    if (p.x > w) p.x = 0;
+                    if (p.y < 0) p.y = h;
+                    if (p.y > h) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        // Boot
         document.addEventListener('DOMContentLoaded', () => {
             initMixer();
-            renderSFXGrid();
-            
             populateGrid('color-grid', colors, 'color');
             populateGrid('particle-grid', particlesList, 'particle');
             populateGrid('glow-grid', glows, 'glow');
+
             populateGrid('particle-color-grid', particleColors, 'particleColor');
             populateGrid('glow-color-grid', glowColors, 'glowColor');
-            
+
             initParticles();
-            renderVault();
+            renderVault(); // Load LocalStorage on boot
         });
+
+        // === 6. QR SHARE PORTAL ===
+        document.getElementById("shareButton").addEventListener("click", shareSomnia);
+        
+        function shareSomnia() {
+            const qrModal = document.getElementById('qr-modal');
+            qrModal.classList.add('active');
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ""; // Clear previous
+            
+            // Generate QR Code for the local TV portal fantasy
+            new QRCode(qrContainer, {
+                text: "http://somniascapes.local", // In a live TV app, this would dynamically pull the local IP address.
+                width: 150,
+                height: 150,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
     </script>
 </body>
 </html>
