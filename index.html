@@ -563,7 +563,7 @@
         #tab-atmos .atmos-swatch {
             position: static !important;
             float: none !important;
-            transform: none;
+            transform: none !important;
             opacity: 1 !important;
             visibility: visible !important;
             pointer-events: auto !important;
@@ -1456,8 +1456,6 @@
                     }
                 }
             } catch (e) { console.log("State restore error", e); }
-            
-            highlightActiveAtmos();
         }
 
         function saveScratchpad() {
@@ -1798,7 +1796,12 @@
         }
 
         window.particleType = 'dust'; window.particleCount = 50; 
-        function buildParticles(w, h) { return Array.from({ length: window.particleCount }, () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) })); }
+        function buildParticles(w, h) { 
+            return Array.from({ length: window.particleCount }, () => {
+                const radius = Math.random() * 2 + 0.5;
+                return { x: Math.random() * w, y: Math.random() * h, baseR: radius, r: radius, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) };
+            }); 
+        }
         function updateParticleDensity(val) { window.particleCount = parseInt(val); }
 
         let lowGpu = false;
@@ -1831,6 +1834,8 @@
                 ctx.globalAlpha = 1; 
 
                 particles.forEach((p, i) => {
+                    p.r = p.baseR; 
+
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
@@ -1840,18 +1845,18 @@
                     else if (window.particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
                     else if (window.particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
                     else if (window.particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-                    else if (window.particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = Math.random()*3; }
+                    else if (window.particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = p.baseR * 3; }
                     else if (window.particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
                     else if (window.particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
-                    else if (window.particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+                    else if (window.particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3 + 0.5; }
                     else if (window.particleType === 'leaves') { p.y += 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.fillRect(p.x, p.y, p.r*2, p.r); return; }
                     else if (window.particleType === 'glitch') { if (Math.random() < 0.1) { p.x += (Math.random() - 0.5) * 50; p.y += (Math.random() - 0.5) * 50; } ctx.fillRect(p.x, p.y, p.r*2, p.r/2); return; }
                     else if (window.particleType === 'runes') { p.y -= mult; ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random()*80)), p.x, p.y); return; }
-                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now()/1000 + i)*mult; p.y += Math.cos(Date.now()/800 + i)*mult; p.r = Math.random() < 0.05 ? p.r * 2 : p.r; }
+                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now()/1000 + i)*mult; p.y += Math.cos(Date.now()/800 + i)*mult; if(Math.random() < 0.05) p.r = p.baseR * 2.5; }
                     else if (window.particleType === 'fog') { p.x += 0.5 * mult; ctx.globalAlpha = 0.1; p.r = 50; }
                     else if (window.particleType === 'petals') { p.y += 3*mult; p.x += Math.sin(p.y/40)*3*mult; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r*2, Math.PI/4, 0, Math.PI*2); ctx.fill(); return; }
                     else if (window.particleType === 'sparks') { p.y -= 5*mult; p.x += (Math.random()-0.5)*3*mult; ctx.fillRect(p.x, p.y, 2, 8); return; }
-                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y/20)*3*mult; p.y += Math.cos(p.x/20)*2*mult; ctx.font = p.r*4 + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
+                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y/20)*3*mult; p.y += Math.cos(p.x/20)*2*mult; ctx.font = (p.r*4) + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
                     else if (window.particleType === 'static') { if(Math.random()<0.1) { p.x = Math.random()*w; p.y = Math.random()*h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
                     else if (window.particleType === 'motes') { p.x += p.vx*0.2*mult; p.y += p.vy*0.2*mult; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r*3, 0, Math.PI*2); ctx.fill(); return; }
 
@@ -1887,4 +1892,3 @@
     </script>
 </body>
 </html>
-
