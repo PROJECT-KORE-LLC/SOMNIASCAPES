@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // VIBE MACHINE</title>
+    <title>SOMNIASCAPES // THE SANCTUARY</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — COZY CHAOS ENVIRONMENT
+           SOMNIASCAPES — MASTER SHELL
            Responsive • Local-First • High-Fidelity Glassmorphism
            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
+        /* CUSTOM SCROLLBARS */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
         :root, html {
             --glass: rgba(15, 20, 30, 0.45);
             --text-muted: #b5b0bb;
             
-            --bg-zoom: 1;
+            --bg-zoom: 1.1; 
             --bg-bright: 0.85;
             --glow-opac: 0.3;
             --anim-speed: 10s;
@@ -31,7 +37,7 @@
             --glow-color: var(--primary-glow);
         }
 
-        /* 10 COLOR PALETTES */
+        /* 20 COLOR PALETTES */
         .lunar-mode { --primary: #e0e7ff; --accent: #a5b4fc; --primary-glow: rgba(224,231,255,0.4); --glass-border: rgba(255,255,255,0.15); --text-main: #fdfbf7; }
         .noir-mode { --primary: #D4AF37; --accent: #f59e0b; --primary-glow: rgba(212,175,55,0.4); --glass-border: rgba(212,175,55,0.2); --text-main: #F4EBD0; }
         .vellum-mode { --primary: #C2B280; --accent: #d97706; --primary-glow: rgba(194,178,128,0.4); --glass-border: rgba(194,178,128,0.2); --text-main: #fefce8; }
@@ -42,6 +48,16 @@
         .void-mode { --primary: #ec4899; --accent: #8b5cf6; --primary-glow: rgba(236,72,153,0.4); --glass-border: rgba(236,72,153,0.2); --text-main: #fbcfe8; }
         .obsidian-mode { --primary: #9ca3af; --accent: #4b5563; --primary-glow: rgba(156,163,175,0.4); --glass-border: rgba(156,163,175,0.2); --text-main: #f3f4f6; }
         .ghost-mode { --primary: #f8fafc; --accent: #cbd5e1; --primary-glow: rgba(248,250,252,0.4); --glass-border: rgba(248,250,252,0.2); --text-main: #ffffff; }
+        .gothic-mode { --primary: #881337; --accent: #be123c; --primary-glow: rgba(136,19,55,0.4); --glass-border: rgba(190,18,60,0.2); --text-main: #fecdd3; }
+        .library-mode { --primary: #78350f; --accent: #92400e; --primary-glow: rgba(120,53,15,0.4); --glass-border: rgba(146,64,14,0.2); --text-main: #fef3c7; }
+        .y2k-mode { --primary: #c026d3; --accent: #06b6d4; --primary-glow: rgba(192,38,211,0.4); --glass-border: rgba(6,182,212,0.2); --text-main: #fdf4ff; }
+        .vintage-mode { --primary: #b45309; --accent: #ea580c; --primary-glow: rgba(180,83,9,0.4); --glass-border: rgba(234,88,12,0.2); --text-main: #ffedd5; }
+        .cyber-mode { --primary: #22c55e; --accent: #10b981; --primary-glow: rgba(34,197,94,0.4); --glass-border: rgba(16,185,129,0.2); --text-main: #d1fae5; }
+        .twilight-mode { --primary: #4c1d95; --accent: #8b5cf6; --primary-glow: rgba(76,29,149,0.4); --glass-border: rgba(76,29,149,0.2); --text-main: #ddd6fe; }
+        .autumn-mode { --primary: #9a3412; --accent: #c2410c; --primary-glow: rgba(154,52,18,0.4); --glass-border: rgba(194,65,12,0.2); --text-main: #ffedd5; }
+        .abyss-mode { --primary: #1e3a8a; --accent: #312e81; --primary-glow: rgba(30,58,138,0.4); --glass-border: rgba(49,46,129,0.2); --text-main: #bfdbfe; }
+        .sepia-mode { --primary: #78716c; --accent: #a8a29e; --primary-glow: rgba(120,113,108,0.4); --glass-border: rgba(120,113,108,0.2); --text-main: #e7e5e4; }
+        .frost-mode { --primary: #0284c7; --accent: #38bdf8; --primary-glow: rgba(2,132,199,0.4); --glass-border: rgba(56,189,248,0.2); --text-main: #e0f2fe; }
 
         body, html {
             margin: 0; padding: 0; background: #020204;
@@ -55,9 +71,10 @@
         /* --- EPIC BOOT SCREEN --- */
         #boot-screen {
             position: fixed; inset: 0; z-index: 9999;
-            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(40px);
+            background: url('SomniaScapes1.png') center/cover no-repeat, #020204;
+            background-blend-mode: overlay;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1.5s ease-in-out; padding: 20px;
+            transition: opacity 2s ease-in-out; padding: 20px;
         }
         
         .kore-orb {
@@ -71,8 +88,8 @@
         .boot-content {
             max-width: 650px; width: 100%; padding: 45px; text-align: center;
             border: 1px solid var(--glass-border); border-radius: 40px;
-            background: rgba(255,255,255,0.03); box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            position: relative; z-index: 10; backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.6); box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            position: relative; z-index: 10; backdrop-filter: blur(25px);
         }
         .boot-title {
             color: var(--primary); font-size: clamp(2rem, 5vw, 3rem); letter-spacing: 12px; margin: 0 0 10px 0;
@@ -81,16 +98,23 @@
         .boot-subtitle { font-size: 0.8rem; letter-spacing: 4px; color: var(--accent); margin-bottom: 25px; text-transform: uppercase; font-family: monospace; }
         .boot-disclaimer {
             color: var(--text-main); font-size: 0.95rem; line-height: 1.8; letter-spacing: 1px;
-            margin-bottom: 35px; font-family: 'Georgia', serif; font-style: italic; opacity: 0.9;
+            margin-bottom: 35px; font-family: 'Courier New', monospace; text-align: center; opacity: 0.9;
         }
 
-        /* --- VISUAL CANVAS --- */
+        /* --- VISUAL CANVAS WITH PANNING PARALLAX --- */
+        @keyframes slowPan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         #bg-anchor {
             position: fixed; inset: 0; 
             background: #020204 no-repeat center center;
-            background-size: cover; 
+            background-size: 110% 110%; 
             z-index: 1; transform: scale(var(--bg-zoom));
             filter: brightness(var(--bg-bright));
+            animation: slowPan 60s ease-in-out infinite;
             transition: background 1.5s ease, filter 0.5s ease, transform 0.5s ease;
         }
 
@@ -101,6 +125,19 @@
             transition: opacity 0.5s ease, background 1.5s ease;
         }
 
+        /* --- AMBIENT LAMPS (FLICKERING DEPTH) --- */
+        .ambient-lamp {
+            position: fixed;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 60%);
+            z-index: 2; pointer-events: none;
+            opacity: 0.4; mix-blend-mode: screen;
+            animation: g-flicker 4s infinite alternate ease-in-out;
+        }
+        #lamp-1 { top: 10%; left: 15%; animation-delay: 0s; }
+        #lamp-2 { bottom: 20%; right: 10%; animation-delay: 1.5s; width: 400px; height: 400px; opacity: 0.3; }
+
+        /* 20 GLOW ANIMATIONS */
         .glow-pulse { animation: g-pulse var(--anim-speed) infinite alternate ease-in-out; }
         .glow-breathe { animation: g-breathe var(--anim-speed) infinite alternate ease-in-out; }
         .glow-strobe { animation: g-strobe var(--anim-speed) infinite alternate linear; }
@@ -111,6 +148,16 @@
         .glow-radar { background: conic-gradient(from 0deg, transparent, var(--primary-glow), transparent); animation: g-wave var(--anim-speed) infinite linear; }
         .glow-static { animation: none; }
         .glow-none { opacity: 0 !important; }
+        .glow-heartbeat { animation: g-heartbeat calc(var(--anim-speed) / 5) infinite; }
+        .glow-shimmer { animation: g-shimmer calc(var(--anim-speed) / 3) infinite alternate; }
+        .glow-glitch { animation: g-glitch calc(var(--anim-speed) / 4) infinite; }
+        .glow-scanner { background: linear-gradient(to bottom, transparent, var(--glow-color), transparent); background-size: 100% 200%; animation: g-scanner var(--anim-speed) infinite linear; }
+        .glow-nebula { background: radial-gradient(circle, var(--glow-color), transparent); filter: blur(20px); animation: g-pulse var(--anim-speed) infinite alternate, g-wave calc(var(--anim-speed)*2) infinite linear; }
+        .glow-vortex { background: conic-gradient(from 0deg, transparent, var(--glow-color)); animation: g-wave calc(var(--anim-speed) / 2) infinite linear; }
+        .glow-ripple { background: repeating-radial-gradient(circle, transparent, var(--glow-color) 10%, transparent 20%); animation: g-ripple var(--anim-speed) infinite linear; }
+        .glow-halo { box-shadow: inset 0 0 100px var(--glow-color); border-radius: 50%; }
+        .glow-eclipse { background: radial-gradient(circle at 50% 50%, transparent 0%, var(--glow-color) 100%); animation: g-pulse var(--anim-speed) infinite alternate; }
+        .glow-inferno { animation: g-inferno calc(var(--anim-speed) / 3) infinite alternate; }
 
         @keyframes g-pulse { 0% { transform: scale(1); opacity: calc(var(--glow-opac) * 0.5); } 100% { transform: scale(1.1); opacity: var(--glow-opac); } }
         @keyframes g-breathe { 0%, 100% { filter: brightness(0.8); } 50% { filter: brightness(1.2); } }
@@ -118,6 +165,12 @@
         @keyframes g-phantom { 0% { transform: translateY(-5%); opacity: 0; } 50% { opacity: var(--glow-opac); } 100% { transform: translateY(5%); opacity: 0; } }
         @keyframes g-wave { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes g-flicker { 0%, 100% { opacity: var(--glow-opac); } 33% { opacity: calc(var(--glow-opac) * 0.3); } 66% { opacity: calc(var(--glow-opac) * 0.8); } }
+        @keyframes g-heartbeat { 0%, 100% { opacity: var(--glow-opac); transform: scale(1); } 15% { opacity: calc(var(--glow-opac) * 1.5); transform: scale(1.1); } 30% { opacity: var(--glow-opac); transform: scale(1); } 45% { opacity: calc(var(--glow-opac) * 1.5); transform: scale(1.1); } }
+        @keyframes g-inferno { 0% { transform: scale(1) translateY(0); filter: brightness(1); } 50% { transform: scale(1.05) translateY(-2%); filter: brightness(1.3); } 100% { transform: scale(0.95) translateY(1%); filter: brightness(0.8); } }
+        @keyframes g-glitch { 0%, 100% { transform: translate(0,0); } 10% { transform: translate(-2%, 2%); } 20% { transform: translate(2%, -2%); } 30% { transform: translate(0,0); } }
+        @keyframes g-shimmer { 0%, 100% { opacity: calc(var(--glow-opac) * 0.4); } 50% { opacity: var(--glow-opac); } }
+        @keyframes g-scanner { 0% { background-position: 0% -100%; } 100% { background-position: 0% 200%; } }
+        @keyframes g-ripple { 0% { transform: scale(0.8); opacity: var(--glow-opac); } 100% { transform: scale(1.5); opacity: 0; } }
 
         #particleCanvas { position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.5s ease; }
 
@@ -135,11 +188,11 @@
         }
 
         .artifact-btn {
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border); color: var(--primary);
             padding: 10px 22px; border-radius: 50px; cursor: pointer;
             font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-            transition: all 0.4s ease; font-family: monospace; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.4s ease; font-family: monospace; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
         .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px); background: rgba(255,255,255,0.05); }
 
@@ -147,28 +200,26 @@
         #maker-panel {
             background: var(--glass); backdrop-filter: blur(35px);
             border: 1px solid var(--glass-border); border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); flex-wrap: wrap; flex-shrink: 0; }
+        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); flex-wrap: wrap; flex-shrink: 0; }
         .tab-btn {
-            flex: 1; min-width: 70px; background: transparent; border: none; color: var(--text-muted);
+            flex: 1; min-width: 60px; background: transparent; border: none; color: var(--text-muted);
             padding: 18px 0; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px solid transparent;
+            cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px transparent solid;
         }
-        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.03); font-weight: bold; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.05); font-weight: bold; }
         
         .tab-content { display: none; padding: 25px; overflow-y: auto; flex: 1; }
         .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
-        .tab-content::-webkit-scrollbar { width: 4px; }
-        .tab-content::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 50px; }
 
         /* RESPONSIVE LAYOUT LOGIC */
         @media (min-width: 850px) {
             #top-nav { position: absolute; top: 25px; right: 35px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; }
             .nav-logo { position: absolute; top: 30px; left: 35px; margin: 0; }
-            #maker-panel { position: absolute; left: 35px; top: 90px; bottom: 35px; width: 400px; margin: 0; }
+            #maker-panel { position: absolute; left: 35px; top: 90px; bottom: 35px; width: 420px; margin: 0; }
         }
         @media (max-width: 849px) {
             #ui-wrapper { display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; overflow-y: auto; }
@@ -183,26 +234,34 @@
         .upload-zone {
             border: 1px dashed var(--glass-border); padding: 18px; text-align: center;
             border-radius: 20px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.1);
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.2);
             display: block; width: 100%; font-family: monospace;
         }
         .upload-zone:hover { background: rgba(255,255,255,0.08); color: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
         .upload-zone input { display: none; }
 
-        .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
+        .btn-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; 
+            max-height: 220px; overflow-y: auto; padding-right: 5px;
+        }
         
         .toy-btn {
-            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
             color: var(--text-main); padding: 12px; border-radius: 30px; cursor: pointer;
             font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
             transition: all 0.3s ease; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        .toy-btn:hover { border-color: var(--accent); background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .toy-btn:hover { border-color: var(--accent); background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
         .toy-btn.active { border-color: var(--primary); background: var(--primary); color: #000; font-weight: bold; box-shadow: 0 0 15px var(--primary-glow); }
 
-        h4.section-title { margin: 0 0 8px 0; font-size: 0.7rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; font-family: monospace; }
+        h4.section-title { margin: 0 0 8px 0; font-size: 0.75rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; font-family: monospace; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; }
 
         /* --- AUDIO MIXER --- */
+        .master-gain-panel {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--primary);
+            border-radius: 20px; padding: 15px; margin-bottom: 15px;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
         .mixer-card {
             display: flex; align-items: center; justify-content: space-between;
             padding: 12px 18px; background: rgba(255,255,255,0.03);
@@ -210,14 +269,14 @@
             transition: all 0.3s ease;
         }
         .mixer-card:hover { background: rgba(255,255,255,0.06); }
-        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.1); box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.1); box-shadow: 0 0 15px rgba(0,0,0,0.4); }
         .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.85rem; text-align: left; cursor: pointer; font-family: 'Georgia', serif; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: 0.3s; }
         .mixer-card.playing .mixer-btn { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); font-style: italic; }
         .mixer-slider { -webkit-appearance: none; width: 60px; height: 4px; background: rgba(255,255,255,0.15); outline: none; border-radius: 50px; }
         .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--primary-glow); transition: 0.2s; }
         .mixer-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 50px; border: 1px solid transparent; transition: 0.3s; }
+        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 50px; border: 1px solid transparent; transition: 0.3s; }
         .ctrl-row:hover { border-color: var(--glass-border); }
         .ctrl-row label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-family: monospace; letter-spacing: 1px; width: 80px; }
         .ctrl-slider { flex: 1; -webkit-appearance: none; height: 4px; background: rgba(255,255,255,0.15); outline: none; border-radius: 50px; accent-color: var(--primary); }
@@ -226,7 +285,7 @@
         /* --- MODALS --- */
         .modal-overlay {
             position: fixed; inset: 0; z-index: 200; display: none;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
             align-items: center; justify-content: center; padding: 20px;
             animation: fadeIn 0.3s ease;
         }
@@ -236,86 +295,414 @@
         .cast-box {
             width: 100%; max-width: 500px; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 30px;
-            padding: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.7); text-align: center;
+            padding: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.9); text-align: center;
             display: flex; flex-direction: column; align-items: center; max-height: 90dvh; overflow-y: auto;
         }
-        .cast-box::-webkit-scrollbar { width: 4px; }
-        .cast-box::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 50px; }
 
         /* CUSTOM NATIVE ALERT UI */
         #somnia-dialog { z-index: 10000; }
         #somnia-dialog .cast-box { padding: 35px; max-width: 400px; }
         .core-input {
-            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
             color: var(--primary); padding: 15px; border-radius: 50px; outline: none; font-family: monospace;
             margin-bottom: 20px; transition: 0.3s; text-align: center;
         }
-        .core-input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--primary-glow); background: rgba(0,0,0,0.5); }
+        .core-input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--primary-glow); background: rgba(0,0,0,0.7); }
 
-        /* --- SCOREBOARD SYSTEM --- */
-        .team-card {
-            display: flex; align-items: center; justify-content: space-between; width: 100%;
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 15px 20px; margin-bottom: 12px; gap: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.3s;
-        }
-        .team-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.06); }
-        .team-name-input {
-            background: transparent; border: none; color: var(--primary); font-size: 1.1rem;
-            font-family: 'Times New Roman', serif; letter-spacing: 2px; outline: none; flex: 1; text-transform: uppercase;
-        }
-        .team-score { font-size: 2rem; font-weight: bold; color: var(--text-main); font-family: monospace; min-width: 50px; text-align: center; }
-        .score-ctrls { display: flex; gap: 8px; }
-        .score-btn {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-muted);
-            width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; font-family: monospace;
-        }
-        .score-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(255,255,255,0.1); transform: scale(1.1); }
-        .del-team-btn { color: #fb7185; font-size: 1.2rem; cursor: pointer; background: none; border: none; padding: 5px; opacity: 0.5; transition: 0.3s; }
-        .del-team-btn:hover { opacity: 1; transform: scale(1.2); }
-
-        /* --- TIMER SYSTEM --- */
-        .timer-display {
-            font-size: 4rem; font-family: monospace; font-weight: bold; color: var(--primary);
-            text-shadow: 0 0 20px var(--primary-glow); letter-spacing: 6px; transition: 0.3s;
-        }
-        @keyframes timerPanic {
-            0% { color: #fb7185; text-shadow: 0 0 30px #fb7185; transform: scale(1); }
-            50% { color: #fff; text-shadow: 0 0 5px transparent; transform: scale(1.05); }
-            100% { color: #fb7185; text-shadow: 0 0 30px #fb7185; transform: scale(1); }
-        }
-        .timer-blink { animation: timerPanic 1s infinite alternate !important; color: #fb7185 !important; }
-
-        /* --- SCRATCHPAD --- */
+        /* --- SCRATCHPAD & CALCULATOR --- */
         .scratchpad-input {
-            width: 100%; flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            width: 100%; flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
             color: var(--text-main); font-family: 'Georgia', serif; font-size: 1.1rem; resize: none; outline: none; line-height: 1.6;
             border-radius: 15px; padding: 20px; transition: 0.3s; min-height: 200px;
         }
         .scratchpad-input:focus { border-color: var(--accent); box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
+        
+        @media (max-width: 768px) {
+            #scratchpad-layout { flex-direction: column !important; }
+            #calculator-panel { width: 100% !important; flex: none !important; height: auto !important; }
+        }
 
+        /* --- THE WARP GATES (Invisible Hitboxes in a Row) --- */
+        #gate-container {
+            position: absolute;
+            bottom: 12%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 150; 
+            padding: 0 20px;
+            pointer-events: none; 
+        }
+        .warp-gate {
+            width: 160px; height: 80px; 
+            cursor: pointer; 
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 20px; transition: all 0.4s ease;
+            display: flex; align-items: center; justify-content: center;
+            color: transparent; font-family: 'Times New Roman', serif;
+            letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem;
+            pointer-events: auto; 
+        }
+        .warp-gate:hover {
+            box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--primary);
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--primary-glow);
+            transform: translateY(-5px) scale(1.05);
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- THE CASTELLAN TERMINAL (SLIDE OUT UI) --- */
+        #wraith-master-anchor {
+            position: absolute;
+            bottom: 8%;
+            right: 8%;
+            z-index: 105; 
+        }
+        
+        #wraith-anim-wrapper {
+            width: 150px;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-origin: bottom center;
+            position: relative;
+        }
+        
+        body.oracle-active #wraith-anim-wrapper {
+            transform: scale(1.6);
+        }
+
+        #wraith-companion {
+            width: 100%; height: auto;
+            cursor: pointer; opacity: 0.85;
+            filter: drop-shadow(0 0 15px var(--primary-glow));
+            animation: floatCastellan 6s ease-in-out infinite;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+        #wraith-companion:hover { filter: drop-shadow(0 0 30px var(--primary)); opacity: 1; }
+        
+        .wraith-mist {
+            position: absolute;
+            bottom: -15px; width: 180px; height: 40px;
+            left: -15px;
+            background: radial-gradient(ellipse, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.4; filter: blur(12px); pointer-events: none;
+            animation: breatheMist 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCastellan {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes breatheMist {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(0.8); }
+        }
+
+        /* THE CHAT BOX BESIDE THE WRAITH */
+        #oracle-ui {
+            position: absolute;
+            right: 130%; 
+            bottom: 0;
+            width: 380px;
+            height: 60vh;
+            max-height: 450px;
+            background: rgba(10, 15, 25, 0.75);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(30px);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        body.oracle-active #oracle-ui {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        #oracle-chat-log {
+            width: 100%; flex: 1; overflow-y: auto; text-align: left; margin-bottom: 15px;
+            padding: 15px; border: 1px solid var(--glass-border); border-radius: 15px;
+            background: rgba(0,0,0,0.3); font-family: 'Georgia', serif; line-height: 1.5;
+        }
+
+        .oracle-msg { margin-bottom: 15px; font-size: 0.95rem; }
+        .oracle-msg.user { color: var(--text-main); border-left: 3px solid var(--text-muted); padding-left: 10px; }
+        .oracle-msg.ai { color: var(--primary); border-left: 3px solid var(--primary); padding-left: 10px; text-shadow: 0 0 10px var(--primary-glow); font-style: italic; }
+
+        /* --- THE IFRAME SANDBOX --- */
+        #sandbox-overlay {
+            position: fixed; inset: 0; z-index: 9000; 
+            background: rgba(2, 2, 4, 0.95); backdrop-filter: blur(20px);
+            display: flex; flex-direction: column;
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        #sandbox-overlay.active { opacity: 1; pointer-events: auto; }
+        #module-frame { width: 100%; height: 100%; border: none; background: transparent; }
+        #close-sandbox-btn {
+            position: absolute; top: 20px; right: 30px;
+            background: rgba(0, 0, 0, 0.7); border: 1px solid #fb7185;
+            color: #fb7185; padding: 10px 20px; border-radius: 50px;
+            font-family: monospace; font-size: 0.8rem; letter-spacing: 2px;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s; z-index: 9001;
+        }
+        #close-sandbox-btn:hover { background: rgba(251, 113, 133, 0.2); box-shadow: 0 0 20px rgba(251, 113, 133, 0.5); }
+
+        /* --- WORLD CALENDAR & MASTER LIST MODAL --- */
+        .planner-bubble { width: 100%; max-width: 1400px; height: 85dvh; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 40px; padding: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); display: flex; gap: 20px; overflow: hidden; backdrop-filter: blur(40px); }
+        
+        .cal-panel { flex: 2; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 25px; padding: 25px; display: flex; flex-direction: column; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); overflow-y: auto;}
+        .side-panel { flex: 1.5; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 5px;}
+        
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
+        .cal-title { font-size: 1.5rem; color: var(--primary); text-transform: uppercase; letter-spacing: 3px; font-weight: bold; text-shadow: 0 0 10px var(--primary-glow); font-family: 'Times New Roman', serif;}
+        
+        .panel-card { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 25px; padding: 25px; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); flex-shrink: 0;}
+        .panel-title { font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; font-family: monospace; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
+        
+        /* Sleek Calendar Grid */
+        .grid-month { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; flex: 1;}
+        .day-label { text-align: center; font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding-bottom: 10px;}
+        .cal-cell { 
+            min-height: 80px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 12px; padding: 10px; position: relative; font-family: monospace; 
+            font-size: 0.9rem; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column;
+        }
+        .cal-cell:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+        .cal-cell.selected-day { border-color: var(--primary); background: rgba(255,255,255,0.1); box-shadow: inset 0 0 15px var(--primary-glow); }
+        .cal-cell-number { color: var(--text-main); font-weight: bold; margin-bottom: 5px; }
+        .cal-cell.today .cal-cell-number { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+
+        /* Unified Task List Styling */
+        .task-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; margin-bottom: 10px; transition: all 0.3s ease;
+        }
+        .task-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .task-item.completed { opacity: 0.5; text-decoration: line-through; border-color: transparent; }
+        .task-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .task-title { font-family: 'Georgia', serif; font-size: 0.95rem; color: var(--text-main); }
+        .task-meta { font-family: monospace; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .task-checkbox {
+            width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 5px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; flex-shrink: 0; margin-right: 15px; background: transparent;
+        }
+        .task-item.completed .task-checkbox { background: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+        
+        .xp-reward { font-family: monospace; font-size: 0.75rem; color: #34d399; font-weight: bold; text-shadow: 0 0 10px rgba(52,211,153,0.5); }
+        .xp-penalty { font-family: monospace; font-size: 0.75rem; color: #fb7185; }
+
+        /* Master Input Row */
+        .add-task-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .add-task-input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 15px; border-radius: 12px; outline: none; font-family: 'Georgia', serif; font-size: 0.9rem; }
+        .add-task-input:focus { border-color: var(--accent); }
+        .add-task-select { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--primary); padding: 0 15px; border-radius: 12px; outline: none; font-family: monospace; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
+
+        /* === ATMOS v9 CLEAN ROOM LAYOUT ===
+           This isolates the Atmos tab from the older .btn-grid behavior. */
+        #tab-atmos.atmos-clean-tab {
+            display: none;
+            padding: 22px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+        #tab-atmos.atmos-clean-tab.active {
+            display: block !important;
+        }
+        #tab-atmos .atmos-section {
+            display: block !important;
+            position: static !important;
+            width: 100% !important;
+            clear: both !important;
+            margin: 0 0 24px 0 !important;
+            padding: 0 !important;
+        }
+        #tab-atmos .atmos-section .section-title {
+            display: block !important;
+            position: static !important;
+            width: 100% !important;
+            margin: 0 0 10px 0 !important;
+            padding: 0 0 7px 0 !important;
+            line-height: 1.2 !important;
+        }
+        #tab-atmos .atmos-grid {
+            display: grid !important;
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow: visible !important;
+            gap: 10px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            clear: both !important;
+            transform: none !important;
+        }
+        #tab-atmos .atmos-button-grid {
+            grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)) !important;
+        }
+        #tab-atmos .atmos-swatch-grid {
+            grid-template-columns: repeat(auto-fill, minmax(34px, 34px)) !important;
+            justify-content: start !important;
+            align-items: center !important;
+        }
+        #tab-atmos .atmos-btn,
+        #tab-atmos .atmos-swatch {
+            position: static !important;
+            float: none !important;
+            transform: none;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            z-index: auto !important;
+            box-sizing: border-box !important;
+            transition: all 0.3s ease !important;
+        }
+        #tab-atmos .atmos-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            min-height: 40px !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 10px 8px !important;
+            line-height: 1.1 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        
+        /* RESTORED V9 HOVER & ACTIVE CLICK BOX GLOWS */
+        #tab-atmos .atmos-btn:hover {
+            border-color: var(--accent) !important;
+            color: #fff !important;
+            box-shadow: 0 0 20px var(--primary-glow) !important;
+            background: rgba(255,255,255,0.05) !important;
+            transform: translateY(-2px) !important;
+        }
+        #tab-atmos .atmos-btn.active {
+            border-color: var(--primary) !important;
+            background: var(--primary) !important;
+            color: #000 !important;
+            font-weight: bold !important;
+            box-shadow: 0 0 15px var(--primary-glow) !important;
+        }
+
+        #tab-atmos .atmos-swatch {
+            display: block !important;
+            width: 34px !important;
+            height: 34px !important;
+            min-width: 34px !important;
+            min-height: 34px !important;
+            max-width: 34px !important;
+            max-height: 34px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border-radius: 999px !important;
+            border: 1px solid var(--glass-border) !important;
+            background: var(--swatch) !important;
+            cursor: pointer !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.35) !important;
+        }
+        #tab-atmos .atmos-swatch:hover {
+            box-shadow: 0 0 15px var(--primary-glow) !important;
+            transform: scale(1.15) !important;
+            border-color: var(--accent) !important;
+        }
+        #tab-atmos .atmos-swatch.active {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 16px var(--primary-glow) !important;
+            transform: scale(1.05) !important;
+        }
+        #tab-atmos .atmos-engine-section {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding-bottom: 12px !important;
+        }
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
 
-    <!-- BOOT SCREEN -->
+    <div id="bg-anchor"></div>
+    <div id="glow-layer" class="glow-pulse"></div>
+    <canvas id="particleCanvas"></canvas>
+    
+    <div class="ambient-lamp" id="lamp-1"></div>
+    <div class="ambient-lamp" id="lamp-2"></div>
+
+    <div id="gate-container">
+        <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">Stronghold</div>
+        <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">Syllabus</div>
+        <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">Sanctum</div>
+        <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSmithy.html')">Smithy</div>
+    </div>
+
+    <div id="wraith-master-anchor">
+        <div id="wraith-anim-wrapper">
+            <img id="wraith-companion" src="wraith.png" alt="Wraith Oracle" onclick="event.stopPropagation(); toggleOracleUI()">
+            <div class="wraith-mist"></div>
+        </div>
+        
+        <div id="oracle-ui" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE CASTELLAN</h3>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" onclick="toggleOracleUI()">✕</button>
+            </div>
+            
+            <div style="width: 100%; display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                <input type="password" id="gemini-api-key" class="core-input" style="margin: 0; flex: 1; padding: 8px; font-size: 0.7rem; text-align: left;" placeholder="Secure API Key..." onchange="saveApiKey()">
+                <button class="toy-btn" style="border-color: var(--accent); padding: 0 12px; font-size: 0.6rem;" onclick="saveApiKey()">Lock</button>
+            </div>
+
+            <div id="oracle-chat-log">
+                <div class="oracle-msg ai">The Oracle awakens. The threads of the polis weave around your command. What is your will, Architect?</div>
+            </div>
+
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <input type="text" id="oracle-input" class="core-input" style="margin: 0; text-align: left; padding: 10px;" placeholder="Command the Oracle..." onkeypress="if(event.key === 'Enter') submitOraclePrompt()">
+                <button class="toy-btn" style="border-color: var(--accent); padding: 0 15px;" onclick="submitOraclePrompt()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sandbox-overlay" onclick="event.stopPropagation()">
+        <button id="close-sandbox-btn" onclick="closeModule()">✕ Return to Sanctuary</button>
+        <iframe id="module-frame" src=""></iframe>
+    </div>
+
     <div id="boot-screen">
         <div class="kore-orb"></div>
         <div class="boot-content">
             <h1 class="boot-title">SOMNIASCAPES</h1>
-            <div class="boot-subtitle">The vibe machine you didn’t know you needed.</div>
+            <div class="boot-subtitle">THE DIGITAL SANCTUARY</div>
             <p class="boot-disclaimer">
-                Part cozy. Part aesthetic. Part prank. Part “why is this so relaxing?”<br><br>
-                Build scenes. Mix sounds. Add particles. Make a whole mood.<br><br>
-                Host the ultimate game night, track team scores with the Scoreboard, or set a chaotic timer for trivia.<br><br>
-                No ads. No subscriptions. No loopholes. Just vibes. ✨
+                System Initializing...<br>
+                Igniting the Hearth...<br>
+                Summoning the Castellan...<br><br>
+                The world outside is loud. The polis is yours.<br>
+                Speak with the Oracles. Guard your ledgers. Tend to the hearth.<br>
+                Your sanctuary awaits.
             </p>
-            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px;" onclick="startEngine()">ENTER THE CHAOS</button>
+            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">[ ENTER THE POLIS ]</button>
         </div>
     </div>
 
-    <!-- CUSTOM NATIVE DIALOG -->
     <div id="somnia-dialog" class="modal-overlay">
         <div class="cast-box">
             <h3 id="dialog-title" style="color: var(--primary); letter-spacing: 4px; margin-top: 0; text-transform: uppercase; font-family: 'Times New Roman', serif;">Notice</h3>
@@ -328,19 +715,17 @@
         </div>
     </div>
 
-    <div id="bg-anchor"></div>
-    <div id="glow-layer" class="glow-pulse"></div>
-    <canvas id="particleCanvas"></canvas>
-
     <div id="ui-wrapper">
         <div class="nav-logo">SOMNIASCAPES</div>
         
         <div id="top-nav" onclick="event.stopPropagation()">
+            <div style="display: flex; align-items: center; margin-right: 15px;">
+                <span style="font-family: monospace; font-size: 0.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
+            </div>
             <button class="artifact-btn" onclick="toggleCloak()">Cloak UI</button>
-            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad</button>
-            <button class="artifact-btn" onclick="toggleModal('scoreboard-modal')">Scoreboard</button>
+            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
+            <button class="artifact-btn" style="border-color: var(--primary); background: rgba(255,255,255,0.05);" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
             <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast to TV</button>
-            <button class="artifact-btn" onclick="shareSomnia()">Share Vibe</button>
         </div>
 
         <main id="maker-panel" onclick="event.stopPropagation()">
@@ -349,9 +734,19 @@
                 <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
                 <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
                 <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
+                <button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
             </div>
 
             <div id="tab-audio" class="tab-content active">
+                <div class="master-gain-panel">
+                    <h4 class="section-title" style="margin-bottom: 10px; border: none; text-align: center;">Master Volume</h4>
+                    <div class="ctrl-row" style="background: transparent; padding: 0; border: none;">
+                        <span style="font-size: 1.2rem;">🔈</span>
+                        <input type="range" class="ctrl-slider" id="master-vol-slider" min="0" max="1" step="0.05" value="1" oninput="changeMasterGain(this.value)">
+                        <span style="font-size: 1.2rem;">🔊</span>
+                    </div>
+                </div>
+
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
                     <label class="toy-btn" style="flex:1; text-align:center; border-color: var(--accent);">
                         ✨ Add Custom Sound
@@ -369,88 +764,144 @@
                     <span style="font-size: 0.6rem; opacity: 0.6; font-style: italic;">(It's safe, we promise!)</span>
                     <input type="file" accept="image/*" onchange="executeImageUpload(this)">
                 </label>
-                <div id="custom-bgs" style="display:flex; flex-direction:column; gap: 10px;">
-                    <!-- Populated by DB -->
+                <div id="custom-bgs" style="display:flex; flex-direction:column; gap: 10px;"></div>
+            </div>
+
+            <div id="tab-atmos" class="tab-content atmos-clean-tab">
+                <div class="atmos-section">
+                    <h4 class="section-title">Color Palettes (20)</h4>
+                    <div class="atmos-grid atmos-button-grid" id="color-grid"></div>
+                </div>
+
+                <div class="atmos-section">
+                    <h4 class="section-title">Sprinkles (20)</h4>
+                    <div class="atmos-grid atmos-button-grid" id="particle-grid"></div>
+                </div>
+
+                <div class="atmos-section">
+                    <h4 class="section-title">Glow Styles (20)</h4>
+                    <div class="atmos-grid atmos-button-grid" id="glow-grid"></div>
+                </div>
+
+                <div class="atmos-section">
+                    <h4 class="section-title">Sprinkle Colors</h4>
+                    <div class="atmos-grid atmos-swatch-grid" id="particle-color-grid"></div>
+                </div>
+
+                <div class="atmos-section">
+                    <h4 class="section-title">Glow Colors</h4>
+                    <div class="atmos-grid atmos-swatch-grid" id="glow-color-grid"></div>
+                </div>
+
+                <div class="atmos-section atmos-engine-section">
+                    <h4 class="section-title">Engine Tweaks</h4>
+                    <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s'); saveCurrentState();"></div>
+                    <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value); saveCurrentState();"></div>
+                    <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value); saveCurrentState();"></div>
+                    <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" id="zoom-slider" min="1" max="2" step="0.1" value="1.1" oninput="updateVar('--bg-zoom', this.value); saveCurrentState();"></div>
+                    <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value); saveCurrentState();"></div>
+                    <div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" style="accent-color: var(--primary); transform: scale(1.2);" onclick="toggleLowGpu()"></div>
                 </div>
             </div>
 
-            <div id="tab-atmos" class="tab-content">
-                <h4 class="section-title">Color Palettes</h4>
-                <div class="btn-grid" id="color-grid"></div>
-
-                <h4 class="section-title" style="margin-top:20px;">Sprinkles (Particles)</h4>
-                <div class="btn-grid" id="particle-grid"></div>
-
-                <h4 class="section-title" style="margin-top:20px;">Glow Styles</h4>
-                <div class="btn-grid" id="glow-grid"></div>
-
-                <h4 class="section-title" style="margin-top:20px;">Sprinkle Colors</h4>
-                <div class="btn-grid" id="particle-color-grid"></div>
-
-                <h4 class="section-title" style="margin-top:20px;">Glow Colors</h4>
-                <div class="btn-grid" id="glow-color-grid"></div>
-
-                <h4 class="section-title" style="margin-top:25px;">Engine Tweaks</h4>
-                <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s'); saveCurrentState();"></div>
-                <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value); saveCurrentState();"></div>
-                <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value); saveCurrentState();"></div>
-                <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" id="zoom-slider" min="1" max="2" step="0.1" value="1" oninput="updateVar('--bg-zoom', this.value); saveCurrentState();"></div>
-                <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value); saveCurrentState();"></div>
-                <div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" style="accent-color: var(--primary); transform: scale(1.2);" onclick="toggleLowGpu()"></div>
+            <div id="tab-vault" class="tab-content">
+                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 18px; font-size: 0.75rem; border-radius: 50px; box-shadow: 0 0 15px var(--primary-glow);" onclick="savePreset()">💖 Save This Vibe to Vault</button>
+                <div id="vault-list" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;"></div>
             </div>
 
-            <div id="tab-vault" class="tab-content">
-                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 18px; font-size: 0.75rem; border-radius: 50px;" onclick="savePreset()">💖 Save This Vibe to Vault</button>
-                <div id="vault-list" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;"></div>
+            <div id="tab-protips" class="tab-content">
+                <h4 class="section-title" style="color: var(--primary);">🛠️ MASTER SHELL MANUAL</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-top: 5px;">
+                    This is your sovereign digital polis. It runs entirely offline. Here is how to navigate:
+                </p>
+                <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; padding-left: 20px; margin-top:0;">
+                    <li><strong>Invisible Warp Gates:</strong> Hover your mouse along the bottom-center of the screen to reveal 4 hidden portals. Click them to seamlessly warp to your other modules (Stronghold, Syllabus, Sanctum, Smithy).</li>
+                    <li><strong>The Castellan:</strong> The Wraith hovering on your screen is your Oracle. Click him to slide out the AI terminal. Enter your API key securely to awaken him.</li>
+                    <li><strong>Master Ledger:</strong> Click 'Master Ledger' in the top menu to view your unified World Calendar, Bounties, and Market Lists. Checking off items instantly grants you World XP.</li>
+                    <li><strong>Scratchpad & Calc:</strong> A fast, keyboard-native workspace. You can type numbers directly on your keyboard and hit "Enter" to calculate while making notes.</li>
+                    <li><strong>Cloak UI:</strong> Use this to hide all menus and turn your browser into a pure, immersive, cinematic room.</li>
+                </ul>
             </div>
         </main>
     </div>
 
-    <!-- SCRATCHPAD MODAL -->
     <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
-        <div class="cast-box" style="padding: 25px; max-width: 650px; height: 60vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+        <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE SCRATCHPAD</h3>
-                <button class="del-team-btn" onclick="toggleModal('scratchpad-modal')">✕</button>
+                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE ARCHIVES & LEDGER</h3>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent;" onclick="toggleModal('scratchpad-modal')">✕</button>
             </div>
-            <textarea id="scratchpad-box" class="scratchpad-input" placeholder="Type your broadcast notes, game rules, or cozy thoughts here. Don't worry, it auto-saves! ✨" oninput="saveScratchpad()"></textarea>
-        </div>
-    </div>
-
-    <!-- SCOREBOARD MODAL -->
-    <div id="scoreboard-modal" class="modal-overlay" onclick="toggleModal('scoreboard-modal')">
-        <div class="cast-box" style="padding: 30px; max-width: 600px;" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">GAME SCOREBOARD</h3>
             
-            <!-- TIMER SECTION -->
-            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 25px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 15px; border: 1px dashed var(--glass-border);">
-                <div id="game-timer" class="timer-display">05:00</div>
-                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
-                    <button class="toy-btn" onclick="adjustTimer(-60)">-1 Min</button>
-                    <button class="toy-btn" onclick="startTimer()" style="color: #34d399; border-color: rgba(52,211,153,0.4); background: rgba(52,211,153,0.1);">▶ Play</button>
-                    <button class="toy-btn" onclick="pauseTimer()" style="color: var(--accent); border-color: var(--glass-border);">⏸ Pause</button>
-                    <button class="toy-btn" onclick="resetTimer()" style="color: #fbbf24; border-color: rgba(251,191,36,0.4);">↺ Reset</button>
-                    <button class="toy-btn" onclick="adjustTimer(60)">+1 Min</button>
+            <div id="scratchpad-layout" style="display: flex; gap: 20px; width: 100%; height: 100%;">
+                <textarea id="scratchpad-box" class="scratchpad-input" style="flex: 2; height: 100%; margin: 0;" placeholder="Etch your notes, lore, and calculations into the stone. It autosaves." oninput="saveScratchpad()"></textarea>
+                
+                <div id="calculator-panel" style="flex: 1; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                    <input type="text" id="calc-display" readonly placeholder="0" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--primary); color: var(--primary); font-family: monospace; font-size: 1.2rem; padding: 15px 10px; text-align: right; border-radius: 10px; outline: none; margin-bottom: 5px;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex: 1;">
+                        <button class="toy-btn" onclick="calcAppend('7')">7</button>
+                        <button class="toy-btn" onclick="calcAppend('8')">8</button>
+                        <button class="toy-btn" onclick="calcAppend('9')">9</button>
+                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('/')">/</button>
+                        
+                        <button class="toy-btn" onclick="calcAppend('4')">4</button>
+                        <button class="toy-btn" onclick="calcAppend('5')">5</button>
+                        <button class="toy-btn" onclick="calcAppend('6')">6</button>
+                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('*')">*</button>
+                        
+                        <button class="toy-btn" onclick="calcAppend('1')">1</button>
+                        <button class="toy-btn" onclick="calcAppend('2')">2</button>
+                        <button class="toy-btn" onclick="calcAppend('3')">3</button>
+                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('-')">-</button>
+                        
+                        <button class="toy-btn" style="color: #fb7185;" onclick="calcClear()">C</button>
+                        <button class="toy-btn" onclick="calcAppend('0')">0</button>
+                        <button class="toy-btn" style="color: var(--primary); font-weight: bold; background: rgba(255,255,255,0.05);" onclick="calcEval()">=</button>
+                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('+')">+</button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div id="teams-container" style="width: 100%; display: flex; flex-direction: column; max-height: 40vh; overflow-y: auto; padding-right: 5px; margin-bottom: 20px;">
-                <!-- Populated via JS -->
+    <div id="world-calendar-modal" class="modal-overlay" onclick="toggleModal('world-calendar-modal')">
+        <div class="planner-bubble" onclick="event.stopPropagation()">
+            
+            <div class="cal-panel">
+                <div class="cal-header">
+                    <div class="cal-title">WORLD CALENDAR</div>
+                </div>
+                <div id="world-cal-grid" class="grid-month"></div>
             </div>
+            
+            <div class="side-panel">
+                <div class="panel-card" style="flex:1; display: flex; flex-direction: column;">
+                    <div class="panel-title" style="color:var(--accent);">
+                        <span>MASTER LEDGER</span>
+                        <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="clearCompletedTasks()">Clear Done</button>
+                    </div>
+                    
+                    <div class="add-task-row">
+                        <select id="task-category" class="add-task-select">
+                            <option value="Bounty">📜 Bounty</option>
+                            <option value="Market">🛒 Market</option>
+                            <option value="Project">🛠️ Project</option>
+                        </select>
+                        <input type="text" id="new-task-input" class="add-task-input" placeholder="Add to ledger..." onkeypress="if(event.key === 'Enter') addTaskToLedger()">
+                        <button class="toy-btn" style="border-color: var(--primary);" onclick="addTaskToLedger()">Add</button>
+                    </div>
 
-            <div style="display: flex; gap: 15px; width: 100%;">
-                <button class="toy-btn" style="flex: 1; padding: 15px; border-color: var(--accent); color: var(--text-main);" onclick="addTeam()">+ Add Team</button>
-                <button class="toy-btn" style="padding: 15px; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);" onclick="resetScores()">Reset All</button>
+                    <div id="master-list-content" style="flex: 1; overflow-y:auto; padding-right: 5px;">
+                        </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- CAST MODAL -->
     <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
         <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PRANK THE TV</h3>
+            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECT TO REALITY</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Georgia', serif; font-style: italic;">
-                Ready to cast a cursed chaotic scene to your living room TV, or build the perfect bedtime ambience? Use your browser's Tab Mirroring!
+                Cast your polis to the physical realm. Use your browser's Tab Mirroring.
             </p>
             <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 20px; border: 1px dashed var(--glass-border); width: 100%; margin-bottom: 25px; text-align: left;">
                 <p style="font-size: 0.75rem; color: var(--primary); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">How to Cast:</p>
@@ -465,22 +916,235 @@
         </div>
     </div>
 
-    <!-- SHARE MODAL -->
-    <div id="share-modal" class="modal-overlay" onclick="toggleModal('share-modal')">
-        <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 10px; font-family: 'Times New Roman', serif;">SHARE THE VIBE</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; font-family: 'Georgia', serif; font-style: italic;">
-                Your beautifully weird chaos is ready to be shared. Send this exact scene to a friend!
-            </p>
-            <input type="text" id="share-link-input" readonly style="width:100%; margin-top: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--primary); color: var(--primary); font-family: monospace; font-size: 0.8rem; padding: 15px; outline: none; border-radius: 50px; text-align: center; cursor: pointer;" onclick="this.select(); document.execCommand('copy'); somniaAlert('Yay!', 'Link happily copied to your clipboard! ✨');">
-            <p style="font-size: 0.6rem; opacity: 0.6; margin-top: 15px; font-family: monospace;">(Click the box to copy!)</p>
-        </div>
-    </div>
-
     <script>
+        // =========================================================================
+        // JOLT ARRAYS - ISOLATED AT THE TOP TO GUARANTEE ATMOS TAB RENDERING
+        // =========================================================================
+        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost','gothic','library','y2k','vintage','cyber','twilight','autumn','abyss','sepia','frost'];
+        
+        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none','heartbeat','shimmer','glitch','scanner','nebula','vortex','ripple','halo','eclipse','inferno'];
+        
+        const pList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores','leaves','glitch','runes','fireflies','fog','petals','sparks','bats','static','motes'];
+        
+        const hexColors = [
+            '#e0e7ff', '#D4AF37', '#C2B280', '#d8b4e2', '#fb7185', 
+            '#34d399', '#fbbf24', '#ec4899', '#9ca3af', '#ffffff', 
+            '#881337', '#78350f', '#c026d3', '#b45309', '#22c55e', 
+            '#4c1d95', '#9a3412', '#1e3a8a', '#78716c', '#0284c7'
+        ];
+        // =========================================================================
+
+        // === MODULE ROUTING LOGIC ===
+        function openModule(moduleFilename) {
+            const sandbox = document.getElementById('sandbox-overlay');
+            const iframe = document.getElementById('module-frame');
+            iframe.src = moduleFilename;
+            sandbox.classList.add('active');
+        }
+
+        function closeModule() {
+            const sandbox = document.getElementById('sandbox-overlay');
+            const iframe = document.getElementById('module-frame');
+            sandbox.classList.remove('active');
+            setTimeout(() => { iframe.src = ""; }, 500);
+        }
+
+        // === ORACLE AI & DYNAMIC TERMINAL LOGIC ===
+        function toggleOracleUI() {
+            document.body.classList.toggle('oracle-active');
+            if (document.body.classList.contains('oracle-active')) {
+                setTimeout(() => document.getElementById('oracle-input').focus(), 500);
+            }
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('gemini-api-key').value.trim();
+            localStorage.setItem('somnia_gemini_key', key);
+            if(key) {
+                somniaAlert("KEY SECURED", "Your API Key is saved locally. The Oracle is ready.");
+            }
+        }
+
+        function appendOracleMessage(text, sender) {
+            const log = document.getElementById('oracle-chat-log');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `oracle-msg ${sender}`;
+            msgDiv.innerText = text;
+            log.appendChild(msgDiv);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function submitOraclePrompt() {
+            const input = document.getElementById('oracle-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            appendOracleMessage(text, 'user');
+            input.value = '';
+
+            const apiKey = localStorage.getItem('somnia_gemini_key');
+            
+            if (!apiKey) {
+                setTimeout(() => {
+                    appendOracleMessage("Error: The Oracle cannot speak without a secure API key. Please lock your key above.", 'ai');
+                }, 500);
+                return;
+            }
+
+            // === GEMINI API INJECTION POINT ===
+            setTimeout(() => {
+                const responses = [
+                    "The ledgers have been noted. What else requires attention?",
+                    "Your command ripples through the polis. The engine hums.",
+                    "An interesting directive. I shall weave it into the archives.",
+                    "The hearth burns brighter. You are doing well, Architect.",
+                    "XP registered to the World Core. A new path may open soon."
+                ];
+                const reply = responses[Math.floor(Math.random() * responses.length)];
+                appendOracleMessage(reply, 'ai');
+            }, 800);
+        }
+
+        // === CALCULATOR NATIVE KEYBOARD LOGIC ===
+        function calcAppend(val) { document.getElementById('calc-display').value += val; }
+        function calcClear() { document.getElementById('calc-display').value = ''; }
+        function calcEval() { 
+            try { 
+                const display = document.getElementById('calc-display');
+                if(display.value) display.value = eval(display.value); 
+            } catch(e) { 
+                document.getElementById('calc-display').value = 'Error'; 
+                setTimeout(calcClear, 1000);
+            } 
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const scratchpadModal = document.getElementById('scratchpad-modal');
+            if (scratchpadModal.classList.contains('active')) {
+                if (document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
+                    const key = e.key;
+                    if (/[0-9+\-*/.]/.test(key)) {
+                        calcAppend(key);
+                    } else if (key === 'Enter' || key === '=') {
+                        e.preventDefault();
+                        calcEval();
+                    } else if (key === 'Backspace' || key === 'Escape' || key.toLowerCase() === 'c') {
+                        calcClear();
+                    }
+                }
+            }
+        });
+
         document.documentElement.className = 'lunar-mode';
 
-        // DB & PERSISTENCE
+        // === GLOBAL WORLD XP & MASTER LEDGER LOGIC ===
+        let worldXP = parseInt(localStorage.getItem('somnia_world_xp')) || 0;
+        let masterLedger = JSON.parse(localStorage.getItem('somnia_master_ledger')) || [];
+
+        function updateWorldXP(amount) {
+            worldXP += amount;
+            if (worldXP < 0) worldXP = 0;
+            localStorage.setItem('somnia_world_xp', worldXP);
+            document.getElementById('global-xp-display').innerText = worldXP;
+        }
+
+        function addTaskToLedger() {
+            const input = document.getElementById('new-task-input');
+            const category = document.getElementById('task-category').value;
+            const text = input.value.trim();
+            if (!text) return;
+
+            const newTask = {
+                id: 'task_' + Date.now(),
+                text: text,
+                category: category,
+                completed: false,
+                xpValue: category === 'Market' ? 10 : 50
+            };
+
+            masterLedger.unshift(newTask);
+            saveAndRenderLedger();
+            input.value = '';
+        }
+
+        function toggleTaskCompletion(taskId) {
+            const task = masterLedger.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                if (task.completed) {
+                    updateWorldXP(task.xpValue);
+                } else {
+                    updateWorldXP(-task.xpValue);
+                }
+                saveAndRenderLedger();
+            }
+        }
+
+        function clearCompletedTasks() {
+            masterLedger = masterLedger.filter(t => !t.completed);
+            saveAndRenderLedger();
+        }
+
+        function saveAndRenderLedger() {
+            localStorage.setItem('somnia_master_ledger', JSON.stringify(masterLedger));
+            
+            const container = document.getElementById('master-list-content');
+            container.innerHTML = '';
+
+            if (masterLedger.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 20px;">The ledger is empty. Rest well, Architect.</div>`;
+                return;
+            }
+
+            masterLedger.forEach(task => {
+                const icon = task.category === 'Market' ? '🛒' : (task.category === 'Bounty' ? '📜' : '🛠️');
+                
+                container.innerHTML += `
+                    <div class="task-item ${task.completed ? 'completed' : ''}">
+                        <div class="task-checkbox" onclick="toggleTaskCompletion('${task.id}')">
+                            ${task.completed ? '✓' : ''}
+                        </div>
+                        <div class="task-info">
+                            <div class="task-title">${task.text}</div>
+                            <div class="task-meta">${icon} ${task.category}</div>
+                        </div>
+                        <div class="${task.completed ? 'xp-penalty' : 'xp-reward'}">
+                            ${task.completed ? 'CLAIMED' : '+'+task.xpValue+' XP'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // === WORLD CALENDAR RENDER ===
+        function renderWorldCalendar() {
+            const grid = document.getElementById('world-cal-grid');
+            grid.innerHTML = '';
+            const now = new Date(); const y = now.getFullYear(); const m = now.getMonth();
+            const firstDay = new Date(y, m, 1).getDay(); const daysInMonth = new Date(y, m + 1, 0).getDate();
+            
+            ['S','M','T','W','T','F','S'].forEach(d => { grid.innerHTML += `<div class="day-label">${d}</div>`; });
+            for(let i=0; i<firstDay; i++) grid.innerHTML += `<div></div>`;
+
+            for(let i=1; i<=daysInMonth; i++) {
+                const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const isToday = i === now.getDate();
+                
+                grid.innerHTML += `<div class="cal-cell ${isToday ? 'today' : ''}" id="w-cal-cell-${dateStr}" onclick="viewWorldCalDay('${dateStr}')">
+                    <div class="cal-cell-number">${i}</div>
+                </div>`;
+            }
+
+            saveAndRenderLedger();
+        }
+
+        function viewWorldCalDay(dateStr) {
+            document.querySelectorAll('#world-cal-grid .cal-cell').forEach(c => c.classList.remove('selected-day'));
+            const cell = document.getElementById('w-cal-cell-'+dateStr);
+            if(cell) cell.classList.add('selected-day');
+        }
+
+        // === DB & PERSISTENCE (Media/Canvas) ===
         const dbPromise = new Promise((resolve, reject) => {
             const req = indexedDB.open('SomniaScapesDB', 1);
             req.onupgradeneeded = e => {
@@ -521,6 +1185,7 @@
             localStorage.removeItem('somnia_name_' + key);
         }
 
+        // === UI UTILITIES ===
         function somniaAlert(title, msg) {
             return new Promise(resolve => {
                 const modal = document.getElementById('somnia-dialog');
@@ -530,7 +1195,7 @@
                 document.getElementById('dialog-cancel').style.display = 'none';
                 
                 const confirmBtn = document.getElementById('dialog-confirm');
-                confirmBtn.innerText = "OKAY!";
+                confirmBtn.innerText = "ACKNOWLEDGED";
                 confirmBtn.onclick = () => { modal.classList.remove('active'); resolve(true); };
                 
                 modal.classList.add('active');
@@ -570,7 +1235,7 @@
                 document.getElementById('dialog-cancel').onclick = () => { modal.classList.remove('active'); resolve(false); };
                 
                 const confirmBtn = document.getElementById('dialog-confirm');
-                confirmBtn.innerText = "YES, TRASH IT";
+                confirmBtn.innerText = "YES, PURGE IT";
                 confirmBtn.style.color = "#fb7185";
                 confirmBtn.style.borderColor = "#fb7185";
                 confirmBtn.onclick = () => { 
@@ -590,14 +1255,16 @@
             
             if(!window.location.search) await restoreActiveState();
             
-            // Start fire
             if (!activeAudio['fire']) {
                 toggleStem('fire', 'fire.mp3');
                 const fireSlider = document.getElementById('vol-fire');
-                if(fireSlider) fireSlider.value = 0.5;
+                if(fireSlider) {
+                    fireSlider.value = 0.5;
+                    individualVolumes['fire'] = 0.5;
+                }
             }
             
-            setTimeout(() => { bootScreen.remove(); }, 1500);
+            setTimeout(() => { bootScreen.remove(); }, 2000);
         }
 
         function switchTab(tabId, btn) {
@@ -608,7 +1275,7 @@
         }
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
-        function restoreUI() { document.body.classList.remove('cloaked'); }
+        function restoreUI() { document.body.classList.remove('cloaked'); document.body.classList.remove('oracle-active'); }
         function toggleModal(modalId) { document.getElementById(modalId).classList.toggle('active'); }
         
         function toggleFullscreen() {
@@ -619,7 +1286,7 @@
 
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
-        // Backgrounds
+        // === BACKGROUND CANVAS LOGIC ===
         async function loadCustomBackgrounds(reload = false) {
             const grid = document.getElementById('custom-bgs');
             if(reload) grid.innerHTML = '';
@@ -629,7 +1296,7 @@
             for(let key of bgKeys) {
                 const blob = await getMedia(key);
                 if(blob) {
-                    const savedName = localStorage.getItem('somnia_name_' + key) || "🖼️ Cozy Pic " + key.replace('bg_', '').substring(0, 3);
+                    const savedName = localStorage.getItem('somnia_name_' + key) || "🖼️ Masterpiece " + key.replace('bg_', '').substring(0, 3);
                     addBgButton(URL.createObjectURL(blob), key, savedName);
                 }
             }
@@ -667,7 +1334,7 @@
             delBtn.style.color = '#fb7185';
             delBtn.style.borderColor = 'rgba(251,113,133,0.3)';
             delBtn.onclick = async () => {
-                const confirmed = await somniaConfirm("TRASH THIS CANVAS?", "Are you sure you want to delete this custom background? It will be gone forever.");
+                const confirmed = await somniaConfirm("PURGE THIS CANVAS?", "Are you sure you want to delete this custom background forever?");
                 if(confirmed) {
                     await deleteMedia(key);
                     if(localStorage.getItem('somnia_active_bg_key') === key) {
@@ -686,7 +1353,7 @@
 
         async function renameCustomItem(key, type) {
             const currentName = localStorage.getItem('somnia_name_' + key) || "";
-            const newName = await somniaPrompt("RENAME THIS GEM", "What should we call this?", currentName);
+            const newName = await somniaPrompt("RENAME ARTIFACT", "What should we call this?", currentName);
             if (newName) {
                 localStorage.setItem('somnia_name_' + key, newName);
                 if (type === 'audio') {
@@ -718,7 +1385,7 @@
                     
                     canvas.toBlob(async (blob) => {
                         await saveMedia(key, blob);
-                        const customName = await somniaPrompt("NAME THIS VIBE", "What should we call this masterpiece?", "My Cozy Vibe");
+                        const customName = await somniaPrompt("NAME THIS ARTIFACT", "What should we call this masterpiece?", "Canvas Update");
                         const finalName = customName || "🖼️ Custom Canvas";
                         localStorage.setItem('somnia_name_' + key, finalName);
 
@@ -789,109 +1456,8 @@
                     }
                 }
             } catch (e) { console.log("State restore error", e); }
-        }
-
-        // === SCOREBOARD & TIMER ===
-        let scoreboardTeams = JSON.parse(localStorage.getItem('somnia_scoreboard')) || [];
-        let timerSeconds = 300; 
-        let timerInterval = null;
-
-        function formatTime(s) {
-            let m = Math.floor(s / 60);
-            let sec = s % 60;
-            return (m < 10 ? '0'+m : m) + ':' + (sec < 10 ? '0'+sec : sec);
-        }
-
-        function updateTimerDisplay() {
-            const display = document.getElementById('game-timer');
-            display.innerText = formatTime(timerSeconds);
-            if (timerSeconds <= 10 && timerSeconds > 0) {
-                display.classList.add('timer-blink');
-            } else {
-                display.classList.remove('timer-blink');
-            }
-        }
-
-        function adjustTimer(delta) {
-            timerSeconds = Math.max(0, timerSeconds + delta);
-            updateTimerDisplay();
-        }
-
-        function startTimer() {
-            if (timerInterval) return;
-            timerInterval = setInterval(() => {
-                if (timerSeconds > 0) {
-                    timerSeconds--;
-                    updateTimerDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            timerSeconds = 300; 
-            updateTimerDisplay();
-        }
-
-        function renderScoreboard() {
-            const container = document.getElementById('teams-container');
-            if (scoreboardTeams.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-style:italic; width:100%;">No teams yet. Time to add some players!</p>`;
-                return;
-            }
-
-            container.innerHTML = scoreboardTeams.map((team, index) => `
-                <div class="team-card">
-                    <button class="del-team-btn" onclick="removeTeam(${index})">✕</button>
-                    <input type="text" class="team-name-input" value="${team.name}" onchange="updateTeamName(${index}, this.value)">
-                    <div class="score-ctrls">
-                        <button class="score-btn" onclick="updateScore(${index}, -1)">-</button>
-                        <div class="team-score">${team.score}</div>
-                        <button class="score-btn" onclick="updateScore(${index}, 1)">+</button>
-                    </div>
-                </div>
-            `).join('');
             
-            localStorage.setItem('somnia_scoreboard', JSON.stringify(scoreboardTeams));
-        }
-
-        function addTeam() {
-            scoreboardTeams.push({ name: `Team ${scoreboardTeams.length + 1}`, score: 0 });
-            renderScoreboard();
-        }
-
-        function updateScore(index, delta) {
-            scoreboardTeams[index].score += delta;
-            renderScoreboard();
-        }
-
-        function updateTeamName(index, newName) {
-            scoreboardTeams[index].name = newName;
-            localStorage.setItem('somnia_scoreboard', JSON.stringify(scoreboardTeams));
-        }
-
-        async function removeTeam(index) {
-            const confirmed = await somniaConfirm("REMOVE TEAM?", "Are you sure you want to kick this team off the board?");
-            if (confirmed) {
-                scoreboardTeams.splice(index, 1);
-                renderScoreboard();
-            }
-        }
-
-        async function resetScores() {
-            const confirmed = await somniaConfirm("RESET ALL SCORES?", "Are you sure you want to set everyone back to zero?");
-            if (confirmed) {
-                scoreboardTeams = scoreboardTeams.map(t => ({ ...t, score: 0 }));
-                renderScoreboard();
-            }
+            highlightActiveAtmos();
         }
 
         function saveScratchpad() {
@@ -901,11 +1467,11 @@
         // === VAULT PRESETS ===
         let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
         async function savePreset() {
-            let presetName = await somniaPrompt("VAULT THIS VIBE", "Name your gorgeous aesthetic setup:", "Cozy Setting " + (savedVault.length + 1));
+            let presetName = await somniaPrompt("VAULT THIS ARCHITECTURE", "Name your aesthetic configuration:", "Config " + (savedVault.length + 1));
             if (!presetName) return; 
 
             const btn = document.getElementById('save-btn');
-            btn.innerText = "✓ SAVED!";
+            btn.innerText = "✓ LOCKED IN THE VAULT";
             setTimeout(() => { btn.innerText = "💖 Save This Vibe to Vault"; }, 2000);
 
             const state = {
@@ -923,7 +1489,7 @@
                     pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(),
                     gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()
                 },
-                audio: Object.keys(activeAudio).map(id => ({ id: id, vol: document.getElementById(`vol-${id}`).value }))
+                audio: Object.keys(activeAudio).map(id => ({ id: id, vol: individualVolumes[id] || 0.5 }))
             };
 
             savedVault.push(state);
@@ -942,7 +1508,7 @@
         }
 
         async function promptDeletePreset(index) {
-            const confirmed = await somniaConfirm("TRASH THIS VIBE?", "Are you sure you want to delete this saved preset?");
+            const confirmed = await somniaConfirm("PURGE ARCHITECTURE?", "Are you sure you want to delete this vaulted configuration?");
             if(confirmed) {
                 savedVault.splice(index, 1);
                 localStorage.setItem('somniaVault', JSON.stringify(savedVault));
@@ -987,15 +1553,28 @@
                     if (sound) {
                         const slider = document.getElementById(`vol-${track.id}`);
                         if (slider) slider.value = track.vol; 
+                        individualVolumes[track.id] = track.vol;
                         toggleStem(track.id, sound.url); 
                     }
                 });
             }
             saveCurrentState();
+            highlightActiveAtmos();
         }
 
-        // === AUDIO ENGINE ===
+        // === AUDIO ENGINE WITH MASTER GAIN ===
         const activeAudio = {};
+        const individualVolumes = {}; 
+        let masterGain = 1.0; 
+
+        function changeMasterGain(val) {
+            masterGain = parseFloat(val);
+            Object.keys(activeAudio).forEach(id => {
+                const baseVol = individualVolumes[id] || 0.5;
+                activeAudio[id].volume = baseVol * masterGain;
+            });
+        }
+
         const soundLibrary = [
             { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
             { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
@@ -1018,7 +1597,7 @@
             for(let key of audioKeys) {
                 const blob = await getMedia(key);
                 if(blob) {
-                    const savedName = localStorage.getItem('somnia_name_' + key) || "📁 " + key.replace('aud_','').substring(0,8);
+                    const savedName = localStorage.getItem('somnia_name_' + key) || "📁 Audio " + key.replace('aud_','').substring(0,4);
                     customAudioLibrary.push({ id: key, name: savedName, url: URL.createObjectURL(blob), isCustom: true });
                 }
             }
@@ -1037,14 +1616,14 @@
                     <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
                     ${editBtn}
                     ${delBtn}
-                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="0.5" oninput="adjustVol('${track.id}', this.value)">
+                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="${individualVolumes[track.id] || 0.5}" oninput="adjustVol('${track.id}', this.value)">
                 </div>
             `}).join('');
             Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
         }
 
         async function promptDeleteAudio(id) {
-            const confirmed = await somniaConfirm("TRASH THIS SOUND?", "Are you sure you want to delete this custom audio?");
+            const confirmed = await somniaConfirm("PURGE SOUNDSCAPE?", "Are you sure you want to delete this custom audio file?");
             if(confirmed) {
                 if(activeAudio[id]) {
                     activeAudio[id].pause();
@@ -1062,7 +1641,7 @@
             const key = 'aud_' + Date.now();
             
             saveMedia(key, file).then(async () => {
-                const customName = await somniaPrompt("NAME THIS SOUNDSCAPE", "What should we call this magic noise?", "✨ Funky Sounds");
+                const customName = await somniaPrompt("NAME SOUNDSCAPE", "What should we call this ambient loop?", "✨ Mystery Audio");
                 const finalName = customName || "📁 " + file.name.substring(0,10);
                 localStorage.setItem('somnia_name_' + key, finalName);
 
@@ -1074,42 +1653,147 @@
 
         function toggleStem(id, url) {
             const card = document.getElementById(`card-${id}`);
+            const slider = document.getElementById(`vol-${id}`);
+            
             if (activeAudio[id]) {
-                activeAudio[id].pause(); delete activeAudio[id]; card.classList.remove('playing');
+                activeAudio[id].pause(); 
+                delete activeAudio[id]; 
+                card.classList.remove('playing');
             } else {
-                const audio = new Audio(url); audio.loop = true; audio.volume = document.getElementById(`vol-${id}`).value;
-                audio.play().then(() => { activeAudio[id] = audio; card.classList.add('playing'); }).catch(e => console.log("Unlock audio first."));
+                const audio = new Audio(url); 
+                audio.loop = true; 
+                
+                if (individualVolumes[id] === undefined) individualVolumes[id] = slider ? parseFloat(slider.value) : 0.5;
+                audio.volume = individualVolumes[id] * masterGain;
+                
+                audio.play().then(() => { 
+                    activeAudio[id] = audio; 
+                    card.classList.add('playing'); 
+                }).catch(e => console.log("Unlock audio first by interacting with the page."));
             }
         }
-        function adjustVol(id, val) { if (activeAudio[id]) activeAudio[id].volume = val; }
-        function stopAllAudio() { Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); document.getElementById(`card-${id}`).classList.remove('playing'); delete activeAudio[id]; }); }
 
-        // === 7. ATMOS & PARTICLES ===
-        const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost'];
-        const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none'];
-        const particlesList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores'];
-        const particleColors = [ { name: 'Lunar', value: '#e0e7ff' }, { name: 'Noir', value: '#D4AF37' }, { name: 'Vellum', value: '#C2B280' }, { name: 'Amethyst', value: '#d8b4e2' }, { name: 'Crimson', value: '#fb7185' }, { name: 'Emerald', value: '#34d399' }, { name: 'Solar', value: '#fbbf24' }, { name: 'Void', value: '#ec4899' }, { name: 'Obsidian', value: '#9ca3af' }, { name: 'Ghost', value: '#f8fafc' } ];
-        const glowColors = [ { name: 'Lunar', value: 'rgba(224,231,255,0.4)' }, { name: 'Noir', value: 'rgba(212,175,55,0.4)' }, { name: 'Vellum', value: 'rgba(194,178,128,0.4)' }, { name: 'Amethyst', value: 'rgba(216,180,226,0.4)' }, { name: 'Crimson', value: 'rgba(251,113,133,0.4)' }, { name: 'Emerald', value: 'rgba(52,211,153,0.4)' }, { name: 'Solar', value: 'rgba(251,191,36,0.4)' }, { name: 'Void', value: 'rgba(236,72,153,0.4)' }, { name: 'Obsidian', value: 'rgba(156,163,175,0.4)' }, { name: 'Ghost', value: 'rgba(248,250,252,0.4)' } ];
+        function adjustVol(id, val) { 
+            individualVolumes[id] = parseFloat(val);
+            if (activeAudio[id]) activeAudio[id].volume = individualVolumes[id] * masterGain; 
+        }
+
+        function stopAllAudio() { 
+            Object.keys(activeAudio).forEach(id => { 
+                activeAudio[id].pause(); 
+                document.getElementById(`card-${id}`).classList.remove('playing'); 
+                delete activeAudio[id]; 
+            }); 
+        }
+
+        // === ATMOS TAB DYNAMIC GENERATION & WIRING ===
+        function atmosMarkActive(btn) {
+            if (!btn) return;
+            const grid = btn.closest('.atmos-grid');
+            if (grid) grid.querySelectorAll('.atmos-btn, .atmos-swatch').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function atmosHandleControl(btn) {
+            const kind = btn.dataset.atmosKind;
+            const value = btn.dataset.atmosValue;
+            if (!kind || !value) return;
+
+            if (kind === 'palette') {
+                colors.forEach(c => document.documentElement.classList.remove(`${c}-mode`));
+                document.documentElement.classList.add(`${value}-mode`);
+            }
+
+            if (kind === 'particle') {
+                window.particleType = value;
+            }
+
+            if (kind === 'glow') {
+                const glowLayer = document.getElementById('glow-layer');
+                if (glowLayer) glowLayer.className = `glow-${value}`;
+            }
+
+            if (kind === 'var') {
+                updateVar(btn.dataset.atmosVar, value);
+            }
+
+            atmosMarkActive(btn);
+            try { saveCurrentState(); } catch (e) {}
+        }
 
         function populateGrid(id, arr, type) {
             const grid = document.getElementById(id);
-            arr.forEach((item, index) => {
-                const isObj = typeof item === 'object';
-                const label = isObj ? item.name : item;
-                const val = isObj ? item.value : item;
+            if(!grid) return;
+            grid.innerHTML = '';
+            arr.forEach((item) => {
                 const b = document.createElement('button');
-                b.className = 'toy-btn'; b.textContent = label; 
-                b.onclick = () => {
-                    document.querySelectorAll(`#${id} .toy-btn`).forEach(btn => btn.classList.remove('active'));
-                    b.classList.add('active');
-                    if(type === 'color') document.documentElement.className = `${val}-mode`;
-                    if(type === 'glow') document.getElementById('glow-layer').className = `glow-${val}`;
-                    if(type === 'particle') window.particleType = val;
-                    if(type === 'particleColor') updateVar('--particle-color', val);
-                    if(type === 'glowColor') updateVar('--glow-color', val);
-                    saveCurrentState(); 
+                b.type = 'button';
+                b.className = 'toy-btn atmos-btn'; 
+                b.dataset.atmosKind = type;
+                b.dataset.atmosValue = item;
+                b.textContent = item; 
+                b.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    atmosHandleControl(b);
                 };
                 grid.appendChild(b);
+            });
+        }
+
+        function populateColorGrid(id, cssVar) {
+            const grid = document.getElementById(id);
+            if(!grid) return;
+            grid.innerHTML = '';
+            hexColors.forEach((hex) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'atmos-swatch'; 
+                b.dataset.atmosKind = 'var';
+                b.dataset.atmosVar = cssVar;
+                b.dataset.atmosValue = hex;
+                b.style.setProperty('--swatch', hex);
+                b.setAttribute('aria-label', `${cssVar} ${hex}`);
+                b.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    atmosHandleControl(b);
+                };
+                grid.appendChild(b);
+            });
+        }
+
+        function highlightActiveAtmos() {
+            const currentModeClass = document.documentElement.className;
+            let currentMode = 'lunar';
+            colors.forEach(c => { if(currentModeClass.includes(c+'-mode')) currentMode = c; });
+
+            const glowLayer = document.getElementById('glow-layer');
+            let currentGlow = 'pulse';
+            if (glowLayer) {
+                glows.forEach(g => { if(glowLayer.className.includes('glow-'+g)) currentGlow = g; });
+            }
+
+            const currentParticle = window.particleType || 'dust';
+
+            document.querySelectorAll('#color-grid .atmos-btn').forEach(b => {
+                if (b.dataset.atmosValue === currentMode) atmosMarkActive(b);
+            });
+            document.querySelectorAll('#glow-grid .atmos-btn').forEach(b => {
+                if (b.dataset.atmosValue === currentGlow) atmosMarkActive(b);
+            });
+            document.querySelectorAll('#particle-grid .atmos-btn').forEach(b => {
+                if (b.dataset.atmosValue === currentParticle) atmosMarkActive(b);
+            });
+            
+            const pColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
+            const gColor = getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim();
+            
+            document.querySelectorAll('#particle-color-grid .atmos-swatch').forEach(b => {
+                if (b.dataset.atmosValue === pColor) atmosMarkActive(b);
+            });
+            document.querySelectorAll('#glow-color-grid .atmos-swatch').forEach(b => {
+                if (b.dataset.atmosValue === gColor) atmosMarkActive(b);
             });
         }
 
@@ -1144,6 +1828,7 @@
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
                 if (color.includes('var(')) { const varName = color.match(/var\(([^)]+)\)/)[1].trim(); color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); }
                 ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); ctx.shadowColor = color;
+                ctx.globalAlpha = 1; 
 
                 particles.forEach((p, i) => {
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
@@ -1159,6 +1844,16 @@
                     else if (window.particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
                     else if (window.particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
                     else if (window.particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3; }
+                    else if (window.particleType === 'leaves') { p.y += 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.fillRect(p.x, p.y, p.r*2, p.r); return; }
+                    else if (window.particleType === 'glitch') { if (Math.random() < 0.1) { p.x += (Math.random() - 0.5) * 50; p.y += (Math.random() - 0.5) * 50; } ctx.fillRect(p.x, p.y, p.r*2, p.r/2); return; }
+                    else if (window.particleType === 'runes') { p.y -= mult; ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random()*80)), p.x, p.y); return; }
+                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now()/1000 + i)*mult; p.y += Math.cos(Date.now()/800 + i)*mult; p.r = Math.random() < 0.05 ? p.r * 2 : p.r; }
+                    else if (window.particleType === 'fog') { p.x += 0.5 * mult; ctx.globalAlpha = 0.1; p.r = 50; }
+                    else if (window.particleType === 'petals') { p.y += 3*mult; p.x += Math.sin(p.y/40)*3*mult; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r*2, Math.PI/4, 0, Math.PI*2); ctx.fill(); return; }
+                    else if (window.particleType === 'sparks') { p.y -= 5*mult; p.x += (Math.random()-0.5)*3*mult; ctx.fillRect(p.x, p.y, 2, 8); return; }
+                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y/20)*3*mult; p.y += Math.cos(p.x/20)*2*mult; ctx.font = p.r*4 + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
+                    else if (window.particleType === 'static') { if(Math.random()<0.1) { p.x = Math.random()*w; p.y = Math.random()*h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
+                    else if (window.particleType === 'motes') { p.x += p.vx*0.2*mult; p.y += p.vy*0.2*mult; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r*3, 0, Math.PI*2); ctx.fill(); return; }
 
                     if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
@@ -1167,57 +1862,26 @@
             requestAnimationFrame(loop);
         }
 
-        // === 8. NATIVE SOCIAL SHARE ===
-        function parseUrlState() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.has('vibe')) document.documentElement.className = urlParams.get('vibe') + '-mode';
-            if(urlParams.has('p')) window.particleType = urlParams.get('p');
-            if(urlParams.has('g')) document.getElementById('glow-layer').className = 'glow-' + urlParams.get('g');
-        }
-
-        async function shareSomnia() {
-            const currentVibe = document.documentElement.className.replace('-mode', '').replace('cloaked', '').trim() || 'lunar';
-            const currentP = window.particleType || 'dust';
-            const currentG = document.getElementById('glow-layer').className.replace('glow-', '') || 'pulse';
-            
-            let base = window.location.origin + window.location.pathname;
-            if(base.includes("file://")) base = "https://somniascapes.com/"; 
-            const shareUrl = `${base}?vibe=${currentVibe}&p=${currentP}&g=${currentG}`;
-            
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'My SomniaScape',
-                        text: 'Come check out this delightfully chaotic and cozy vibe I built! ✨',
-                        url: shareUrl
-                    });
-                } catch (err) {
-                    console.log("Share canceled or failed", err);
-                }
-            } else {
-                toggleModal('share-modal');
-                document.getElementById('share-link-input').value = shareUrl;
-            }
-        }
-
-        // === BOOT ===
+        // === BOOT ROUTINE ===
         document.addEventListener('DOMContentLoaded', async () => {
-            parseUrlState();
-            
-            populateGrid('color-grid', colors, 'color');
-            populateGrid('particle-grid', particlesList, 'particle');
+            // 1. INJECT THE JOLT ARRAYS INTO THE DOM
+            populateGrid('color-grid', colors, 'palette');
+            populateGrid('particle-grid', pList, 'particle');
             populateGrid('glow-grid', glows, 'glow');
-            populateGrid('particle-color-grid', particleColors, 'particleColor');
-            populateGrid('glow-color-grid', glowColors, 'glowColor');
+            populateColorGrid('particle-color-grid', '--particle-color');
+            populateColorGrid('glow-color-grid', '--glow-color');
+
+            // 2. HIGHLIGHT THE ACTIVE CLICK BOXES
+            highlightActiveAtmos();
 
             await loadCustomBackgrounds();
             await loadCustomAudio();
 
+            document.getElementById('gemini-api-key').value = localStorage.getItem('somnia_gemini_key') || "";
+            document.getElementById('global-xp-display').innerText = worldXP;
+
             initParticles();
             renderVault(); 
-            renderScoreboard();
-            updateTimerDisplay();
-
             document.getElementById('scratchpad-box').value = localStorage.getItem('somnia_scratchpad') || "";
         });
     </script>
