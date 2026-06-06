@@ -71,8 +71,7 @@
         /* --- EPIC BOOT SCREEN --- */
         #boot-screen {
             position: fixed; inset: 0; z-index: 9999;
-            background: url('SomniaScapes1.png') center/cover no-repeat, #020204;
-            background-blend-mode: overlay;
+            background: #020204;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 2s ease-in-out; padding: 20px;
         }
@@ -110,7 +109,7 @@
 
         #bg-anchor {
             position: fixed; inset: 0; 
-            background: #020204 no-repeat center center;
+            background: url('SomniaScapes1.png') center/cover no-repeat, #020204;
             background-size: 110% 110%; 
             z-index: 1; transform: scale(var(--bg-zoom));
             filter: brightness(var(--bg-bright));
@@ -202,23 +201,57 @@
             align-items: flex-end; /* Align the gates at the bottom */
             justify-content: center;
             padding-bottom: 12%; 
-            background-size: cover;
+            background-size: 110% 110%; /* Provides room for the slow pan animation */
             background-position: center;
+            background-repeat: no-repeat;
+            animation: slowPan 60s ease-in-out infinite; /* Universal pan applied to all zones */
         }
 
-        #zone-castle {
-            /* Fades smoothly into the transparent sanctuary below */
-            background-image: linear-gradient(to bottom, rgba(2,2,4,0) 70%, rgba(2,2,4,1) 100%), url('castle1.png');
+        /* 1) SomniaSolace */
+        #zone-solace {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,0) 70%, rgba(2,2,4,1) 100%), url('solarium.png');
         }
 
-        #zone-sanctuary {
-            /* Fully transparent so the dynamic #bg-anchor Canvas shows through */
-            background: transparent;
+        /* 2) SomniaSyllabus */
+        #zone-syllabus {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('academy.png');
         }
 
-        #zone-underbelly {
-            /* Fades smoothly into the transparent sanctuary above */
-            background-image: linear-gradient(to top, rgba(2,2,4,0) 70%, rgba(2,2,4,1) 100%), url('underbelly.png');
+        /* 3) SomniaScribes */
+        #zone-scribes {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('balcony.png');
+        }
+
+        /* 4) SomniaScheds */
+        #zone-scheds {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('castle1.png');
+        }
+
+        /* 5) SOMNIASCAPES (Home) */
+        #zone-home {
+            /* Smooth vignette to transition from Zone 4 to Zone 6 seamlessly without a hard line, leaving middle transparent */
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%);
+            /* Relies on global #bg-anchor for the actual image */
+        }
+
+        /* 6) SomniaScullery */
+        #zone-scullery {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('underbelly.png');
+        }
+
+        /* 7) SomniaScourings */
+        #zone-scourings {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('sewers.png');
+        }
+
+        /* 8) SomniaSanctum */
+        #zone-sanctum {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('cavern.png');
+        }
+
+        /* 9) SomniaStronghold */
+        #zone-stronghold {
+            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 30%, rgba(2,2,4,0) 100%), url('treasure.png');
         }
 
         .zone-gates {
@@ -256,7 +289,7 @@
             pointer-events: none; /* Let clicks pass through to the world map */
             transition: opacity 0.8s ease; 
         }
-        #top-nav, #maker-panel, .nav-logo {
+        #top-nav, #widget-bar, #maker-panel, .nav-logo {
             pointer-events: auto; /* Keep the UI click-able */
         }
         body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
@@ -266,6 +299,30 @@
             text-transform: uppercase; text-shadow: 0 0 20px var(--primary-glow); 
             font-family: 'Times New Roman', serif;
             position: absolute; top: 30px; left: 35px;
+        }
+
+        /* Glass Widgets (Time & Weather) */
+        .glass-widget {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        .glass-widget:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(255,255,255,0.05);
         }
 
         .artifact-btn {
@@ -300,11 +357,13 @@
         /* RESPONSIVE LAYOUT LOGIC */
         @media (min-width: 850px) {
             #top-nav { position: absolute; top: 25px; right: 35px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; }
+            #widget-bar { position: absolute; top: 80px; right: 35px; display: flex; gap: 15px; justify-content: flex-end; }
         }
         @media (max-width: 849px) {
             #ui-wrapper { display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; overflow-y: auto; pointer-events: auto; }
             #world-map { pointer-events: none; } /* On mobile, let the UI stack handle the screen */
-            #top-nav { position: relative; top: 0; right: 0; display: flex; gap: 10px; padding: 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
+            #top-nav { position: relative; top: 0; right: 0; display: flex; gap: 10px; padding: 20px 20px 5px 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
+            #widget-bar { position: relative; top: 0; right: 0; display: flex; gap: 10px; padding: 5px 20px 20px 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
             .nav-logo { position: relative; top: 0; left: 0; margin: 15px 0; }
             #maker-panel { position: relative; left: 0; top: 0; bottom: 0; width: 95%; max-width: 500px; max-height: 65dvh; border-radius: 25px; margin: 0 auto; }
             .boot-content { padding: 25px; }
@@ -702,29 +761,73 @@
          ========================================================= -->
     <div id="world-map">
         
-        <!-- ZONE 1: THE CASTLE (Top Floor) -->
-        <section id="zone-castle" class="world-zone">
+        <!-- ZONE 1: SomniaSolace -->
+        <section id="zone-solace" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('AppOne.html')">App 1</div>
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('AppTwo.html')">App 2</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSolace.html')">Solace</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
             </div>
         </section>
 
-        <!-- ZONE 2: THE SANCTUARY (Main Ground Floor) -->
-        <section id="zone-sanctuary" class="world-zone">
+        <!-- ZONE 2: SomniaSyllabus -->
+        <section id="zone-syllabus" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">Syllabus</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 3: SomniaScribes -->
+        <section id="zone-scribes" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScribes.html')">Scribes</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 4: SomniaScheds -->
+        <section id="zone-scheds" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScheds.html')">Scheds</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 5: SOMNIASCAPES (Master Hub / Home Load Screen) -->
+        <section id="zone-home" class="world-zone">
+            <!-- No warps, transparent background shows the SomniaScapes1.png global canvas -->
+            <div class="zone-gates"></div>
+        </section>
+
+        <!-- ZONE 6: SomniaScullery -->
+        <section id="zone-scullery" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScullery.html')">Scullery</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 7: SomniaScourings -->
+        <section id="zone-scourings" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScourings.html')">Scourings</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 8: SomniaSanctum -->
+        <section id="zone-sanctum" class="world-zone">
+            <div class="zone-gates">
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">Sanctum</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+            </div>
+        </section>
+
+        <!-- ZONE 9: SomniaStronghold -->
+        <section id="zone-stronghold" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">Stronghold</div>
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">Syllabus</div>
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">Sanctum</div>
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSmithy.html')">Smithy</div>
-            </div>
-        </section>
-
-        <!-- ZONE 3: THE UNDERBELLY (Basement) -->
-        <section id="zone-underbelly" class="world-zone">
-            <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('AppThree.html')">App 3</div>
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaGame.html')">The Game</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
             </div>
         </section>
 
@@ -744,6 +847,16 @@
             <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
             <button class="artifact-btn" style="border-color: var(--primary); background: rgba(255,255,255,0.05);" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
             <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast to TV</button>
+        </div>
+
+        <!-- WIDGET BAR (TIME & WEATHER) -->
+        <div id="widget-bar" onclick="event.stopPropagation()">
+            <div class="glass-widget">
+                <span id="time-display">--:-- --</span>
+            </div>
+            <div class="glass-widget">
+                <span id="weather-display">☀️ --°F</span>
+            </div>
         </div>
 
         <main id="maker-panel" onclick="event.stopPropagation()">
@@ -1024,6 +1137,37 @@
             '#4c1d95', '#9a3412', '#1e3a8a', '#78716c', '#0284c7'
         ];
         // =========================================================================
+
+        // === WEATHER & TIME WIDGETS LOGIC ===
+        function updateTimeWidget() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateStr = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+            document.getElementById('time-display').innerText = `${timeStr} | ${dateStr}`;
+        }
+        setInterval(updateTimeWidget, 1000);
+
+        async function fetchWeather() {
+            try {
+                // Default coordinates for Farmington, MS
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=34.9331&longitude=-88.5241&current_weather=true');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature * 9/5 + 32); 
+                const code = data.current_weather.weathercode;
+                
+                let icon = '☁️';
+                if(code === 0) icon = '☀️';
+                else if(code > 0 && code < 4) icon = '⛅';
+                else if(code >= 51 && code <= 67) icon = '🌧️';
+                else if(code >= 71 && code <= 77) icon = '❄️';
+                else if(code >= 95) icon = '🌩️';
+                
+                document.getElementById('weather-display').innerHTML = `${icon} ${temp}°F`;
+            } catch(e) {
+                document.getElementById('weather-display').innerHTML = '🌤️ 72°F'; // Silent fallback
+            }
+        }
+        setInterval(fetchWeather, 3600000); // 1 hour updates
 
         // === MODULE ROUTING LOGIC ===
         function openModule(moduleFilename) {
@@ -1346,7 +1490,7 @@
             bootScreen.style.opacity = '0';
             
             // Instantly snap the camera to the Sanctuary hub (middle zone)
-            document.getElementById('zone-sanctuary').scrollIntoView({ behavior: "instant" });
+            document.getElementById('zone-home').scrollIntoView({ behavior: "instant" });
             
             if(!window.location.search) await restoreActiveState();
             
@@ -1892,11 +2036,22 @@
             });
         }
 
+        // === UPGRADED PARTICLE ENGINE ===
         window.particleType = 'dust'; window.particleCount = 50; 
         function buildParticles(w, h) { 
             return Array.from({ length: window.particleCount }, () => {
-                const radius = Math.random() * 2 + 0.5;
-                return { x: Math.random() * w, y: Math.random() * h, baseR: radius, r: radius, vx: (Math.random() - 0.5), vy: (Math.random() - 0.5) };
+                // Noticeably smaller base radius range (from 0.3 to 1.3)
+                const radius = Math.random() * 1.0 + 0.3;
+                return { 
+                    x: Math.random() * w, 
+                    y: Math.random() * h, 
+                    baseR: radius, 
+                    r: radius, 
+                    vx: (Math.random() - 0.5) * 2, 
+                    vy: (Math.random() - 0.5) * 2,
+                    speed: Math.random() * 0.8 + 0.4,     // Natural variance in individual speeds
+                    offset: Math.random() * Math.PI * 2   // Individual phase offset for smooth wave patterns
+                };
             }); 
         }
         function updateParticleDensity(val) { window.particleCount = parseInt(val); }
@@ -1936,28 +2091,36 @@
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
-                    if (window.particleType === 'dust') { p.x += p.vx * mult; p.y += p.vy * mult; }
-                    else if (window.particleType === 'embers') { p.y -= (Math.abs(p.vy)+0.5)*mult; p.x += p.vx*mult; }
-                    else if (window.particleType === 'snow') { p.y += (Math.abs(p.vy)+0.5)*mult; p.x += Math.sin(p.y/50)*mult; }
-                    else if (window.particleType === 'void') { p.x += p.vx*2*mult; p.y += p.vy*2*mult; ctx.shadowBlur=0; }
-                    else if (window.particleType === 'rain') { p.y += 8*mult; p.x -= 1*mult; }
-                    else if (window.particleType === 'ash') { p.y -= p.vy*mult; p.x += Math.cos(p.y/30)*mult; ctx.fillStyle="#555"; }
-                    else if (window.particleType === 'stars') { p.x += 0.05*mult; p.y += 0.05*mult; if(Math.random()<0.01) p.r = p.baseR * 3; }
-                    else if (window.particleType === 'bubbles') { p.y -= 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*2,0,Math.PI*2); ctx.strokeStyle=color; ctx.stroke(); return; }
-                    else if (window.particleType === 'matrix') { p.y += 4*mult; if(i%2===0) ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96), p.x, p.y); return; }
-                    else if (window.particleType === 'spores') { p.x += (Math.random()-0.5)*mult; p.y += (Math.random()-0.5)*mult; p.r = Math.abs(Math.sin(Date.now()/1000+i))*3 + 0.5; }
-                    else if (window.particleType === 'leaves') { p.y += 2*mult; p.x += Math.sin(p.y/20)*2*mult; ctx.fillRect(p.x, p.y, p.r*2, p.r); return; }
-                    else if (window.particleType === 'glitch') { if (Math.random() < 0.1) { p.x += (Math.random() - 0.5) * 50; p.y += (Math.random() - 0.5) * 50; } ctx.fillRect(p.x, p.y, p.r*2, p.r/2); return; }
-                    else if (window.particleType === 'runes') { p.y -= mult; ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random()*80)), p.x, p.y); return; }
-                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now()/1000 + i)*mult; p.y += Math.cos(Date.now()/800 + i)*mult; if(Math.random() < 0.05) p.r = p.baseR * 2.5; }
-                    else if (window.particleType === 'fog') { p.x += 0.5 * mult; ctx.globalAlpha = 0.1; p.r = 50; }
-                    else if (window.particleType === 'petals') { p.y += 3*mult; p.x += Math.sin(p.y/40)*3*mult; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r*2, Math.PI/4, 0, Math.PI*2); ctx.fill(); return; }
-                    else if (window.particleType === 'sparks') { p.y -= 5*mult; p.x += (Math.random()-0.5)*3*mult; ctx.fillRect(p.x, p.y, 2, 8); return; }
-                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y/20)*3*mult; p.y += Math.cos(p.x/20)*2*mult; ctx.font = (p.r*4) + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
-                    else if (window.particleType === 'static') { if(Math.random()<0.1) { p.x = Math.random()*w; p.y = Math.random()*h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
-                    else if (window.particleType === 'motes') { p.x += p.vx*0.2*mult; p.y += p.vy*0.2*mult; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r*3, 0, Math.PI*2); ctx.fill(); return; }
+                    // Apply unique p.speed and p.offset to prevent rigid rows/patterns
+                    if (window.particleType === 'dust') { p.x += p.vx * mult * p.speed; p.y += p.vy * mult * p.speed; }
+                    else if (window.particleType === 'embers') { p.y -= (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += p.vx * mult * p.speed; }
+                    else if (window.particleType === 'snow') { p.y += (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += Math.sin(p.y / 50 + p.offset) * 2 * mult; }
+                    else if (window.particleType === 'void') { p.x += p.vx * 2 * mult * p.speed; p.y += p.vy * 2 * mult * p.speed; ctx.shadowBlur = 0; }
+                    else if (window.particleType === 'rain') { p.y += 8 * mult * p.speed; p.x -= 1 * mult * p.speed; }
+                    else if (window.particleType === 'ash') { p.y -= (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += Math.cos(p.y / 30 + p.offset) * mult; ctx.fillStyle = "#555"; }
+                    else if (window.particleType === 'stars') { p.x += 0.05 * mult; p.y += 0.05 * mult; if (Math.random() < 0.01) p.r = p.baseR * 3; }
+                    else if (window.particleType === 'bubbles') { p.y -= 2 * mult * p.speed; p.x += Math.sin(p.y / 20 + p.offset) * 2 * mult; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 2, 0, Math.PI * 2); ctx.strokeStyle = color; ctx.stroke(); return; }
+                    else if (window.particleType === 'matrix') { p.y += 4 * mult * p.speed; if (i % 2 === 0) ctx.fillText(String.fromCharCode(0x30A0 + Math.random() * 96), p.x, p.y); return; }
+                    else if (window.particleType === 'spores') { p.x += (Math.random() - 0.5) * mult; p.y += (Math.random() - 0.5) * mult; p.r = Math.abs(Math.sin(Date.now() / 1000 + i)) * 3 + 0.5; }
+                    else if (window.particleType === 'leaves') { p.y += 2 * mult * p.speed; p.x += Math.sin(p.y / 20 + p.offset) * 2 * mult; ctx.fillRect(p.x, p.y, p.r * 2, p.r); return; }
+                    else if (window.particleType === 'glitch') { if (Math.random() < 0.1) { p.x += (Math.random() - 0.5) * 50; p.y += (Math.random() - 0.5) * 50; } ctx.fillRect(p.x, p.y, p.r * 2, p.r / 2); return; }
+                    else if (window.particleType === 'runes') { p.y -= mult * p.speed; ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random() * 80)), p.x, p.y); return; }
+                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now() / 1000 + p.offset) * mult; p.y += Math.cos(Date.now() / 800 + p.offset) * mult; if (Math.random() < 0.05) p.r = p.baseR * 2.5; }
+                    else if (window.particleType === 'fog') { p.x += 0.5 * mult * p.speed; ctx.globalAlpha = 0.1; p.r = 50; }
+                    else if (window.particleType === 'petals') { p.y += 3 * mult * p.speed; p.x += Math.sin(p.y / 40 + p.offset) * 3 * mult; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r * 2, Math.PI / 4, 0, Math.PI * 2); ctx.fill(); return; }
+                    else if (window.particleType === 'sparks') { p.y -= 5 * mult * p.speed; p.x += (Math.random() - 0.5) * 3 * mult; ctx.fillRect(p.x, p.y, 2, 8); return; }
+                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y / 20 + p.offset) * 3 * mult * p.speed; p.y += Math.cos(p.x / 20 + p.offset) * 2 * mult * p.speed; ctx.font = (p.r * 4) + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
+                    else if (window.particleType === 'static') { if (Math.random() < 0.1) { p.x = Math.random() * w; p.y = Math.random() * h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
+                    else if (window.particleType === 'motes') { p.x += p.vx * 0.2 * mult * p.speed; p.y += p.vy * 0.2 * mult * p.speed; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2); ctx.fill(); return; }
 
-                    if (p.x < 0) p.x = w; if (p.x > w) p.x = 0; if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+                    // Advanced Bounds Wrapping (Guarantees elimination of "straight rows" by randomizing coordinates when crossing borders)
+                    const buffer = 50;
+                    if (p.x < -buffer) { p.x = w + buffer; p.y = Math.random() * h; }
+                    else if (p.x > w + buffer) { p.x = -buffer; p.y = Math.random() * h; }
+                    
+                    if (p.y < -buffer) { p.y = h + buffer; p.x = Math.random() * w; }
+                    else if (p.y > h + buffer) { p.y = -buffer; p.x = Math.random() * w; }
+
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
                 });
             }
@@ -1975,6 +2138,10 @@
 
             // 2. HIGHLIGHT THE ACTIVE CLICK BOXES
             highlightActiveAtmos();
+
+            // 3. INITIALIZE WIDGETS
+            updateTimeWidget();
+            fetchWeather();
 
             await loadCustomBackgrounds();
             await loadCustomAudio();
