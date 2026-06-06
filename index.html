@@ -260,6 +260,7 @@
         body.cloaked .zone-gates {
             opacity: 0 !important;
             visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         /* =========================================================================
@@ -1394,14 +1395,14 @@
         async function startEngine() {
             const bootScreen = document.getElementById('boot-screen');
             bootScreen.style.opacity = '0';
-            document.getElementById('zone-home').scrollIntoView({ behavior: "instant" });
+            document.getElementById('zone-home').scrollIntoView({ behavior: "auto" });
             if(!window.location.search) await restoreActiveState();
             evaluateCircadian();
             setTimeout(() => { bootScreen.remove(); }, 2000);
         }
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
-        function restoreUI() { document.body.classList.remove('cloaked'); document.body.classList.remove('oracle-active'); }
+        function restoreUI() { document.body.classList.remove('cloaked'); }
         function toggleModal(modalId) { document.getElementById(modalId).classList.toggle('active'); }
         function toggleFullscreen() {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(e => console.log(e));
