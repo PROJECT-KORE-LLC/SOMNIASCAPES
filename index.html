@@ -218,20 +218,44 @@
         #zone-sanctum { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('cavern.png'); }
         #zone-stronghold { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 30%, rgba(2,2,4,0) 100%), url('treasure.png'); }
 
-        .zone-gates { display: flex; gap: 20px; pointer-events: none; z-index: 60; }
+        .zone-gates { display: flex; gap: 20px; pointer-events: none; z-index: 60; transition: opacity 1s ease-in-out; }
 
         .warp-gate {
             width: 160px; height: 80px; cursor: pointer; background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: all 0.4s ease;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; color: transparent; 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
             font-family: 'Times New Roman', serif; letter-spacing: 3px; text-transform: uppercase; 
             font-size: 0.8rem; pointer-events: auto; backdrop-filter: blur(0px);
+        }
+        .warp-gate .warp-text {
+            opacity: 0; transition: opacity 0.6s ease; color: var(--text-main);
+        }
+        .warp-gate .warp-req {
+            font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0; transition: opacity 0.6s ease; color: var(--text-main);
         }
         .warp-gate:hover {
             box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow);
             background: rgba(255,255,255,0.08); border: 1px solid var(--primary);
-            color: var(--text-main); text-shadow: 0 0 10px var(--primary-glow);
+            text-shadow: 0 0 10px var(--primary-glow);
             transform: translateY(-5px) scale(1.05); backdrop-filter: blur(10px);
+        }
+        .warp-gate:hover .warp-text {
+            opacity: 1;
+        }
+        .warp-gate:hover .warp-req {
+            opacity: 0.6;
+        }
+
+        /* --- CLOAK MODE --- */
+        body.cloaked #ui-wrapper,
+        body.cloaked #wraith-master-anchor,
+        body.cloaked .zone-gates {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #ui-wrapper, #wraith-master-anchor, .zone-gates {
+            transition: opacity 1s ease-in-out;
         }
 
         /* =========================================================================
@@ -472,10 +496,12 @@
         <!-- ZONE 1: SomniaSolace -->
         <section id="zone-solace" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSolace.html')">Solace</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSolace.html')">
+                    <span class="warp-text">Solace</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -483,10 +509,12 @@
         <!-- ZONE 2: SomniaSyllabus -->
         <section id="zone-syllabus" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">Syllabus</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">
+                    <span class="warp-text">Syllabus</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -494,10 +522,12 @@
         <!-- ZONE 3: SomniaScribes -->
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScribes.html')">Scribes</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScribes.html')">
+                    <span class="warp-text">Scribes</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -505,10 +535,12 @@
         <!-- ZONE 4: SomniaScheds -->
         <section id="zone-scheds" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScheds.html')">Scheds</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScheds.html')">
+                    <span class="warp-text">Scheds</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -521,10 +553,12 @@
         <!-- ZONE 6: SomniaScullery -->
         <section id="zone-scullery" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScullery.html')">Scullery</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScullery.html')">
+                    <span class="warp-text">Scullery</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -532,10 +566,12 @@
         <!-- ZONE 7: SomniaScourings -->
         <section id="zone-scourings" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScourings.html')">Scourings</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScourings.html')">
+                    <span class="warp-text">Scourings</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -543,10 +579,12 @@
         <!-- ZONE 8: SomniaSanctum -->
         <section id="zone-sanctum" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">Sanctum</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">
+                    <span class="warp-text">Sanctum</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -554,10 +592,12 @@
         <!-- ZONE 9: SomniaStronghold -->
         <section id="zone-stronghold" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">Stronghold</div>
+                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">
+                    <span class="warp-text">Stronghold</span>
+                </div>
                 <div class="warp-gate" onclick="event.stopPropagation();">
-                    ???
-                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.6;">World XP Required</span>
+                    <span class="warp-text">???</span>
+                    <span class="warp-req">World XP Required</span>
                 </div>
             </div>
         </section>
@@ -593,7 +633,7 @@
                 <div style="display: flex; align-items: center; margin-right: 15px; padding: 0 10px; background: rgba(0,0,0,0.4); border-radius: 30px; height: 35px; border: 1px solid var(--glass-border);">
                     <span style="font-family: monospace; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
                 </div>
-                <button class="artifact-btn" onclick="toggleCloak()">Cloak UI</button>
+                <button class="artifact-btn" onclick="event.stopPropagation(); toggleCloak()">Cloak UI</button>
                 <button class="artifact-btn" onclick="toggleModal('world-guide-modal')">World Guide</button>
                 <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
                 <button class="artifact-btn" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
@@ -738,10 +778,10 @@
                 <p>The Nexus follows a gentle circadian cycle. Time of day, weather, moonlight, and ambient audio shift the world's mood automatically. Use <strong>Tune the Realm</strong> for quick overrides or comfort adjustments.</p>
 
                 <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">3. Awakening the Sovereign Oracle</h4>
-                <p>To connect the Castellan terminal, add a gemini api key to enable the oracle features. Your key is stored locally on your browser.</p>
+                <p>To connect the Castellan terminal, add a Gemini API key to enable Oracle features. Your key is stored in this browser’s local storage.</p>
 
                 <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">4. World Backups</h4>
-                <p>Clicking the <strong>"World Snapshot"</strong> button extracts your current database state to your machine. Because SomniaScapes runs completely client-side, executing periodic backups is a safe way to preserve your progress, timelines, and records locally.</p>
+                <p>Clicking the <strong>"World Snapshot"</strong> button currently exports your Nexus Master Ledger. Room-specific backups remain inside their individual rooms. Because SomniaScapes runs completely client-side, executing periodic backups is a safe way to preserve your progress, timelines, and records locally.</p>
 
                 <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">5. Sealed Encounters</h4>
                 <p>The hidden ??? doors scattered on the map frame specific hidden mini-games and dynamic world events. These zones break open as your global cumulative World XP values advance across task completion tracks.</p>
@@ -827,7 +867,7 @@
     <!-- CAST MODAL -->
     <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
         <div class="cast-box" onclick="event.stopPropagation()">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin-top: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECT TO REALITY</h3>
+            <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECT TO REALITY</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Georgia', serif; font-style: italic;">
                 Cast your polis to the physical realm. Use your browser's Tab Mirroring.
             </p>
@@ -856,7 +896,10 @@
                 
                 const moduleFrame = document.getElementById('module-frame');
                 if (moduleFrame && moduleFrame.contentWindow) {
-                    moduleFrame.contentWindow.postMessage({ type: "SOMNIA_KEY_SYNC", token: key }, "*");
+                    moduleFrame.contentWindow.postMessage(
+                        { type: "SOMNIA_KEY_SYNC", token: key }, 
+                        window.location.origin
+                    );
                 }
                 somniaAlert("SANCTUARY UNIFIED KEY SECURED", "Your API parameter is bound origin-wide across all rooms and local sandboxes.");
             }
@@ -998,6 +1041,21 @@
             isLowSensory = document.getElementById('tune-sensory').checked;
             if (currentCircadianMood === 'Auto') evaluateCircadian();
             else applyMoodState(currentCircadianMood);
+        }
+        
+        function toggleLowGpu() {
+            const enabled = document.getElementById('tune-motion')?.checked;
+
+            document.querySelectorAll('.world-zone, #bg-anchor, #glow-layer, .ambient-lamp, #wraith-companion')
+                .forEach(el => {
+                    if (!el) return;
+                    el.style.animation = enabled ? 'none' : '';
+                });
+
+            const particleCanvas = document.getElementById('particleCanvas');
+            if (particleCanvas) {
+                particleCanvas.style.opacity = enabled ? '0' : 'var(--glow-opac)';
+            }
         }
 
         // === METRIC RENDER LOGIC ===
@@ -1381,7 +1439,9 @@
         function changeMasterGain(val) {
             masterGain = parseFloat(val);
             Object.keys(activeAudio).forEach(id => {
-                activeAudio[id].volume = 0.5 * masterGain;
+                if (activeAudio[id]) {
+                    activeAudio[id].volume = 0.5 * masterGain;
+                }
             });
         }
 
@@ -1393,20 +1453,27 @@
                 const audio = new Audio(url); 
                 audio.loop = true; 
                 audio.volume = 0.5 * masterGain;
-                audio.play().then(() => { activeAudio[id] = audio; }).catch(() => {});
+                activeAudio[id] = audio; // Synchronous registration avoids race conditions
+                audio.play().catch(() => { delete activeAudio[id]; });
             }
         }
 
         function stopAllAudio() { 
-            Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); delete activeAudio[id]; }); 
+            Object.keys(activeAudio).forEach(id => { 
+                if (activeAudio[id]) activeAudio[id].pause(); 
+                delete activeAudio[id]; 
+            }); 
         }
 
         // === AMBIENT PARTICLE FLOW ENGINE ===
         function buildParticles(w, h) { 
-            return Array.from({ length: 50 }, () => {
+            const count = Number(window.particleCount ?? 50);
+            return Array.from({ length: count }, () => {
+                const radius = Math.random() * 1.0 + 0.3;
                 return { 
-                    x: Math.random() * w, y: Math.random() * h, 
-                    vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 
+                    x: Math.random() * w, y: Math.random() * h, baseR: radius, r: radius, 
+                    vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2,
+                    speed: Math.random() * 0.8 + 0.4, offset: Math.random() * Math.PI * 2 
                 };
             }); 
         }
@@ -1414,20 +1481,46 @@
         function initParticles() {
             const canvas = document.getElementById('particleCanvas'); const ctx = canvas.getContext('2d');
             let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; particles = buildParticles(w, h); });
             let particles = buildParticles(w, h);
+            let lastTime = 0;
 
-            function loop() {
+            function loop(timestamp) {
                 requestAnimationFrame(loop);
+                if (!timestamp) timestamp = performance.now();
+                if (timestamp - lastTime < 16) return;
+                lastTime = timestamp;
+
                 ctx.clearRect(0, 0, w, h);
-                ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                particles.forEach(p => {
-                    p.x += p.vx; p.y += p.vy;
-                    if (p.x < 0 || p.x > w) p.vx *= -1;
-                    if (p.y < 0 || p.y > h) p.vy *= -1;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
+                
+                const targetCount = Number(window.particleCount ?? 50);
+                if (particles.length !== targetCount) particles = buildParticles(w, h);
+
+                let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim() || '#ffffff';
+                ctx.fillStyle = color; 
+                ctx.shadowBlur = (document.getElementById('tune-motion')?.checked) ? 0 : 6; 
+                ctx.shadowColor = color;
+
+                particles.forEach((p) => {
+                    let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
+                    let mult = 10 / spd;
+
+                    if (window.particleType === 'dust') { p.x += p.vx * mult * p.speed; p.y += p.vy * mult * p.speed; }
+                    else if (window.particleType === 'embers') { p.y -= mult * p.speed; p.x += p.vx * mult * p.speed; }
+                    else if (window.particleType === 'fog') { p.x += 0.3 * mult; ctx.globalAlpha = 0.05; p.r = 20; }
+                    else if (window.particleType === 'stars') { p.x += 0.02 * mult; if (Math.random() < 0.01) p.r = p.baseR * 3; }
+                    else if (window.particleType === 'rain') { p.y += 8 * mult * p.speed; p.x -= 1 * mult * p.speed; }
+                    else { p.x += p.vx; p.y += p.vy; }
+
+                    const buffer = 50;
+                    if (p.x < -buffer) p.x = w + buffer; else if (p.x > w + buffer) p.x = -buffer;
+                    if (p.y < -buffer) p.y = h + buffer; else if (p.y > h + buffer) p.y = -buffer;
+
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r || 1, 0, Math.PI * 2); ctx.fill();
+                    ctx.globalAlpha = 1.0;
                 });
             }
-            loop();
+            requestAnimationFrame(loop);
         }
 
         // === SYSTEM ATTACHMENT ROUTINE ===
