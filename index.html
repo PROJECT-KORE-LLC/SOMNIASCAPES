@@ -1494,14 +1494,13 @@
             
             if(!window.location.search) await restoreActiveState();
             
-            if (!activeAudio['fire']) {
-                toggleStem('fire', 'fire.mp3');
-                const fireSlider = document.getElementById('vol-fire');
-                if(fireSlider) {
-                    fireSlider.value = 0.5;
-                    individualVolumes['fire'] = 0.5;
-                }
-            }
+            // Auto-start requested rain soundscape
+            const startingSounds = [
+                { id: "rain", url: "rain.mp3" },
+                { id: "thunder", url: "thunder.mp3" },
+                { id: "raven", url: "raven.mp3" }
+            ];
+            startingSounds.forEach(s => toggleStem(s.id, s.url));
             
             setTimeout(() => { bootScreen.remove(); }, 2000);
         }
@@ -2013,7 +2012,7 @@
                 glows.forEach(g => { if(glowLayer.className.includes('glow-'+g)) currentGlow = g; });
             }
 
-            const currentParticle = window.particleType || 'dust';
+            const currentParticle = window.particleType || 'rain'; // Updated default
 
             document.querySelectorAll('#color-grid .atmos-btn').forEach(b => {
                 if (b.dataset.atmosValue === currentMode) atmosMarkActive(b);
@@ -2037,10 +2036,9 @@
         }
 
         // === UPGRADED PARTICLE ENGINE ===
-        window.particleType = 'dust'; window.particleCount = 50; 
+        window.particleType = 'rain'; window.particleCount = 50; 
         function buildParticles(w, h) { 
             return Array.from({ length: window.particleCount }, () => {
-                // Noticeably smaller base radius range (from 0.3 to 1.3)
                 const radius = Math.random() * 1.0 + 0.3;
                 return { 
                     x: Math.random() * w, 
@@ -2049,8 +2047,8 @@
                     r: radius, 
                     vx: (Math.random() - 0.5) * 2, 
                     vy: (Math.random() - 0.5) * 2,
-                    speed: Math.random() * 0.8 + 0.4,     // Natural variance in individual speeds
-                    offset: Math.random() * Math.PI * 2   // Individual phase offset for smooth wave patterns
+                    speed: Math.random() * 0.8 + 0.4, 
+                    offset: Math.random() * Math.PI * 2 
                 };
             }); 
         }
@@ -2091,7 +2089,6 @@
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
-                    // Apply unique p.speed and p.offset to prevent rigid rows/patterns
                     if (window.particleType === 'dust') { p.x += p.vx * mult * p.speed; p.y += p.vy * mult * p.speed; }
                     else if (window.particleType === 'embers') { p.y -= (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += p.vx * mult * p.speed; }
                     else if (window.particleType === 'snow') { p.y += (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += Math.sin(p.y / 50 + p.offset) * 2 * mult; }
@@ -2113,11 +2110,9 @@
                     else if (window.particleType === 'static') { if (Math.random() < 0.1) { p.x = Math.random() * w; p.y = Math.random() * h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
                     else if (window.particleType === 'motes') { p.x += p.vx * 0.2 * mult * p.speed; p.y += p.vy * 0.2 * mult * p.speed; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2); ctx.fill(); return; }
 
-                    // Advanced Bounds Wrapping (Guarantees elimination of "straight rows" by randomizing coordinates when crossing borders)
                     const buffer = 50;
                     if (p.x < -buffer) { p.x = w + buffer; p.y = Math.random() * h; }
                     else if (p.x > w + buffer) { p.x = -buffer; p.y = Math.random() * h; }
-                    
                     if (p.y < -buffer) { p.y = h + buffer; p.x = Math.random() * w; }
                     else if (p.y > h + buffer) { p.y = -buffer; p.x = Math.random() * w; }
 
@@ -2129,17 +2124,13 @@
 
         // === BOOT ROUTINE ===
         document.addEventListener('DOMContentLoaded', async () => {
-            // 1. INJECT THE JOLT ARRAYS INTO THE DOM
             populateGrid('color-grid', colors, 'palette');
             populateGrid('particle-grid', pList, 'particle');
             populateGrid('glow-grid', glows, 'glow');
             populateColorGrid('particle-color-grid', '--particle-color');
             populateColorGrid('glow-color-grid', '--glow-color');
 
-            // 2. HIGHLIGHT THE ACTIVE CLICK BOXES
             highlightActiveAtmos();
-
-            // 3. INITIALIZE WIDGETS
             updateTimeWidget();
             fetchWeather();
 
