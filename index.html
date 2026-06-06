@@ -218,7 +218,7 @@
         #zone-sanctum { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('cavern.png'); }
         #zone-stronghold { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 30%, rgba(2,2,4,0) 100%), url('treasure.png'); }
 
-        .zone-gates { display: flex; gap: 20px; pointer-events: none; z-index: 60; }
+        .zone-gates { display: flex; gap: 20px; pointer-events: none; z-index: 60; transition: opacity 1.2s ease-in-out; }
 
         .warp-gate {
             width: 160px; height: 80px; cursor: pointer; background: transparent;
@@ -733,17 +733,21 @@
         <div class="kore-orb"></div>
         <div class="boot-content">
             <h1 class="boot-title">SOMNIASCAPES</h1>
-            <div class="boot-subtitle">THE DIGITAL SANCTUARY</div>
+            <div class="boot-subtitle">THE NEXUS STIRS</div>
             <p class="boot-disclaimer">
-                System Initializing...<br>
-                Igniting the Hearth...<br>
-                Summoning the Castellan...<br><br>
-                This is a magical personal operating system disguised as a gothic RPG sanctuary.<br>
-                The world outside is loud. The polis is yours.<br>
-                Speak with the Oracles. Guard your ledgers. Tend to the hearth.<br>
-                Your sanctuary awaits.
+                Beyond the noise of the waking world,<br>
+                a hidden polis breathes in the dark.<br><br>
+
+                Rooms wait above and below.<br>
+                The Academy glows beyond the clouds.<br>
+                The Underbelly hums beneath the stone.<br>
+                The hearth, the ledger, the archive, and the sanctum<br>
+                remember what the day has scattered.<br><br>
+
+                Enter softly, Architect.<br>
+                The world will change with you.
             </p>
-            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">[ ENTER THE POLIS ]</button>
+            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">[ ENTER THE NEXUS ]</button>
         </div>
     </div>
 
