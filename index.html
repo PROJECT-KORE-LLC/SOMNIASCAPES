@@ -66,7 +66,7 @@
             -webkit-font-smoothing: antialiased; user-select: none;
         }
 
-        input, textarea { user-select: auto; }
+        input, textarea, select { user-select: auto; }
 
         /* --- EPIC BOOT SCREEN --- */
         #boot-screen {
@@ -183,12 +183,12 @@
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
-            z-index: 10; /* Above background, below particles/glow */
-            scrollbar-width: none; /* Hide scrollbar Firefox */
-            -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+            z-index: 10; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
         }
         #world-map::-webkit-scrollbar {
-            display: none; /* Hide scrollbar Chrome/Safari */
+            display: none; 
         }
 
         .world-zone {
@@ -198,225 +198,132 @@
             scroll-snap-stop: always;
             position: relative;
             display: flex;
-            align-items: flex-end; /* Align the gates at the bottom */
+            align-items: flex-end; 
             justify-content: center;
             padding-bottom: 12%; 
-            background-size: 110% 110%; /* Provides room for the slow pan animation */
+            background-size: 110% 110%; 
             background-position: center;
             background-repeat: no-repeat;
-            animation: slowPan 60s ease-in-out infinite; /* Universal pan applied to all zones */
+            animation: slowPan 60s ease-in-out infinite; 
         }
 
-        /* 1) SomniaSolace */
-        #zone-solace {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,0) 70%, rgba(2,2,4,1) 100%), url('solarium.png');
-        }
+        /* Zones */
+        #zone-solace { background-image: linear-gradient(to bottom, rgba(2,2,4,0) 70%, rgba(2,2,4,1) 100%), url('solarium.png'); }
+        #zone-syllabus { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('academy.png'); }
+        #zone-scribes { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('balcony.png'); }
+        #zone-scheds { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('castle1.png'); }
+        #zone-home { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%); }
+        #zone-scullery { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('underbelly.png'); }
+        #zone-scourings { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('sewers.png'); }
+        #zone-sanctum { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('cavern.png'); }
+        #zone-stronghold { background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 30%, rgba(2,2,4,0) 100%), url('treasure.png'); }
 
-        /* 2) SomniaSyllabus */
-        #zone-syllabus {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('academy.png');
-        }
+        .zone-gates { display: flex; gap: 20px; pointer-events: none; z-index: 60; }
 
-        /* 3) SomniaScribes */
-        #zone-scribes {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('balcony.png');
-        }
-
-        /* 4) SomniaScheds */
-        #zone-scheds {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('castle1.png');
-        }
-
-        /* 5) SOMNIASCAPES (Home) */
-        #zone-home {
-            /* Smooth vignette to transition from Zone 4 to Zone 6 seamlessly without a hard line, leaving middle transparent */
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%);
-            /* Relies on global #bg-anchor for the actual image */
-        }
-
-        /* 6) SomniaScullery */
-        #zone-scullery {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('underbelly.png');
-        }
-
-        /* 7) SomniaScourings */
-        #zone-scourings {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('sewers.png');
-        }
-
-        /* 8) SomniaSanctum */
-        #zone-sanctum {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 20%, rgba(2,2,4,0) 80%, rgba(2,2,4,1) 100%), url('cavern.png');
-        }
-
-        /* 9) SomniaStronghold */
-        #zone-stronghold {
-            background-image: linear-gradient(to bottom, rgba(2,2,4,1) 0%, rgba(2,2,4,0) 30%, rgba(2,2,4,0) 100%), url('treasure.png');
-        }
-
-        .zone-gates {
-            display: flex;
-            gap: 20px;
-            pointer-events: none; /* Prevents invisible flexbox gaps from blocking clicks */
-            z-index: 60;
-        }
-
-        /* --- THE WARP GATES --- */
         .warp-gate {
-            width: 160px; height: 80px; 
-            cursor: pointer; 
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 20px; transition: all 0.4s ease;
-            display: flex; align-items: center; justify-content: center;
-            color: transparent; font-family: 'Times New Roman', serif;
-            letter-spacing: 3px; text-transform: uppercase; font-size: 0.8rem;
-            pointer-events: auto; /* Re-enables clicking exactly on the button */
+            width: 160px; height: 80px; cursor: pointer; background: transparent;
+            border: 1px solid transparent; border-radius: 20px; transition: all 0.4s ease;
+            display: flex; align-items: center; justify-content: center; color: transparent; 
+            font-family: 'Times New Roman', serif; letter-spacing: 3px; text-transform: uppercase; 
+            font-size: 0.8rem; pointer-events: auto; 
         }
         .warp-gate:hover {
             box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px var(--primary-glow);
-            background: rgba(255,255,255,0.08);
-            border: 1px solid var(--primary);
-            color: var(--text-main);
-            text-shadow: 0 0 10px var(--primary-glow);
-            transform: translateY(-5px) scale(1.05);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.08); border: 1px solid var(--primary);
+            color: var(--text-main); text-shadow: 0 0 10px var(--primary-glow);
+            transform: translateY(-5px) scale(1.05); backdrop-filter: blur(10px);
         }
 
-        /* --- UI LAYOUT & PILL BUTTONS (FIXED TO SCREEN) --- */
-        #ui-wrapper {
-            position: fixed; z-index: 100; inset: 0;
-            pointer-events: none; /* Let clicks pass through to the world map */
-            transition: opacity 0.8s ease; 
+        /* =========================================================================
+            REFINED MASTER HEADER & WIDGET LAYOUT
+            ========================================================================= */
+        #master-header {
+            position: fixed;
+            top: 0; left: 0; width: 100vw;
+            padding: 25px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 100;
+            pointer-events: none; /* Allows clicks to pass through empty space */
+            gap: 20px;
         }
-        #top-nav, #widget-bar, #maker-panel, .nav-logo {
-            pointer-events: auto; /* Keep the UI click-able */
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            pointer-events: none;
         }
-        body.cloaked #ui-wrapper { opacity: 0; pointer-events: none; }
+        .header-right { justify-content: flex-end; }
+        
+        /* Only exact elements catch clicks */
+        .header-left > *, .header-right > * { pointer-events: auto; }
 
         .nav-logo { 
             font-size: 1.3rem; letter-spacing: 6px; color: var(--primary); 
             text-transform: uppercase; text-shadow: 0 0 20px var(--primary-glow); 
-            font-family: 'Times New Roman', serif;
-            position: absolute; top: 30px; left: 35px;
+            font-family: 'Times New Roman', serif; margin-right: 15px;
         }
 
-        /* Glass Widgets (Time & Weather) */
-        .glass-widget {
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(15px);
+        /* UPGRADED BEAUTIFUL WIDGETS */
+        .chronicle-container, .weather-container {
+            background: linear-gradient(145deg, rgba(20,25,35,0.7) 0%, rgba(5,8,12,0.9) 100%);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            color: var(--primary);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 24px; border-radius: 40px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 2px 10px rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+            min-height: 55px;
         }
-        .glass-widget:hover {
+        .chronicle-container::before, .weather-container::before {
+            content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+        .chronicle-container:hover, .weather-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7), 0 0 20px var(--primary-glow);
             border-color: var(--accent);
-            box-shadow: 0 0 20px var(--primary-glow);
-            background: rgba(255,255,255,0.05);
         }
+
+        .chronicle-time { font-family: 'Courier New', monospace; font-size: 1.4rem; font-weight: bold; color: var(--text-main); letter-spacing: 2px; text-shadow: 0 0 15px var(--primary-glow); }
+        .chronicle-date { font-family: 'Times New Roman', serif; font-size: 0.75rem; font-style: italic; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        .chronicle-divider { width: 1px; height: 24px; background: var(--glass-border); margin: 0 15px; }
+        
+        .weather-icon { font-size: 1.6rem; filter: drop-shadow(0 0 10px var(--primary-glow)); }
+        .weather-info { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .weather-temp { font-size: 1.1rem; font-family: 'Courier New', monospace; font-weight: bold; color: var(--text-main); line-height: 1; text-shadow: 0 0 10px var(--primary-glow); }
+        .weather-label { font-size: 0.6rem; font-family: 'Georgia', serif; font-style: italic; color: var(--accent); letter-spacing: 1px; margin-top: 3px; }
 
         .artifact-btn {
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); color: var(--primary);
-            padding: 10px 22px; border-radius: 50px; cursor: pointer;
-            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-            transition: all 0.4s ease; font-family: monospace; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); color: var(--primary);
+            padding: 12px 22px; border-radius: 50px; cursor: pointer; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: all 0.4s ease; font-family: monospace; box-shadow: 0 4px 15px rgba(0,0,0,0.4); position: relative; z-index: 10;
         }
         .artifact-btn:hover { border-color: var(--accent); color: #fff; box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px); background: rgba(255,255,255,0.05); }
 
-        /* --- THE MAKER PANEL --- */
-        #maker-panel {
-            background: var(--glass); backdrop-filter: blur(35px);
-            border: 1px solid var(--glass-border); border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-            display: flex; flex-direction: column; overflow: hidden;
-            position: absolute; left: 35px; top: 90px; bottom: 35px; width: 420px;
-        }
-
-        .tab-bar { display: flex; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.4); flex-wrap: wrap; flex-shrink: 0; }
-        .tab-btn {
-            flex: 1; min-width: 60px; background: transparent; border: none; color: var(--text-muted);
-            padding: 18px 0; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; transition: 0.3s; font-family: monospace; border-bottom: 2px transparent solid;
-        }
-        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(255,255,255,0.05); font-weight: bold; }
-        
-        .tab-content { display: none; padding: 25px; overflow-y: auto; flex: 1; }
-        .tab-content.active { display: flex; flex-direction: column; gap: 15px; }
-
-        /* RESPONSIVE LAYOUT LOGIC */
-        @media (min-width: 850px) {
-            #top-nav { position: absolute; top: 25px; right: 35px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; }
-            #widget-bar { position: absolute; top: 80px; right: 35px; display: flex; gap: 15px; justify-content: flex-end; }
-        }
-        @media (max-width: 849px) {
-            #ui-wrapper { display: flex; flex-direction: column; align-items: center; padding-bottom: 20px; overflow-y: auto; pointer-events: auto; }
-            #world-map { pointer-events: none; } /* On mobile, let the UI stack handle the screen */
-            #top-nav { position: relative; top: 0; right: 0; display: flex; gap: 10px; padding: 20px 20px 5px 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
-            #widget-bar { position: relative; top: 0; right: 0; display: flex; gap: 10px; padding: 5px 20px 20px 20px; width: 100%; justify-content: center; flex-wrap: wrap; }
-            .nav-logo { position: relative; top: 0; left: 0; margin: 15px 0; }
-            #maker-panel { position: relative; left: 0; top: 0; bottom: 0; width: 95%; max-width: 500px; max-height: 65dvh; border-radius: 25px; margin: 0 auto; }
-            .boot-content { padding: 25px; }
-            .boot-title { font-size: 2rem; }
+        @media (max-width: 1050px) {
+            #master-header { flex-direction: column; align-items: center; padding: 15px; gap: 15px; }
+            .header-left, .header-right { justify-content: center; width: 100%; gap: 10px; }
+            .nav-logo { margin: 10px 0; }
         }
 
         /* --- CONTROLS --- */
-        .upload-zone {
-            border: 1px dashed var(--glass-border); padding: 18px; text-align: center;
-            border-radius: 20px; cursor: pointer; color: var(--text-muted); font-size: 0.75rem;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: rgba(0,0,0,0.2);
-            display: block; width: 100%; font-family: monospace;
-        }
-        .upload-zone:hover { background: rgba(255,255,255,0.08); color: var(--primary); border-color: var(--primary); transform: translateY(-2px); }
-        .upload-zone input { display: none; }
-
-        .btn-grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; 
-            max-height: 220px; overflow-y: auto; padding-right: 5px;
-        }
-        
         .toy-btn {
-            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
-            color: var(--text-main); padding: 12px; border-radius: 30px; cursor: pointer;
-            font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase;
-            transition: all 0.3s ease; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); color: var(--text-main);
+            padding: 12px; border-radius: 30px; cursor: pointer; font-size: 0.65rem; letter-spacing: 1px;
+            text-transform: uppercase; transition: all 0.3s ease; font-family: monospace; white-space: nowrap; 
+            overflow: hidden; text-overflow: ellipsis;
         }
         .toy-btn:hover { border-color: var(--accent); background: rgba(255,255,255,0.1); color: var(--text-main); box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
         .toy-btn.active { border-color: var(--primary); background: var(--primary); color: #000; font-weight: bold; box-shadow: 0 0 15px var(--primary-glow); }
 
-        h4.section-title { margin: 0 0 8px 0; font-size: 0.75rem; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; opacity: 0.8; font-family: monospace; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; }
-
-        /* --- AUDIO MIXER --- */
-        .master-gain-panel {
-            background: rgba(0,0,0,0.4); border: 1px solid var(--primary);
-            border-radius: 20px; padding: 15px; margin-bottom: 15px;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-        .mixer-card {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 18px; background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border); border-radius: 50px; gap: 8px;
-            transition: all 0.3s ease;
-        }
-        .mixer-card:hover { background: rgba(255,255,255,0.06); }
-        .mixer-card.playing { border-color: var(--accent); background: rgba(255,255,255,0.1); box-shadow: 0 0 15px rgba(0,0,0,0.4); }
-        .mixer-btn { background: none; border: none; color: var(--text-muted); font-size: 0.85rem; text-align: left; cursor: pointer; font-family: 'Georgia', serif; flex: 1; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: 0.3s; }
-        .mixer-card.playing .mixer-btn { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); font-style: italic; }
-        .mixer-slider { -webkit-appearance: none; width: 60px; height: 4px; background: rgba(255,255,255,0.15); outline: none; border-radius: 50px; }
-        .mixer-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--primary); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--primary-glow); transition: 0.2s; }
-        .mixer-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-
-        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 50px; border: 1px solid transparent; transition: 0.3s; }
+        .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 50px; border: 1px solid transparent; transition: 0.3s; margin-bottom: 10px; }
         .ctrl-row:hover { border-color: var(--glass-border); }
         .ctrl-row label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-family: monospace; letter-spacing: 1px; width: 80px; }
         .ctrl-slider { flex: 1; -webkit-appearance: none; height: 4px; background: rgba(255,255,255,0.15); outline: none; border-radius: 50px; accent-color: var(--primary); }
@@ -424,22 +331,19 @@
 
         /* --- MODALS --- */
         .modal-overlay {
-            position: fixed; inset: 0; z-index: 9200; display: none;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
-            align-items: center; justify-content: center; padding: 20px;
+            position: fixed; inset: 0; z-index: 9200; display: none; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px); align-items: center; justify-content: center; padding: 20px;
             animation: fadeIn 0.3s ease;
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .modal-overlay.active { display: flex; }
         
         .cast-box {
-            width: 100%; max-width: 500px; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 30px;
-            padding: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.9); text-align: center;
+            width: 100%; max-width: 500px; background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 30px; padding: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.9); text-align: center;
             display: flex; flex-direction: column; align-items: center; max-height: 90dvh; overflow-y: auto;
         }
 
-        /* CUSTOM NATIVE ALERT UI */
         #somnia-dialog { z-index: 10000; }
         #somnia-dialog .cast-box { padding: 35px; max-width: 400px; }
         .core-input {
@@ -462,85 +366,41 @@
             #calculator-panel { width: 100% !important; flex: none !important; height: auto !important; }
         }
 
-        /* --- THE CASTELLAN TERMINAL (SLIDE OUT UI FIXED) --- */
+        /* --- THE CASTELLAN TERMINAL --- */
         #wraith-master-anchor {
-            position: fixed; /* Keep it always in the corner */
-            bottom: 8%;
-            right: 8%;
-            z-index: 105; 
-            pointer-events: auto;
+            position: fixed; bottom: 8%; right: 8%; z-index: 105; pointer-events: auto;
         }
-        
         #wraith-anim-wrapper {
-            width: 150px;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform-origin: bottom center;
-            position: relative;
+            width: 150px; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-origin: bottom center; position: relative;
         }
-        
-        body.oracle-active #wraith-anim-wrapper {
-            transform: scale(1.6);
-        }
+        body.oracle-active #wraith-anim-wrapper { transform: scale(1.6); }
 
         #wraith-companion {
-            width: 100%; height: auto;
-            cursor: pointer; opacity: 0.85;
-            filter: drop-shadow(0 0 15px var(--primary-glow));
-            animation: floatCastellan 6s ease-in-out infinite;
-            transition: filter 0.3s ease, opacity 0.3s ease;
+            width: 100%; height: auto; cursor: pointer; opacity: 0.85; filter: drop-shadow(0 0 15px var(--primary-glow));
+            animation: floatCastellan 6s ease-in-out infinite; transition: filter 0.3s ease, opacity 0.3s ease;
         }
         #wraith-companion:hover { filter: drop-shadow(0 0 30px var(--primary)); opacity: 1; }
         
         .wraith-mist {
-            position: absolute;
-            bottom: -15px; width: 180px; height: 40px;
-            left: -15px;
-            background: radial-gradient(ellipse, var(--primary-glow) 0%, transparent 70%);
-            opacity: 0.4; filter: blur(12px); pointer-events: none;
-            animation: breatheMist 6s ease-in-out infinite;
+            position: absolute; bottom: -15px; width: 180px; height: 40px; left: -15px;
+            background: radial-gradient(ellipse, var(--primary-glow) 0%, transparent 70%); opacity: 0.4; filter: blur(12px); pointer-events: none; animation: breatheMist 6s ease-in-out infinite;
         }
 
-        @keyframes floatCastellan {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes breatheMist {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(0.8); }
-        }
+        @keyframes floatCastellan { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes breatheMist { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 0.2; transform: scale(0.8); } }
 
-        /* THE CHAT BOX BESIDE THE WRAITH */
         #oracle-ui {
-            position: absolute;
-            right: 130%; 
-            bottom: 0;
-            width: 380px;
-            height: 60vh;
-            max-height: 450px;
-            background: rgba(10, 15, 25, 0.75);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(30px);
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            position: absolute; right: 130%; bottom: 0; width: 380px; height: 60vh; max-height: 450px;
+            background: rgba(10, 15, 25, 0.75); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
+            border-radius: 25px; padding: 20px; display: flex; flex-direction: column; opacity: 0; pointer-events: none;
+            transform: translateX(30px); transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
-
-        body.oracle-active #oracle-ui {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(0);
-        }
+        body.oracle-active #oracle-ui { opacity: 1; pointer-events: auto; transform: translateX(0); }
 
         #oracle-chat-log {
-            width: 100%; flex: 1; overflow-y: auto; text-align: left; margin-bottom: 15px;
-            padding: 15px; border: 1px solid var(--glass-border); border-radius: 15px;
-            background: rgba(0,0,0,0.3); font-family: 'Georgia', serif; line-height: 1.5;
+            width: 100%; flex: 1; overflow-y: auto; text-align: left; margin-bottom: 15px; padding: 15px;
+            border: 1px solid var(--glass-border); border-radius: 15px; background: rgba(0,0,0,0.3); font-family: 'Georgia', serif; line-height: 1.5;
         }
 
         .oracle-msg { margin-bottom: 15px; font-size: 0.95rem; }
@@ -549,200 +409,50 @@
 
         /* --- THE IFRAME SANDBOX --- */
         #sandbox-overlay {
-            position: fixed; inset: 0; z-index: 9000; 
-            background: rgba(2, 2, 4, 0.95); backdrop-filter: blur(20px);
-            display: flex; flex-direction: column;
-            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+            position: fixed; inset: 0; z-index: 9000; background: rgba(2, 2, 4, 0.95); backdrop-filter: blur(20px);
+            display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
         #sandbox-overlay.active { opacity: 1; pointer-events: auto; }
         #module-frame { width: 100%; height: 100%; border: none; background: transparent; }
         #close-sandbox-btn {
-            position: absolute; top: 20px; right: 30px;
-            background: rgba(0, 0, 0, 0.7); border: 1px solid #fb7185;
-            color: #fb7185; padding: 10px 20px; border-radius: 50px;
-            font-family: monospace; font-size: 0.8rem; letter-spacing: 2px;
-            text-transform: uppercase; cursor: pointer; transition: 0.3s; z-index: 9001;
+            position: absolute; top: 20px; right: 30px; background: rgba(0, 0, 0, 0.7); border: 1px solid #fb7185;
+            color: #fb7185; padding: 10px 20px; border-radius: 50px; font-family: monospace; font-size: 0.8rem;
+            letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s; z-index: 9001;
         }
         #close-sandbox-btn:hover { background: rgba(251, 113, 133, 0.2); box-shadow: 0 0 20px rgba(251, 113, 133, 0.5); }
 
         /* --- WORLD CALENDAR & MASTER LIST MODAL --- */
-        .planner-bubble { width: 100%; max-width: 1400px; height: 85dvh; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 40px; padding: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); display: flex; gap: 20px; overflow: hidden; backdrop-filter: blur(40px); }
-        
+        #world-calendar-modal .planner-bubble { width: 100%; max-width: 1400px; height: 85dvh; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 40px; padding: 35px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); display: flex; gap: 20px; overflow: hidden; backdrop-filter: blur(40px); }
         .cal-panel { flex: 2; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 25px; padding: 25px; display: flex; flex-direction: column; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); overflow-y: auto;}
         .side-panel { flex: 1.5; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 5px;}
-        
         .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
         .cal-title { font-size: 1.5rem; color: var(--primary); text-transform: uppercase; letter-spacing: 3px; font-weight: bold; text-shadow: 0 0 10px var(--primary-glow); font-family: 'Times New Roman', serif;}
-        
         .panel-card { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 25px; padding: 25px; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); flex-shrink: 0;}
         .panel-title { font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; font-family: monospace; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
         
-        /* Sleek Calendar Grid */
         .grid-month { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; flex: 1;}
         .day-label { text-align: center; font-family: monospace; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding-bottom: 10px;}
-        .cal-cell { 
-            min-height: 80px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); 
-            border-radius: 12px; padding: 10px; position: relative; font-family: monospace; 
-            font-size: 0.9rem; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column;
-        }
+        .cal-cell { min-height: 80px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 10px; position: relative; font-family: monospace; font-size: 0.9rem; transition: 0.2s; cursor: pointer; display: flex; flex-direction: column; }
         .cal-cell:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
         .cal-cell.selected-day { border-color: var(--primary); background: rgba(255,255,255,0.1); box-shadow: inset 0 0 15px var(--primary-glow); }
         .cal-cell-number { color: var(--text-main); font-weight: bold; margin-bottom: 5px; }
         .cal-cell.today .cal-cell-number { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
 
-        /* Unified Task List Styling */
-        .task-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; margin-bottom: 10px; transition: all 0.3s ease;
-        }
+        .task-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 10px; transition: all 0.3s ease; }
         .task-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
         .task-item.completed { opacity: 0.5; text-decoration: line-through; border-color: transparent; }
         .task-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
         .task-title { font-family: 'Georgia', serif; font-size: 0.95rem; color: var(--text-main); }
         .task-meta { font-family: monospace; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        
-        .task-checkbox {
-            width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 5px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; flex-shrink: 0; margin-right: 15px; background: transparent;
-        }
+        .task-checkbox { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; margin-right: 15px; background: transparent; }
         .task-item.completed .task-checkbox { background: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
-        
         .xp-reward { font-family: monospace; font-size: 0.75rem; color: #34d399; font-weight: bold; text-shadow: 0 0 10px rgba(52,211,153,0.5); }
         .xp-penalty { font-family: monospace; font-size: 0.75rem; color: #fb7185; }
 
-        /* Master Input Row */
         .add-task-row { display: flex; gap: 10px; margin-bottom: 15px; }
         .add-task-input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 15px; border-radius: 12px; outline: none; font-family: 'Georgia', serif; font-size: 0.9rem; }
         .add-task-input:focus { border-color: var(--accent); }
         .add-task-select { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--primary); padding: 0 15px; border-radius: 12px; outline: none; font-family: monospace; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
-
-        /* === ATMOS v9 CLEAN ROOM LAYOUT ===
-            This isolates the Atmos tab from the older .btn-grid behavior. */
-        #tab-atmos.atmos-clean-tab {
-            display: none;
-            padding: 22px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-        }
-        #tab-atmos.atmos-clean-tab.active {
-            display: block !important;
-        }
-        #tab-atmos .atmos-section {
-            display: block !important;
-            position: static !important;
-            width: 100% !important;
-            clear: both !important;
-            margin: 0 0 24px 0 !important;
-            padding: 0 !important;
-        }
-        #tab-atmos .atmos-section .section-title {
-            display: block !important;
-            position: static !important;
-            width: 100% !important;
-            margin: 0 0 10px 0 !important;
-            padding: 0 0 7px 0 !important;
-            line-height: 1.2 !important;
-        }
-        #tab-atmos .atmos-grid {
-            display: grid !important;
-            position: static !important;
-            width: 100% !important;
-            height: auto !important;
-            min-height: 0 !important;
-            max-height: none !important;
-            overflow: visible !important;
-            gap: 10px !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            clear: both !important;
-            transform: none !important;
-        }
-        #tab-atmos .atmos-button-grid {
-            grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)) !important;
-        }
-        #tab-atmos .atmos-swatch-grid {
-            grid-template-columns: repeat(auto-fill, minmax(34px, 34px)) !important;
-            justify-content: start !important;
-            align-items: center !important;
-        }
-        #tab-atmos .atmos-btn,
-        #tab-atmos .atmos-swatch {
-            position: static !important;
-            float: none !important;
-            transform: none !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            pointer-events: auto !important;
-            z-index: auto !important;
-            box-sizing: border-box !important;
-            transition: all 0.3s ease !important;
-        }
-        #tab-atmos .atmos-btn {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 100% !important;
-            min-width: 0 !important;
-            min-height: 40px !important;
-            height: auto !important;
-            margin: 0 !important;
-            padding: 10px 8px !important;
-            line-height: 1.1 !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-        }
-         
-        /* RESTORED V9 HOVER & ACTIVE CLICK BOX GLOWS */
-        #tab-atmos .atmos-btn:hover {
-            border-color: var(--accent) !important;
-            color: #fff !important;
-            box-shadow: 0 0 20px var(--primary-glow) !important;
-            background: rgba(255,255,255,0.05) !important;
-            transform: translateY(-2px) !important;
-        }
-        #tab-atmos .atmos-btn.active {
-            border-color: var(--primary) !important;
-            background: var(--primary) !important;
-            color: #000 !important;
-            font-weight: bold !important;
-            box-shadow: 0 0 15px var(--primary-glow) !important;
-        }
-
-        #tab-atmos .atmos-swatch {
-            display: block !important;
-            width: 34px !important;
-            height: 34px !important;
-            min-width: 34px !important;
-            min-height: 34px !important;
-            max-width: 34px !important;
-            max-height: 34px !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            border-radius: 999px !important;
-            border: 1px solid var(--glass-border) !important;
-            background: var(--swatch) !important;
-            cursor: pointer !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.35) !important;
-        }
-        #tab-atmos .atmos-swatch:hover {
-            box-shadow: 0 0 15px var(--primary-glow) !important;
-            transform: scale(1.15) !important;
-            border-color: var(--accent) !important;
-        }
-        #tab-atmos .atmos-swatch.active {
-            border-color: var(--primary) !important;
-            box-shadow: 0 0 16px var(--primary-glow) !important;
-            transform: scale(1.05) !important;
-        }
-        #tab-atmos .atmos-engine-section {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 10px !important;
-            padding-bottom: 12px !important;
-        }
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
@@ -757,8 +467,8 @@
     <div class="ambient-lamp" id="lamp-2"></div>
 
     <!-- =========================================================
-          THE WORLD MAP (VERTICAL SCROLL SNAP)
-          ========================================================= -->
+         THE WORLD MAP (VERTICAL SCROLL SNAP)
+         ========================================================= -->
     <div id="world-map">
         
         <!-- ZONE 1: SomniaSolace -->
@@ -795,7 +505,6 @@
 
         <!-- ZONE 5: SOMNIASCAPES (Home) -->
         <section id="zone-home" class="world-zone">
-            <!-- No warps, transparent background shows the SomniaScapes1.png global canvas -->
             <div class="zone-gates"></div>
         </section>
 
@@ -834,132 +543,48 @@
     </div>
 
     <!-- =========================================================
-          FIXED UI LAYER (Floats Over The Map)
-          ========================================================= -->
+         FIXED UI LAYER - NON-BLOCKING FLEXBOX
+         ========================================================= -->
     <div id="ui-wrapper">
-        <div class="nav-logo">SOMNIASCAPES</div>
-        
-        <div id="top-nav" onclick="event.stopPropagation()">
-            <div style="display: flex; align-items: center; margin-right: 15px;">
-                <span style="font-family: monospace; font-size: 0.8rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
-            </div>
-            <button class="artifact-btn" onclick="toggleCloak()">Cloak UI</button>
-            <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
-            <button class="artifact-btn" style="border-color: var(--primary); background: rgba(255,255,255,0.05);" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
-            <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast to TV</button>
-        </div>
-
-        <!-- WIDGET BAR (TIME & WEATHER) -->
-        <div id="widget-bar" onclick="event.stopPropagation()">
-            <div class="glass-widget">
-                <span id="time-display">--:-- --</span>
-            </div>
-            <div class="glass-widget">
-                <span id="weather-display">☀️ --°F</span>
-            </div>
-        </div>
-
-        <main id="maker-panel" onclick="event.stopPropagation()">
-            <div class="tab-bar">
-                <button class="tab-btn active" onclick="switchTab('tab-audio', this)">Audio</button>
-                <button class="tab-btn" onclick="switchTab('tab-canvas', this)">Canvas</button>
-                <button class="tab-btn" onclick="switchTab('tab-atmos', this)">Atmos</button>
-                <button class="tab-btn" onclick="switchTab('tab-vault', this)">Vault</button>
-                <button class="tab-btn" onclick="switchTab('tab-protips', this)">Pro Tips</button>
-            </div>
-
-            <div id="tab-audio" class="tab-content active">
-                <div class="master-gain-panel">
-                    <h4 class="section-title" style="margin-bottom: 10px; border: none; text-align: center;">Master Volume</h4>
-                    <div class="ctrl-row" style="background: transparent; padding: 0; border: none;">
-                        <span style="font-size: 1.2rem;">🔈</span>
-                        <input type="range" class="ctrl-slider" id="master-vol-slider" min="0" max="1" step="0.05" value="1" oninput="changeMasterGain(this.value)">
-                        <span style="font-size: 1.2rem;">🔊</span>
+        <div id="master-header">
+            
+            <div class="header-left">
+                <div class="nav-logo">SOMNIASCAPES</div>
+                
+                <div class="chronicle-container">
+                    <span class="chronicle-time" id="time-display">00:00:00</span>
+                    <div class="chronicle-divider"></div>
+                    <span class="chronicle-date" id="date-display">...</span>
+                </div>
+                
+                <div class="weather-container">
+                    <span class="weather-icon" id="weather-icon">🌙</span>
+                    <div class="chronicle-divider"></div>
+                    <div class="weather-info">
+                        <span class="weather-temp" id="weather-temp">--°F</span>
+                        <span class="weather-label" id="weather-label">Sanctuary Vibe</span>
                     </div>
                 </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-                    <label class="toy-btn" style="flex:1; text-align:center; border-color: var(--accent);">
-                        ✨ Add Custom Sound
-                        <input type="file" style="display:none;" accept="audio/*" onchange="handleAudioUpload(this)">
-                    </label>
-                    <button class="toy-btn" onclick="stopAllAudio()" style="border-color:#fb7185; color:#fb7185; background: rgba(251,113,133,0.05);">Shh!</button>
-                </div>
-                <div id="mixer-container" style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;"></div>
             </div>
 
-            <div id="tab-canvas" class="tab-content">
-                <h4 class="section-title">Your Masterpieces</h4>
-                <label class="upload-zone" style="margin-bottom: 15px;">
-                    <span style="display:block; margin-bottom: 5px;">🖼️ Upload Local Background</span>
-                    <span style="font-size: 0.6rem; opacity: 0.6; font-style: italic;">(It's safe, we promise!)</span>
-                    <input type="file" accept="image/*" onchange="executeImageUpload(this)">
-                </label>
-                <div id="custom-bgs" style="display:flex; flex-direction:column; gap: 10px;"></div>
+            <div class="header-right" onclick="event.stopPropagation()">
+                <div style="display: flex; align-items: center; margin-right: 15px; padding: 0 10px; background: rgba(0,0,0,0.4); border-radius: 30px; height: 35px; border: 1px solid var(--glass-border);">
+                    <span style="font-family: monospace; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
+                </div>
+                <button class="artifact-btn" onclick="toggleCloak()">Cloak UI</button>
+                <button class="artifact-btn" onclick="toggleModal('world-guide-modal')">World Guide</button>
+                <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
+                <button class="artifact-btn" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
+                <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" onclick="toggleModal('tune-modal')">Tune the Realm</button>
+                <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast to TV</button>
             </div>
 
-            <div id="tab-atmos" class="tab-content atmos-clean-tab">
-                <div class="atmos-section">
-                    <h4 class="section-title">Color Palettes (20)</h4>
-                    <div class="atmos-grid atmos-button-grid" id="color-grid"></div>
-                </div>
-
-                <div class="atmos-section">
-                    <h4 class="section-title">Sprinkles (20)</h4>
-                    <div class="atmos-grid atmos-button-grid" id="particle-grid"></div>
-                </div>
-
-                <div class="atmos-section">
-                    <h4 class="section-title">Glow Styles (20)</h4>
-                    <div class="atmos-grid atmos-button-grid" id="glow-grid"></div>
-                </div>
-
-                <div class="atmos-section">
-                    <h4 class="section-title">Sprinkle Colors</h4>
-                    <div class="atmos-grid atmos-swatch-grid" id="particle-color-grid"></div>
-                </div>
-
-                <div class="atmos-section">
-                    <h4 class="section-title">Glow Colors</h4>
-                    <div class="atmos-grid atmos-swatch-grid" id="glow-color-grid"></div>
-                </div>
-
-                <div class="atmos-section atmos-engine-section">
-                    <h4 class="section-title">Engine Tweaks</h4>
-                    <div class="ctrl-row"><label>Speed</label><input type="range" class="ctrl-slider" id="speed-slider" min="1" max="20" value="10" oninput="updateVar('--anim-speed', (21-this.value)+'s'); saveCurrentState();"></div>
-                    <div class="ctrl-row"><label>Opacity</label><input type="range" class="ctrl-slider" id="opac-slider" min="0" max="1" step="0.1" value="0.3" oninput="updateVar('--glow-opac', this.value); saveCurrentState();"></div>
-                    <div class="ctrl-row"><label>Brightness</label><input type="range" class="ctrl-slider" id="bright-slider" min="0.2" max="2" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value); saveCurrentState();"></div>
-                    <div class="ctrl-row"><label>Zoom</label><input type="range" class="ctrl-slider" id="zoom-slider" min="1" max="2" step="0.1" value="1.1" oninput="updateVar('--bg-zoom', this.value); saveCurrentState();"></div>
-                    <div class="ctrl-row"><label>Density</label><input type="range" class="ctrl-slider" id="density-slider" min="10" max="200" value="50" step="10" oninput="updateParticleDensity(this.value); saveCurrentState();"></div>
-                    <div class="ctrl-row" style="margin-top: 5px;"><label>Low GPU</label><input type="checkbox" id="lowGpuToggle" style="accent-color: var(--primary); transform: scale(1.2);" onclick="toggleLowGpu()"></div>
-                </div>
-            </div>
-
-            <div id="tab-vault" class="tab-content">
-                <button class="toy-btn" id="save-btn" style="border-color: var(--primary); padding: 18px; font-size: 0.75rem; border-radius: 50px; box-shadow: 0 0 15px var(--primary-glow);" onclick="savePreset()">💖 Save This Vibe to Vault</button>
-                <div id="vault-list" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;"></div>
-            </div>
-
-            <div id="tab-protips" class="tab-content">
-                <h4 class="section-title" style="color: var(--primary);">🛠️ MASTER SHELL MANUAL</h4>
-                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-top: 5px;">
-                    This is your sovereign digital polis. It runs entirely offline. Here is how to navigate:
-                </p>
-                <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; padding-left: 20px; margin-top:0;">
-                    <li><strong>Scroll to Explore:</strong> The Sanctuary is now a vertical map. Use your mouse wheel or trackpad to scroll up to the Castle, or down to the Underbelly.</li>
-                    <li><strong>Invisible Warp Gates:</strong> Hover your mouse along the bottom of any zone to reveal its hidden portals. Click them to seamlessly warp to your modules.</li>
-                    <li><strong>The Castellan:</strong> The Wraith hovering on your screen is your Oracle. Click him to slide out the AI terminal. Enter your API key securely to awaken him.</li>
-                    <li><strong>Master Ledger:</strong> Click 'Master Ledger' in the top menu to view your unified World Calendar, Bounties, and Market Lists. Checking off items instantly grants you World XP.</li>
-                    <li><strong>Scratchpad & Calc:</strong> A fast, keyboard-native workspace. You can type numbers directly on your keyboard and hit "Enter" to calculate while making notes.</li>
-                </ul>
-            </div>
-        </main>
+        </div>
     </div>
 
     <!-- THE CASTELLAN & DYNAMIC TERMINAL -->
     <div id="wraith-master-anchor">
         <div id="wraith-anim-wrapper">
-            <!-- Ensure your wraith.png is saved in the same folder or replace with 👻 -->
             <img id="wraith-companion" src="wraith.png" alt="Wraith Oracle" onclick="event.stopPropagation(); toggleOracleUI()">
             <div class="wraith-mist"></div>
         </div>
@@ -1024,6 +649,90 @@
         </div>
     </div>
 
+    <!-- COMPACT TUNE THE REALM MODAL -->
+    <div id="tune-modal" class="modal-overlay" onclick="toggleModal('tune-modal')">
+        <div class="cast-box" style="max-width: 400px; padding: 30px;" onclick="event.stopPropagation()">
+            <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 25px 0; font-family: 'Times New Roman', serif;">TUNE THE REALM</h3>
+            
+            <div class="ctrl-row" style="width: 100%;">
+                <label>Brightness</label>
+                <input type="range" class="ctrl-slider" id="tune-bright" min="0.2" max="1.5" step="0.1" value="0.85" oninput="updateVar('--bg-bright', this.value); saveCurrentState();">
+            </div>
+            
+            <div class="ctrl-row" style="width: 100%;">
+                <label>Audio</label>
+                <input type="range" class="ctrl-slider" id="tune-vol" min="0" max="1" step="0.05" value="1" oninput="changeMasterGain(this.value)">
+            </div>
+            
+            <div class="ctrl-row" style="width: 100%;">
+                <label>Weather Mood</label>
+                <select id="tune-mood" class="add-task-select" style="flex: 1; padding: 5px 10px;" onchange="forceMood(this.value)">
+                    <option value="Auto">Auto (Circadian)</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Night">Night</option>
+                    <option value="Storm">Storm</option>
+                </select>
+            </div>
+            
+            <div class="ctrl-row" style="width: 100%; justify-content: flex-start; gap: 15px;">
+                <input type="checkbox" id="tune-motion" style="accent-color: var(--primary); transform: scale(1.2);" onchange="toggleLowGpu()">
+                <label style="width: auto; cursor: pointer; text-transform: uppercase;" for="tune-motion">Reduce Motion</label>
+            </div>
+            
+            <div class="ctrl-row" style="width: 100%; justify-content: flex-start; gap: 15px;">
+                <input type="checkbox" id="tune-sensory" style="accent-color: var(--primary); transform: scale(1.2);" onchange="toggleLowSensory()">
+                <label style="width: auto; cursor: pointer; text-transform: uppercase;" for="tune-sensory">Low Sensory Mode</label>
+            </div>
+
+            <button class="toy-btn" style="width: 100%; margin-top: 25px;" onclick="toggleModal('tune-modal')">Close Settings</button>
+        </div>
+    </div>
+
+    <!-- WORLD GUIDE MODAL WITH INTEGRATED PRO-TIPS AND ENGINE DOCUMENTATION -->
+    <div id="world-guide-modal" class="modal-overlay" onclick="toggleModal('world-guide-modal')">
+        <div class="cast-box" style="max-width: 720px; padding: 40px; text-align: left;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">NEXUS SYSTEM ARCHITECTURE</h3>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" onclick="toggleModal('world-guide-modal')">✕</button>
+            </div>
+            
+            <div style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; overflow-y: auto; max-height: 65vh; padding-right: 15px; font-family: 'Georgia', serif;">
+                <h4 style="color: var(--accent); margin: 0 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">1. Nexus Map Guide</h4>
+                <p>SomniaScapes is a living world of rooms. Each room holds a real-life tool: time, meals, cleaning, writing, learning, rest, records, and home care. The Nexus is the map between them.</p>
+                <ul style="padding-left: 20px; color: var(--text-main); margin-bottom: 20px;">
+                    <li style="margin-bottom: 6px;">Enter a room when you need support for that part of life.</li>
+                    <li style="margin-bottom: 6px;">Each room has its own atmosphere, audio, companions, and tools.</li>
+                    <li style="margin-bottom: 6px;">Changing the atmosphere is part of the app, not decoration.</li>
+                    <li style="margin-bottom: 6px;">XP is earned for showing up, interacting, tending, resting, returning, and trying again.</li>
+                    <li style="margin-bottom: 6px;">Room XP unlocks and evolves companions.</li>
+                    <li style="margin-bottom: 6px;">World XP unlocks sealed ??? encounters and mini-games.</li>
+                    <li style="margin-bottom: 6px;">There are no shame loops. Missed days do not erase progress.</li>
+                    <li style="margin-bottom: 6px;">The world changes with you.</li>
+                </ul>
+
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">2. Circadian Rhythm & Environment</h4>
+                <p>The Nexus follows a gentle circadian cycle. Time of day, weather, moonlight, and ambient audio shift the world's mood automatically. Use <strong>Tune the Realm</strong> for quick overrides or comfort adjustments like brightness, animation scaling, and low-sensory balancing.</p>
+
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">3. Awakening the Sovereign Oracle (API Integration)</h4>
+                <p>To connect the Castellan terminal to the local-first intelligence architecture origin-wide:</p>
+                <ol style="padding-left: 20px; color: var(--text-main); margin-bottom: 20px;">
+                    <li style="margin-bottom: 6px;">Acquire a free, highly secure Gemini API key from <strong>Google AI Studio</strong>.</li>
+                    <li style="margin-bottom: 6px;">Click the active Wraith on your screen to manifest the companion command panel.</li>
+                    <li style="margin-bottom: 6px;">Paste your token explicitly into the key field and press <strong>"Lock"</strong>.</li>
+                    <li style="margin-bottom: 6px;">Once locked, the key applies **Somnia-wide**, persistence tracking across all encapsulated sub-modules and sandbox scripts seamlessly without multi-input friction.</li>
+                </ol>
+
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">4. Immutable Ledger Snapshots</h4>
+                <p>Clicking the <strong>"World Snapshot"</strong> button extracts your complete local database state directly into an uncompressed, human-readable <code>JSON</code> matrix file. Because SomniaScapes runs completely client-side with no cloud strings, executing periodic snapshots creates an instant physical backup of your timelines, bounties, and structural records directly to your machine storage array.</p>
+
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">5. Sealed Encounters</h4>
+                <p>The hidden ??? doors scattered on the map frame specific hidden mini-games and dynamic world events. These zones break open as your global cumulative World XP values advance across task completion tracks.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRATCHPAD WITH CALCULATOR MODAL -->
     <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
         <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
@@ -1066,8 +775,6 @@
     <!-- WORLD CALENDAR & MASTER LIST MODAL -->
     <div id="world-calendar-modal" class="modal-overlay" onclick="toggleModal('world-calendar-modal')">
         <div class="planner-bubble" onclick="event.stopPropagation()">
-            
-            <!-- Sleek Calendar View -->
             <div class="cal-panel">
                 <div class="cal-header">
                     <div class="cal-title">WORLD CALENDAR</div>
@@ -1076,7 +783,6 @@
             </div>
             
             <div class="side-panel">
-                <!-- Master To-Do / Market List -->
                 <div class="panel-card" style="flex:1; display: flex; flex-direction: column;">
                     <div class="panel-title" style="color:var(--accent);">
                         <span>MASTER LEDGER</span>
@@ -1096,9 +802,7 @@
                         <button class="toy-btn" style="border-color: var(--primary);" onclick="addTaskToLedger()">Add</button>
                     </div>
 
-                    <div id="master-list-content" style="flex: 1; overflow-y:auto; padding-right: 5px;">
-                        <!-- JS populated tasks -->
-                    </div>
+                    <div id="master-list-content" style="flex: 1; overflow-y:auto; padding-right: 5px;"></div>
                 </div>
             </div>
         </div>
@@ -1125,17 +829,25 @@
     </div>
 
     <script>
-        // === UNIFIED AI CONFIG ===
+        // === SOMNIA-WIDE PERSISTENT AI ARCHITECTURE ===
         const SOMNIA_AI = {
-            getApiKey: () => localStorage.getItem('somnia_gemini_key') || "",
+            getApiKey: () => {
+                return localStorage.getItem('somnia_gemini_key') || "";
+            },
             saveApiKey: () => {
                 const key = document.getElementById('gemini-api-key').value.trim();
                 localStorage.setItem('somnia_gemini_key', key);
-                somniaAlert("KEY SECURED", "API Key updated for all modules.");
+                
+                // Propagate token availability to any matching sandboxed active modules safely
+                const moduleFrame = document.getElementById('module-frame');
+                if (moduleFrame && moduleFrame.contentWindow) {
+                    moduleFrame.contentWindow.postMessage({ type: "SOMNIA_KEY_SYNC", token: key }, "*");
+                }
+                somniaAlert("SANCTUARY UNIFIED KEY SECURED", "Your API parameter is bound origin-wide across all rooms and local sandboxes.");
             }
         };
 
-        // === WORLD SNAPSHOT FUNCTION ===
+        // === IMMUTABLE LEDGER SNAPSHOT EXTRACTION ===
         function downloadWorldSnapshot() {
             const data = localStorage.getItem('somnia_master_ledger') || "[]";
             const blob = new Blob([data], { type: "application/json" });
@@ -1150,54 +862,162 @@
         }
 
         // =========================================================================
-        // JOLT ARRAYS - ISOLATED AT THE TOP TO GUARANTEE ATMOS TAB RENDERING
+        // JOLT ARRAYS & CONFIG MATRIX
         // =========================================================================
         const colors = ['lunar','noir','vellum','amethyst','crimson','emerald','solar','void','obsidian','ghost','gothic','library','y2k','vintage','cyber','twilight','autumn','abyss','sepia','frost'];
-        
         const glows = ['pulse','breathe','strobe','phantom','wave','flicker','aurora','radar','static','none','heartbeat','shimmer','glitch','scanner','nebula','vortex','ripple','halo','eclipse','inferno'];
-        
         const pList = ['dust','embers','snow','void','rain','ash','stars','bubbles','matrix','spores','leaves','glitch','runes','fireflies','fog','petals','sparks','bats','static','motes'];
-        
-        const hexColors = [
-            '#e0e7ff', '#D4AF37', '#C2B280', '#d8b4e2', '#fb7185', 
-            '#34d399', '#fbbf24', '#ec4899', '#9ca3af', '#ffffff', 
-            '#881337', '#78350f', '#c026d3', '#b45309', '#22c55e', 
-            '#4c1d95', '#9a3412', '#1e3a8a', '#78716c', '#0284c7'
-        ];
-        // =========================================================================
+        const hexColors = ['#e0e7ff', '#D4AF37', '#C2B280', '#d8b4e2', '#fb7185', '#34d399', '#fbbf24', '#ec4899', '#9ca3af', '#ffffff', '#881337', '#78350f', '#c026d3', '#b45309', '#22c55e', '#4c1d95', '#9a3412', '#1e3a8a', '#78716c', '#0284c7'];
 
-        // === WEATHER & TIME WIDGETS LOGIC ===
+        let currentCircadianMood = 'Auto';
+        let isLowSensory = false;
+        let isStormyWeather = false;
+
+        // === CIRCADIAN & WEATHER MATRIX MAP ===
+        function applyMoodState(mood) {
+            stopAllAudio();
+            
+            let pType = 'dust';
+            let pCount = 50;
+            let mode = 'lunar-mode';
+            let glowClass = 'glow-pulse';
+            let conditionLabel = 'Serene Realm';
+            let conditionIcon = '🌌';
+
+            if (mood === 'Morning') {
+                mode = 'ghost-mode';
+                pType = 'fog';
+                pCount = 20;
+                glowClass = 'glow-breathe';
+                conditionLabel = 'Pale Fog Dawn';
+                conditionIcon = '🌫️';
+                toggleStem('windchimes', 'windchimes.mp3');
+                toggleStem('musicbox1', 'musicbox1.mp3');
+            } else if (mood === 'Afternoon') {
+                mode = 'vellum-mode';
+                pType = 'leaves';
+                pCount = 30;
+                glowClass = 'glow-static';
+                conditionLabel = 'Muted Daylight';
+                conditionIcon = '🔔';
+                toggleStem('winterwind', 'winterwind.mp3');
+                toggleStem('musicbox2', 'musicbox2.mp3');
+            } else if (mood === 'Evening') {
+                mode = 'autumn-mode';
+                pType = 'embers';
+                pCount = 40;
+                glowClass = 'glow-flicker';
+                conditionLabel = 'Lantern Twilight';
+                conditionIcon = '🏮';
+                toggleStem('fire', 'fire.mp3');
+                toggleStem('rain', 'rain.mp3');
+            } else if (mood === 'Night') {
+                mode = 'abyss-mode';
+                pType = 'stars';
+                pCount = 70;
+                glowClass = 'glow-pulse';
+                conditionLabel = 'Midnight Moonlight';
+                conditionIcon = '🌙';
+                toggleStem('darkmusic', 'darkmusic1.mp3');
+                toggleStem('crickets', 'crickets.mp3');
+            } else if (mood === 'Storm') {
+                mode = 'obsidian-mode';
+                pType = 'rain';
+                pCount = 140;
+                glowClass = 'glow-strobe';
+                conditionLabel = 'Heavy Storm Core';
+                conditionIcon = '🌩️';
+                toggleStem('thunder', 'thunder.mp3');
+                toggleStem('rain', 'rain.mp3');
+                toggleStem('winterwind', 'winterwind.mp3');
+            }
+
+            document.documentElement.className = mode;
+            const glowLayer = document.getElementById('glow-layer');
+            if (glowLayer) glowLayer.className = glowClass;
+            
+            window.particleType = pType;
+            window.particleCount = isLowSensory ? 0 : pCount;
+
+            const labelWidget = document.getElementById('weather-label');
+            const iconWidget = document.getElementById('weather-icon');
+            if(labelWidget) labelWidget.innerText = conditionLabel;
+            if(iconWidget) iconWidget.innerText = conditionIcon;
+
+            if (isLowSensory) {
+                updateVar('--bg-bright', '0.35');
+                updateVar('--glow-opac', '0.08');
+                changeMasterGain(0.15);
+            } else {
+                const b = document.getElementById('tune-bright');
+                if(b) updateVar('--bg-bright', b.value);
+                const v = document.getElementById('tune-vol');
+                if(v) changeMasterGain(v.value);
+            }
+        }
+
+        function evaluateCircadian() {
+            if (currentCircadianMood !== 'Auto') return;
+            const hour = new Date().getHours();
+            let state = 'Night';
+            
+            if (isStormyWeather) {
+                state = 'Storm';
+            } else if (hour >= 6 && hour < 12) {
+                state = 'Morning';
+            } else if (hour >= 12 && hour < 17) {
+                state = 'Afternoon';
+            } else if (hour >= 17 && hour < 21) {
+                state = 'Evening';
+            }
+            applyMoodState(state);
+        }
+
+        function forceMood(mood) {
+            currentCircadianMood = mood;
+            if (mood === 'Auto') evaluateCircadian();
+            else applyMoodState(mood);
+        }
+
+        function toggleLowSensory() {
+            isLowSensory = document.getElementById('tune-sensory').checked;
+            if (currentCircadianMood === 'Auto') evaluateCircadian();
+            else applyMoodState(currentCircadianMood);
+        }
+
+        // === METRIC RENDER LOGIC ===
         function updateTimeWidget() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const dateStr = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
-            document.getElementById('time-display').innerText = `${timeStr} | ${dateStr}`;
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            const dateStr = now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' }).toUpperCase();
+            
+            const timeDisplay = document.getElementById('time-display');
+            const dateDisplay = document.getElementById('date-display');
+            if (timeDisplay) timeDisplay.innerText = timeStr;
+            if (dateDisplay) dateDisplay.innerText = dateStr;
         }
         setInterval(updateTimeWidget, 1000);
 
         async function fetchWeather() {
             try {
-                // Default coordinates for Farmington, MS
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=34.9331&longitude=-88.5241&current_weather=true');
                 const data = await res.json();
                 const temp = Math.round(data.current_weather.temperature * 9/5 + 32); 
                 const code = data.current_weather.weathercode;
                 
-                let icon = '☁️';
-                if(code === 0) icon = '☀️';
-                else if(code > 0 && code < 4) icon = '⛅';
-                else if(code >= 51 && code <= 67) icon = '🌧️';
-                else if(code >= 71 && code <= 77) icon = '❄️';
-                else if(code >= 95) icon = '🌩️';
-                
-                document.getElementById('weather-display').innerHTML = `${icon} ${temp}°F`;
+                isStormyWeather = (code >= 51 && code <= 67) || code >= 95;
+                evaluateCircadian();
+
+                const tempDisplay = document.getElementById('weather-temp');
+                if (tempDisplay) tempDisplay.innerText = `${temp}°F`;
             } catch(e) {
-                document.getElementById('weather-display').innerHTML = '🌤️ 72°F'; // Silent fallback
+                const tempDisplay = document.getElementById('weather-temp');
+                if (tempDisplay) tempDisplay.innerText = '72°F';
             }
         }
-        setInterval(fetchWeather, 3600000); // 1 hour updates
+        setInterval(fetchWeather, 3600000);
 
-        // === MODULE ROUTING LOGIC ===
+        // === SANDBOX MODULE NAVIGATION ===
         function openModule(moduleFilename) {
             const sandbox = document.getElementById('sandbox-overlay');
             const iframe = document.getElementById('module-frame');
@@ -1212,7 +1032,7 @@
             setTimeout(() => { iframe.src = ""; }, 500);
         }
 
-        // === ORACLE AI & DYNAMIC TERMINAL LOGIC ===
+        // === COMPANION INTERFACE WIRING ===
         function toggleOracleUI() {
             document.body.classList.toggle('oracle-active');
             if (document.body.classList.contains('oracle-active')) {
@@ -1237,27 +1057,22 @@
             appendOracleMessage(text, 'user');
             input.value = '';
 
-            const apiKey = SOMNIA_AI.getApiKey();
-            
-            if (!apiKey) {
+            if (!SOMNIA_AI.getApiKey()) {
                 setTimeout(() => {
-                    appendOracleMessage("Error: The Oracle cannot speak without a secure API key. Please lock your key above.", 'ai');
+                    appendOracleMessage("Error: The Castellan interface cannot route commands without a global persistent token. Secure your parameter field above.", 'ai');
                 }, 500);
                 return;
             }
 
-            // === GEMINI API INJECTION POINT ===
             setTimeout(() => {
                 const responses = [
-                    "The ledgers have been noted. What else requires attention?",
-                    "Your command ripples through the polis. The engine hums.",
-                    "An interesting directive. I shall weave it into the archives.",
-                    "The hearth burns brighter. You are doing well, Architect.",
-                    "XP registered to the World Core. A new path may open soon."
+                    "The spatial frames are registered. Your configuration remains sovereign, Architect.",
+                    "Your command traces cleanly through the local storage nodes.",
+                    "Directive noted. The master engine cycles smoothly under your token.",
+                    "The hearth flares in acknowledgment. Progress values remain secured."
                 ];
-                const reply = responses[Math.floor(Math.random() * responses.length)];
-                appendOracleMessage(reply, 'ai');
-            }, 800);
+                appendOracleMessage(responses[Math.floor(Math.random() * responses.length)], 'ai');
+            }, 700);
         }
 
         // === CALCULATOR NATIVE KEYBOARD LOGIC ===
@@ -1290,9 +1105,7 @@
             }
         });
 
-        document.documentElement.className = 'lunar-mode';
-
-        // === GLOBAL WORLD XP & MASTER LEDGER LOGIC ===
+        // === LEDGER DATA WIRING ===
         let worldXP = parseInt(localStorage.getItem('somnia_world_xp')) || 0;
         let masterLedger = JSON.parse(localStorage.getItem('somnia_master_ledger')) || [];
 
@@ -1300,7 +1113,8 @@
             worldXP += amount;
             if (worldXP < 0) worldXP = 0;
             localStorage.setItem('somnia_world_xp', worldXP);
-            document.getElementById('global-xp-display').innerText = worldXP;
+            const display = document.getElementById('global-xp-display');
+            if (display) display.innerText = worldXP;
         }
 
         function addTaskToLedger() {
@@ -1314,7 +1128,7 @@
                 text: text,
                 category: category,
                 completed: false,
-                xpValue: category === 'Market' ? 10 : 50 // Market items give small XP, Bounties give big XP
+                xpValue: category === 'Market' ? 10 : 50
             };
 
             masterLedger.unshift(newTask);
@@ -1326,11 +1140,7 @@
             const task = masterLedger.find(t => t.id === taskId);
             if (task) {
                 task.completed = !task.completed;
-                if (task.completed) {
-                    updateWorldXP(task.xpValue);
-                } else {
-                    updateWorldXP(-task.xpValue); // Remove XP if unchecked
-                }
+                updateWorldXP(task.completed ? task.xpValue : -task.xpValue);
                 saveAndRenderLedger();
             }
         }
@@ -1342,18 +1152,17 @@
 
         function saveAndRenderLedger() {
             localStorage.setItem('somnia_master_ledger', JSON.stringify(masterLedger));
-            
             const container = document.getElementById('master-list-content');
+            if(!container) return;
             container.innerHTML = '';
 
             if (masterLedger.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 20px;">The ledger is empty. Rest well, Architect.</div>`;
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 20px;">The ledger matrix is open and clear. Rest well.</div>`;
                 return;
             }
 
             masterLedger.forEach(task => {
                 const icon = task.category === 'Market' ? '🛒' : (task.category === 'Bounty' ? '📜' : '🛠️');
-                
                 container.innerHTML += `
                     <div class="task-item ${task.completed ? 'completed' : ''}">
                         <div class="task-checkbox" onclick="toggleTaskCompletion('${task.id}')">
@@ -1366,14 +1175,14 @@
                         <div class="${task.completed ? 'xp-penalty' : 'xp-reward'}">
                             ${task.completed ? 'CLAIMED' : '+'+task.xpValue+' XP'}
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
         // === WORLD CALENDAR RENDER ===
         function renderWorldCalendar() {
             const grid = document.getElementById('world-cal-grid');
+            if(!grid) return;
             grid.innerHTML = '';
             const now = new Date(); const y = now.getFullYear(); const m = now.getMonth();
             const firstDay = new Date(y, m, 1).getDay(); const daysInMonth = new Date(y, m + 1, 0).getDate();
@@ -1383,14 +1192,10 @@
 
             for(let i=1; i<=daysInMonth; i++) {
                 const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-                const isToday = i === now.getDate();
-                
-                grid.innerHTML += `<div class="cal-cell ${isToday ? 'today' : ''}" id="w-cal-cell-${dateStr}" onclick="viewWorldCalDay('${dateStr}')">
+                grid.innerHTML += `<div class="cal-cell ${i === now.getDate() ? 'today' : ''}" id="w-cal-cell-${dateStr}" onclick="viewWorldCalDay('${dateStr}')">
                     <div class="cal-cell-number">${i}</div>
                 </div>`;
             }
-
-            // Always render the task list when calendar opens
             saveAndRenderLedger();
         }
 
@@ -1505,175 +1310,30 @@
             });
         }
 
+        // === ENGINE FRAMEWORK CORE ===
         async function startEngine() {
             const bootScreen = document.getElementById('boot-screen');
             bootScreen.style.opacity = '0';
-            
-            // Instantly snap the camera to the Sanctuary hub (middle zone)
             document.getElementById('zone-home').scrollIntoView({ behavior: "instant" });
-            
             if(!window.location.search) await restoreActiveState();
-            
-            // Auto-start requested rain soundscape
-            const startingSounds = [
-                { id: "rain", url: "rain.mp3" },
-                { id: "thunder", url: "thunder.mp3" },
-                { id: "raven", url: "raven.mp3" }
-            ];
-            startingSounds.forEach(s => toggleStem(s.id, s.url));
-            
+            evaluateCircadian();
             setTimeout(() => { bootScreen.remove(); }, 2000);
-        }
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
         }
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
         function restoreUI() { document.body.classList.remove('cloaked'); document.body.classList.remove('oracle-active'); }
         function toggleModal(modalId) { document.getElementById(modalId).classList.toggle('active'); }
-        
         function toggleFullscreen() {
             if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(e => console.log(e));
             else document.exitFullscreen();
             document.getElementById('cast-modal').classList.remove('active');
         }
-
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
-
-        // === BACKGROUND CANVAS LOGIC ===
-        async function loadCustomBackgrounds(reload = false) {
-            const grid = document.getElementById('custom-bgs');
-            if(reload) grid.innerHTML = '';
-            const keys = await getAllMediaKeys();
-            const bgKeys = keys.filter(k => k.startsWith('bg_'));
-            
-            for(let key of bgKeys) {
-                const blob = await getMedia(key);
-                if(blob) {
-                    const savedName = localStorage.getItem('somnia_name_' + key) || "🖼️ Masterpiece " + key.replace('bg_', '').substring(0, 3);
-                    addBgButton(URL.createObjectURL(blob), key, savedName);
-                }
-            }
-        }
-
-        function addBgButton(imgUrl, key, name) {
-            const grid = document.getElementById('custom-bgs');
-            const wrap = document.createElement('div');
-            wrap.style.display = 'flex'; wrap.style.gap = '8px';
-            wrap.style.width = '100%';
-            
-            const btn = document.createElement('button');
-            btn.className = 'toy-btn';
-            btn.style.flex = "1";
-            btn.textContent = name;
-            
-            btn.onclick = () => {
-                grid.querySelectorAll('.toy-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById('bg-anchor').style.backgroundImage = `url('${imgUrl}')`;
-                localStorage.setItem('somnia_active_bg_key', key);
-                saveCurrentState();
-            };
-
-            const editBtn = document.createElement('button');
-            editBtn.className = 'toy-btn';
-            editBtn.innerHTML = '✏️';
-            editBtn.style.padding = '0 15px';
-            editBtn.onclick = () => renameCustomItem(key, 'bg');
-
-            const delBtn = document.createElement('button');
-            delBtn.className = 'toy-btn';
-            delBtn.innerHTML = '✕';
-            delBtn.style.padding = '0 15px';
-            delBtn.style.color = '#fb7185';
-            delBtn.style.borderColor = 'rgba(251,113,133,0.3)';
-            delBtn.onclick = async () => {
-                const confirmed = await somniaConfirm("PURGE THIS CANVAS?", "Are you sure you want to delete this custom background forever?");
-                if(confirmed) {
-                    await deleteMedia(key);
-                    if(localStorage.getItem('somnia_active_bg_key') === key) {
-                        document.getElementById('bg-anchor').style.backgroundImage = "none";
-                        localStorage.removeItem('somnia_active_bg_key');
-                    }
-                    await loadCustomBackgrounds(true);
-                }
-            };
-
-            wrap.appendChild(btn);
-            wrap.appendChild(editBtn);
-            wrap.appendChild(delBtn);
-            grid.prepend(wrap);
-        }
-
-        async function renameCustomItem(key, type) {
-            const currentName = localStorage.getItem('somnia_name_' + key) || "";
-            const newName = await somniaPrompt("RENAME ARTIFACT", "What should we call this?", currentName);
-            if (newName) {
-                localStorage.setItem('somnia_name_' + key, newName);
-                if (type === 'audio') {
-                    customAudioLibrary = []; 
-                    await loadCustomAudio(true);
-                } else if (type === 'bg') {
-                    await loadCustomBackgrounds(true);
-                }
-            }
-        }
-
-        function executeImageUpload(input) {
-            if (!input.files || !input.files[0]) return;
-            const file = input.files[0];
-            const key = 'bg_' + Date.now();
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const img = new Image();
-                img.onload = async () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const MAX_WIDTH = 1920;
-                    let width = img.width; let height = img.height;
-                    
-                    if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                    canvas.width = width; canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    canvas.toBlob(async (blob) => {
-                        await saveMedia(key, blob);
-                        const customName = await somniaPrompt("NAME THIS ARTIFACT", "What should we call this masterpiece?", "Canvas Update");
-                        const finalName = customName || "🖼️ Custom Canvas";
-                        localStorage.setItem('somnia_name_' + key, finalName);
-
-                        const imgUrl = URL.createObjectURL(blob);
-                        addBgButton(imgUrl, key, finalName);
-                        
-                        document.getElementById('bg-anchor').style.backgroundImage = `url('${imgUrl}')`;
-                        localStorage.setItem('somnia_active_bg_key', key);
-                        saveCurrentState();
-                    }, 'image/jpeg', 0.85);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            input.value = ""; 
-        }
 
         function saveCurrentState() {
             const state = {
-                bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
-                glowClass: document.getElementById('glow-layer').className,
-                particleType: window.particleType,
-                particleCount: window.particleCount,
                 vars: {
-                    speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(),
-                    opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(),
-                    bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(),
-                    zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(),
-                    pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(),
-                    gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()
+                    bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim()
                 }
             };
             localStorage.setItem('somnia_active_state', JSON.stringify(state));
@@ -1682,387 +1342,57 @@
         async function restoreActiveState() {
             try {
                 const stateStr = localStorage.getItem('somnia_active_state');
-                const activeBgKey = localStorage.getItem('somnia_active_bg_key');
-                
-                if (activeBgKey) {
-                    const blob = await getMedia(activeBgKey);
-                    if(blob) {
-                        document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`;
-                    }
-                }
-
                 if (stateStr) {
                     const state = JSON.parse(stateStr);
-                    document.documentElement.className = state.bodyClass || 'lunar-mode';
-                    document.getElementById('glow-layer').className = state.glowClass || 'glow-pulse';
-                    window.particleType = state.particleType || 'dust';
-                    window.particleCount = state.particleCount || 50;
-
-                    if (state.vars) {
-                        updateVar('--anim-speed', state.vars.speed);
-                        updateVar('--glow-opac', state.vars.opac);
+                    if (state.vars && state.vars.bright) {
                         updateVar('--bg-bright', state.vars.bright);
-                        updateVar('--bg-zoom', state.vars.zoom);
-                        updateVar('--particle-color', state.vars.pColor);
-                        updateVar('--glow-color', state.vars.gColor);
-                        
-                        if(document.getElementById('speed-slider')) document.getElementById('speed-slider').value = 21 - parseInt(state.vars.speed);
-                        if(document.getElementById('opac-slider')) document.getElementById('opac-slider').value = state.vars.opac;
-                        if(document.getElementById('bright-slider')) document.getElementById('bright-slider').value = state.vars.bright;
-                        if(document.getElementById('zoom-slider')) document.getElementById('zoom-slider').value = state.vars.zoom;
-                        if(document.getElementById('density-slider')) document.getElementById('density-slider').value = state.particleCount;
+                        if(document.getElementById('tune-bright')) document.getElementById('tune-bright').value = state.vars.bright;
                     }
                 }
             } catch (e) { console.log("State restore error", e); }
-            
-            highlightActiveAtmos();
         }
 
         function saveScratchpad() {
             localStorage.setItem('somnia_scratchpad', document.getElementById('scratchpad-box').value);
         }
 
-        // === VAULT PRESETS ===
-        let savedVault = JSON.parse(localStorage.getItem('somniaVault')) || [];
-        async function savePreset() {
-            let presetName = await somniaPrompt("VAULT THIS ARCHITECTURE", "Name your aesthetic configuration:", "Config " + (savedVault.length + 1));
-            if (!presetName) return; 
-
-            const btn = document.getElementById('save-btn');
-            btn.innerText = "✓ LOCKED IN THE VAULT";
-            setTimeout(() => { btn.innerText = "💖 Save This Vibe to Vault"; }, 2000);
-
-            const state = {
-                name: presetName,
-                bodyClass: document.documentElement.className.replace('cloaked', '').trim(),
-                glowClass: document.getElementById('glow-layer').className,
-                particleType: window.particleType,
-                particleCount: window.particleCount,
-                bgKey: localStorage.getItem('somnia_active_bg_key'), 
-                vars: {
-                    speed: getComputedStyle(document.documentElement).getPropertyValue('--anim-speed').trim(),
-                    opac: getComputedStyle(document.documentElement).getPropertyValue('--glow-opac').trim(),
-                    bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim(),
-                    zoom: getComputedStyle(document.documentElement).getPropertyValue('--bg-zoom').trim(),
-                    pColor: getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim(),
-                    gColor: getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()
-                },
-                audio: Object.keys(activeAudio).map(id => ({ id: id, vol: individualVolumes[id] || 0.5 }))
-            };
-
-            savedVault.push(state);
-            localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-            renderVault();
-        }
-
-        function renderVault() {
-            const container = document.getElementById('vault-list');
-            container.innerHTML = savedVault.map((preset, index) => `
-                <div class="mixer-card" style="padding: 8px 15px;">
-                    <button class="mixer-btn" style="color: var(--primary);" onclick="loadPreset(${index})">▶ ${preset.name}</button>
-                    <button class="toy-btn" style="padding: 6px 12px; font-size: 0.6rem; border-color: #fb7185; color: #fb7185; background: rgba(251,113,133,0.05);" onclick="promptDeletePreset(${index})">✕</button>
-                </div>
-            `).join('');
-        }
-
-        async function promptDeletePreset(index) {
-            const confirmed = await somniaConfirm("PURGE ARCHITECTURE?", "Are you sure you want to delete this vaulted configuration?");
-            if(confirmed) {
-                savedVault.splice(index, 1);
-                localStorage.setItem('somniaVault', JSON.stringify(savedVault));
-                renderVault();
-            }
-        }
-
-        async function loadPreset(index) {
-            const state = savedVault[index];
-            if (!state) return;
-
-            document.documentElement.className = state.bodyClass;
-            document.getElementById('glow-layer').className = state.glowClass;
-            window.particleType = state.particleType;
-            window.particleCount = state.particleCount;
-            
-            if (state.bgKey) {
-                const blob = await getMedia(state.bgKey);
-                if(blob) {
-                    document.getElementById('bg-anchor').style.backgroundImage = `url('${URL.createObjectURL(blob)}')`;
-                    localStorage.setItem('somnia_active_bg_key', state.bgKey);
-                }
-            } else {
-                document.getElementById('bg-anchor').style.backgroundImage = "none";
-                localStorage.removeItem('somnia_active_bg_key');
-            }
-
-            updateVar('--anim-speed', state.vars.speed); updateVar('--glow-opac', state.vars.opac);
-            updateVar('--bg-bright', state.vars.bright); updateVar('--bg-zoom', state.vars.zoom);
-            updateVar('--particle-color', state.vars.pColor); updateVar('--glow-color', state.vars.gColor);
-
-            if(document.getElementById('speed-slider')) document.getElementById('speed-slider').value = 21 - parseInt(state.vars.speed);
-            if(document.getElementById('opac-slider')) document.getElementById('opac-slider').value = state.vars.opac;
-            if(document.getElementById('bright-slider')) document.getElementById('bright-slider').value = state.vars.bright;
-            if(document.getElementById('zoom-slider')) document.getElementById('zoom-slider').value = state.vars.zoom;
-            if(document.getElementById('density-slider')) document.getElementById('density-slider').value = state.particleCount;
-
-            stopAllAudio(); 
-            if(state.audio) {
-                state.audio.forEach(track => {
-                    const sound = soundLibrary.find(s => s.id === track.id) || customAudioLibrary.find(s => s.id === track.id);
-                    if (sound) {
-                        const slider = document.getElementById(`vol-${track.id}`);
-                        if (slider) slider.value = track.vol; 
-                        individualVolumes[track.id] = track.vol;
-                        toggleStem(track.id, sound.url); 
-                    }
-                });
-            }
-            saveCurrentState();
-            highlightActiveAtmos();
-        }
-
-        // === AUDIO ENGINE WITH MASTER GAIN ===
+        // === AUDIO MIXER SYSTEM CONTROL ===
         const activeAudio = {};
-        const individualVolumes = {}; 
         let masterGain = 1.0; 
 
         function changeMasterGain(val) {
             masterGain = parseFloat(val);
             Object.keys(activeAudio).forEach(id => {
-                const baseVol = individualVolumes[id] || 0.5;
-                activeAudio[id].volume = baseVol * masterGain;
+                activeAudio[id].volume = 0.5 * masterGain;
             });
-        }
-
-        const soundLibrary = [
-            { id: "rain", name: "🌧️ Gentle Rain", url: "rain.mp3" }, { id: "thunder", name: "🌩️ Thunderstorm", url: "thunder.mp3" },
-            { id: "winterwind", name: "🌬️ Winter Wind", url: "winterwind.mp3" }, { id: "owls", name: "🦉 Midnight Owls", url: "owls.mp3" },
-            { id: "raven", name: "🐦‍⬛ Raven Calls", url: "raven.mp3" }, { id: "frogs", name: "🐸 Swamp Frogs", url: "frogs.mp3" },
-            { id: "crickets", name: "🦗 Night Crickets", url: "crickets.mp3" }, { id: "fire", name: "🔥 Hearth Fire", url: "fire.mp3" },
-            { id: "simmering", name: "🍲 Simmering Pot", url: "simmeringpot.mp3" }, { id: "teacup", name: "☕ Teacup Clinks", url: "teacup.mp3" },
-            { id: "clock", name: "🕰️ Ticking Clock", url: "clock.mp3" }, { id: "cat", name: "🐾 Purring Cat", url: "cat.mp3" },
-            { id: "windchimes", name: "🎐 Wind Chimes", url: "windchimes.mp3" }, { id: "musicbox1", name: "🎶 Music Box I", url: "musicbox1.mp3" },
-            { id: "musicbox2", name: "🎶 Music Box II", url: "musicbox2.mp3" }, { id: "musicbox3", name: "🎶 Music Box III", url: "musicbox3.mp3" },
-            { id: "xmas1", name: "🎄 Yule Box I", url: "xmasmusicbox1.mp3" }, { id: "xmas2", name: "🎄 Yule Box II", url: "xmasmusicbox2.mp3" },
-            { id: "xmas3", name: "🎄 Yule Box III", url: "xmasmusicbox3.mp3" }, { id: "darkmusic", name: "🖤 Dark Atmos", url: "darkmusic1.mp3" },
-            { id: "binary", name: "🎵 Binary Box", url: "binarymusicbox.mp3" }
-        ];
-        let customAudioLibrary = [];
-
-        async function loadCustomAudio(reload = false) {
-            if(reload) customAudioLibrary = [];
-            const keys = await getAllMediaKeys();
-            const audioKeys = keys.filter(k => k.startsWith('aud_'));
-            for(let key of audioKeys) {
-                const blob = await getMedia(key);
-                if(blob) {
-                    const savedName = localStorage.getItem('somnia_name_' + key) || "📁 Audio " + key.replace('aud_','').substring(0,4);
-                    customAudioLibrary.push({ id: key, name: savedName, url: URL.createObjectURL(blob), isCustom: true });
-                }
-            }
-            initMixer();
-        }
-
-        function initMixer() {
-            const container = document.getElementById('mixer-container');
-            const allSounds = [...customAudioLibrary, ...soundLibrary];
-            container.innerHTML = allSounds.map(track => {
-                let editBtn = track.isCustom ? `<button class="toy-btn" style="padding: 5px 10px; background:transparent; border:none; margin-right: 5px;" onclick="renameCustomItem('${track.id}', 'audio')">✏️</button>` : '';
-                let delBtn = track.isCustom ? `<button class="toy-btn" style="padding: 5px 10px; background:transparent; border:none; margin-right: 5px; color:#fb7185;" onclick="promptDeleteAudio('${track.id}')">✕</button>` : '';
-                
-                return `
-                <div class="mixer-card" id="card-${track.id}">
-                    <button class="mixer-btn" onclick="toggleStem('${track.id}', '${track.url}')">${track.name}</button>
-                    ${editBtn}
-                    ${delBtn}
-                    <input type="range" id="vol-${track.id}" class="mixer-slider" min="0" max="1" step="0.05" value="${individualVolumes[track.id] || 0.5}" oninput="adjustVol('${track.id}', this.value)">
-                </div>
-            `}).join('');
-            Object.keys(activeAudio).forEach(id => { const c = document.getElementById(`card-${id}`); if(c) c.classList.add('playing'); });
-        }
-
-        async function promptDeleteAudio(id) {
-            const confirmed = await somniaConfirm("PURGE SOUNDSCAPE?", "Are you sure you want to delete this custom audio file?");
-            if(confirmed) {
-                if(activeAudio[id]) {
-                    activeAudio[id].pause();
-                    delete activeAudio[id];
-                }
-                await deleteMedia(id);
-                customAudioLibrary = [];
-                await loadCustomAudio(true);
-            }
         }
 
         function toggleStem(id, url) {
-            const card = document.getElementById(`card-${id}`);
-            const slider = document.getElementById(`vol-${id}`);
-            
             if (activeAudio[id]) {
                 activeAudio[id].pause(); 
                 delete activeAudio[id]; 
-                card.classList.remove('playing');
             } else {
                 const audio = new Audio(url); 
                 audio.loop = true; 
-                
-                if (individualVolumes[id] === undefined) individualVolumes[id] = slider ? parseFloat(slider.value) : 0.5;
-                audio.volume = individualVolumes[id] * masterGain;
-                
-                audio.play().then(() => { 
-                    activeAudio[id] = audio; 
-                    card.classList.add('playing'); 
-                }).catch(e => console.log("Unlock audio first by interacting with the page."));
+                audio.volume = 0.5 * masterGain;
+                audio.play().then(() => { activeAudio[id] = audio; }).catch(() => {});
             }
-        }
-
-        function adjustVol(id, val) { 
-            individualVolumes[id] = parseFloat(val);
-            if (activeAudio[id]) activeAudio[id].volume = individualVolumes[id] * masterGain; 
         }
 
         function stopAllAudio() { 
-            Object.keys(activeAudio).forEach(id => { 
-                activeAudio[id].pause(); 
-                document.getElementById(`card-${id}`).classList.remove('playing'); 
-                delete activeAudio[id]; 
-            }); 
+            Object.keys(activeAudio).forEach(id => { activeAudio[id].pause(); delete activeAudio[id]; }); 
         }
 
-        // === ATMOS TAB DYNAMIC GENERATION & WIRING ===
-        function atmosMarkActive(btn) {
-            if (!btn) return;
-            const grid = btn.closest('.atmos-grid');
-            if (grid) grid.querySelectorAll('.atmos-btn, .atmos-swatch').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        function atmosHandleControl(btn) {
-            const kind = btn.dataset.atmosKind;
-            const value = btn.dataset.atmosValue;
-            if (!kind || !value) return;
-
-            if (kind === 'palette') {
-                colors.forEach(c => document.documentElement.classList.remove(`${c}-mode`));
-                document.documentElement.classList.add(`${value}-mode`);
-            }
-
-            if (kind === 'particle') {
-                window.particleType = value;
-            }
-
-            if (kind === 'glow') {
-                const glowLayer = document.getElementById('glow-layer');
-                if (glowLayer) glowLayer.className = `glow-${value}`;
-            }
-
-            if (kind === 'var') {
-                updateVar(btn.dataset.atmosVar, value);
-            }
-
-            atmosMarkActive(btn);
-            try { saveCurrentState(); } catch (e) {}
-        }
-
-        function populateGrid(id, arr, type) {
-            const grid = document.getElementById(id);
-            if(!grid) return;
-            grid.innerHTML = '';
-            arr.forEach((item) => {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.className = 'toy-btn atmos-btn'; 
-                b.dataset.atmosKind = type;
-                b.dataset.atmosValue = item;
-                b.textContent = item; 
-                b.onclick = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    atmosHandleControl(b);
-                };
-                grid.appendChild(b);
-            });
-        }
-
-        function populateColorGrid(id, cssVar) {
-            const grid = document.getElementById(id);
-            if(!grid) return;
-            grid.innerHTML = '';
-            hexColors.forEach((hex) => {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.className = 'atmos-swatch'; 
-                b.dataset.atmosKind = 'var';
-                b.dataset.atmosVar = cssVar;
-                b.dataset.atmosValue = hex;
-                b.style.setProperty('--swatch', hex);
-                b.setAttribute('aria-label', `${cssVar} ${hex}`);
-                b.onclick = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    atmosHandleControl(b);
-                };
-                grid.appendChild(b);
-            });
-        }
-
-        function highlightActiveAtmos() {
-            const currentModeClass = document.documentElement.className;
-            let currentMode = 'lunar';
-            colors.forEach(c => { if(currentModeClass.includes(c+'-mode')) currentMode = c; });
-
-            const glowLayer = document.getElementById('glow-layer');
-            let currentGlow = 'pulse';
-            if (glowLayer) {
-                glows.forEach(g => { if(glowLayer.className.includes('glow-'+g)) currentGlow = g; });
-            }
-
-            const currentParticle = window.particleType || 'rain'; 
-
-            document.querySelectorAll('#color-grid .atmos-btn').forEach(b => {
-                if (b.dataset.atmosValue === currentMode) atmosMarkActive(b);
-            });
-            document.querySelectorAll('#glow-grid .atmos-btn').forEach(b => {
-                if (b.dataset.atmosValue === currentGlow) atmosMarkActive(b);
-            });
-            document.querySelectorAll('#particle-grid .atmos-btn').forEach(b => {
-                if (b.dataset.atmosValue === currentParticle) atmosMarkActive(b);
-            });
-            
-            const pColor = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
-            const gColor = getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim();
-            
-            document.querySelectorAll('#particle-color-grid .atmos-swatch').forEach(b => {
-                if (b.dataset.atmosValue === pColor) atmosMarkActive(b);
-            });
-            document.querySelectorAll('#glow-color-grid .atmos-swatch').forEach(b => {
-                if (b.dataset.atmosValue === gColor) atmosMarkActive(b);
-            });
-        }
-
-        // === UPGRADED PARTICLE ENGINE ===
-        window.particleType = 'rain'; window.particleCount = 50; 
+        // === AMBIENT PARTICLE FLOW ENGINE ===
         function buildParticles(w, h) { 
             return Array.from({ length: window.particleCount }, () => {
                 const radius = Math.random() * 1.0 + 0.3;
                 return { 
-                    x: Math.random() * w, 
-                    y: Math.random() * h, 
-                    baseR: radius, 
-                    r: radius, 
-                    vx: (Math.random() - 0.5) * 2, 
-                    vy: (Math.random() - 0.5) * 2,
-                    speed: Math.random() * 0.8 + 0.4, 
-                    offset: Math.random() * Math.PI * 2 
+                    x: Math.random() * w, y: Math.random() * h, baseR: radius, r: radius, 
+                    vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2,
+                    speed: Math.random() * 0.8 + 0.4, offset: Math.random() * Math.PI * 2 
                 };
             }); 
-        }
-        function updateParticleDensity(val) { window.particleCount = parseInt(val); }
-
-        let lowGpu = false;
-        function toggleLowGpu() {
-            lowGpu = !lowGpu; const canvas = document.getElementById('particleCanvas');
-            if (lowGpu) { canvas.width = window.innerWidth / 2; canvas.height = window.innerHeight / 2; canvas.style.transform = "scale(2)"; } 
-            else { canvas.width = window.innerWidth; canvas.height = window.innerHeight; canvas.style.transform = "scale(1)"; }
         }
 
         function initParticles() {
@@ -2070,82 +1400,49 @@
             let w = canvas.width = window.innerWidth; let h = canvas.height = window.innerHeight;
             window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; particles = buildParticles(w, h); });
             let particles = buildParticles(w, h);
-            const isDinosaur = navigator.hardwareConcurrency < 4 || window.innerWidth < 1024;
             let lastTime = 0;
 
             function loop(timestamp) {
                 requestAnimationFrame(loop);
                 if (!timestamp) timestamp = performance.now();
-                if (timestamp - lastTime < (isDinosaur ? 33 : 16)) return;
+                if (timestamp - lastTime < 16) return;
                 lastTime = timestamp;
 
                 ctx.clearRect(0, 0, w, h);
                 if (particles.length !== window.particleCount) particles = buildParticles(w, h);
 
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
-                if (color.includes('var(')) { const varName = color.match(/var\(([^)]+)\)/)[1].trim(); color = getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); }
-                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 2 : (isDinosaur ? 0 : 8); ctx.shadowColor = color;
-                ctx.globalAlpha = 1; 
+                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 0 : 6; ctx.shadowColor = color;
 
-                particles.forEach((p, i) => {
-                    p.r = p.baseR; 
-
+                particles.forEach((p) => {
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
                     let mult = 10 / spd;
 
                     if (window.particleType === 'dust') { p.x += p.vx * mult * p.speed; p.y += p.vy * mult * p.speed; }
-                    else if (window.particleType === 'embers') { p.y -= (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += p.vx * mult * p.speed; }
-                    else if (window.particleType === 'snow') { p.y += (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += Math.sin(p.y / 50 + p.offset) * 2 * mult; }
-                    else if (window.particleType === 'void') { p.x += p.vx * 2 * mult * p.speed; p.y += p.vy * 2 * mult * p.speed; ctx.shadowBlur = 0; }
+                    else if (window.particleType === 'embers') { p.y -= mult * p.speed; p.x += p.vx * mult * p.speed; }
+                    else if (window.particleType === 'fog') { p.x += 0.3 * mult; ctx.globalAlpha = 0.15; p.r = 45; }
+                    else if (window.particleType === 'stars') { p.x += 0.02 * mult; if (Math.random() < 0.01) p.r = p.baseR * 3; }
                     else if (window.particleType === 'rain') { p.y += 8 * mult * p.speed; p.x -= 1 * mult * p.speed; }
-                    else if (window.particleType === 'ash') { p.y -= (Math.abs(p.vy) + 0.5) * mult * p.speed; p.x += Math.cos(p.y / 30 + p.offset) * mult; ctx.fillStyle = "#555"; }
-                    else if (window.particleType === 'stars') { p.x += 0.05 * mult; p.y += 0.05 * mult; if (Math.random() < 0.01) p.r = p.baseR * 3; }
-                    else if (window.particleType === 'bubbles') { p.y -= 2 * mult * p.speed; p.x += Math.sin(p.y / 20 + p.offset) * 2 * mult; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 2, 0, Math.PI * 2); ctx.strokeStyle = color; ctx.stroke(); return; }
-                    else if (window.particleType === 'matrix') { p.y += 4 * mult * p.speed; if (i % 2 === 0) ctx.fillText(String.fromCharCode(0x30A0 + Math.random() * 96), p.x, p.y); return; }
-                    else if (window.particleType === 'spores') { p.x += (Math.random() - 0.5) * mult; p.y += (Math.random() - 0.5) * mult; p.r = Math.abs(Math.sin(Date.now() / 1000 + i)) * 3 + 0.5; }
-                    else if (window.particleType === 'leaves') { p.y += 2 * mult * p.speed; p.x += Math.sin(p.y / 20 + p.offset) * 2 * mult; ctx.fillRect(p.x, p.y, p.r * 2, p.r); return; }
-                    else if (window.particleType === 'glitch') { if (Math.random() < 0.1) { p.x += (Math.random() - 0.5) * 50; p.y += (Math.random() - 0.5) * 50; } ctx.fillRect(p.x, p.y, p.r * 2, p.r / 2); return; }
-                    else if (window.particleType === 'runes') { p.y -= mult * p.speed; ctx.fillText(String.fromCharCode(0x16A0 + Math.floor(Math.random() * 80)), p.x, p.y); return; }
-                    else if (window.particleType === 'fireflies') { p.x += Math.sin(Date.now() / 1000 + p.offset) * mult; p.y += Math.cos(Date.now() / 800 + p.offset) * mult; if (Math.random() < 0.05) p.r = p.baseR * 2.5; }
-                    else if (window.particleType === 'fog') { p.x += 0.5 * mult * p.speed; ctx.globalAlpha = 0.1; p.r = 50; }
-                    else if (window.particleType === 'petals') { p.y += 3 * mult * p.speed; p.x += Math.sin(p.y / 40 + p.offset) * 3 * mult; ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r * 2, Math.PI / 4, 0, Math.PI * 2); ctx.fill(); return; }
-                    else if (window.particleType === 'sparks') { p.y -= 5 * mult * p.speed; p.x += (Math.random() - 0.5) * 3 * mult; ctx.fillRect(p.x, p.y, 2, 8); return; }
-                    else if (window.particleType === 'bats') { p.x += Math.sin(p.y / 20 + p.offset) * 3 * mult * p.speed; p.y += Math.cos(p.x / 20 + p.offset) * 2 * mult * p.speed; ctx.font = (p.r * 4) + "px sans-serif"; ctx.fillText('M', p.x, p.y); return; }
-                    else if (window.particleType === 'static') { if (Math.random() < 0.1) { p.x = Math.random() * w; p.y = Math.random() * h; } ctx.fillRect(p.x, p.y, p.r, p.r); return; }
-                    else if (window.particleType === 'motes') { p.x += p.vx * 0.2 * mult * p.speed; p.y += p.vy * 0.2 * mult * p.speed; ctx.globalAlpha = 0.3; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2); ctx.fill(); return; }
 
                     const buffer = 50;
-                    if (p.x < -buffer) { p.x = w + buffer; p.y = Math.random() * h; }
-                    else if (p.x > w + buffer) { p.x = -buffer; p.y = Math.random() * h; }
-                    if (p.y < -buffer) { p.y = h + buffer; p.x = Math.random() * w; }
-                    else if (p.y > h + buffer) { p.y = -buffer; p.x = Math.random() * w; }
+                    if (p.x < -buffer) p.x = w + buffer; else if (p.x > w + buffer) p.x = -buffer;
+                    if (p.y < -buffer) p.y = h + buffer; else if (p.y > h + buffer) p.y = -buffer;
 
                     ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                    ctx.globalAlpha = 1.0;
                 });
             }
             requestAnimationFrame(loop);
         }
 
-        // === BOOT ROUTINE ===
+        // === SYSTEM ATTACHMENT ROUTINE ===
         document.addEventListener('DOMContentLoaded', async () => {
-            populateGrid('color-grid', colors, 'palette');
-            populateGrid('particle-grid', pList, 'particle');
-            populateGrid('glow-grid', glows, 'glow');
-            populateColorGrid('particle-color-grid', '--particle-color');
-            populateColorGrid('glow-color-grid', '--glow-color');
-
-            highlightActiveAtmos();
             updateTimeWidget();
             fetchWeather();
-
-            await loadCustomBackgrounds();
-            await loadCustomAudio();
-
-            document.getElementById('gemini-api-key').value = SOMNIA_AI.getApiKey();
-            document.getElementById('global-xp-display').innerText = worldXP;
-
+            if(SOMNIA_AI.getApiKey()) document.getElementById('gemini-api-key').value = SOMNIA_AI.getApiKey();
+            const xpDisplay = document.getElementById('global-xp-display');
+            if(xpDisplay) xpDisplay.innerText = worldXP;
             initParticles();
-            renderVault(); 
             document.getElementById('scratchpad-box').value = localStorage.getItem('somnia_scratchpad') || "";
         });
     </script>
