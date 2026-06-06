@@ -971,8 +971,8 @@
             </div>
             
             <div style="width: 100%; display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
-                <input type="password" id="gemini-api-key" class="core-input" style="margin: 0; flex: 1; padding: 8px; font-size: 0.7rem; text-align: left;" placeholder="Secure API Key..." onchange="saveApiKey()">
-                <button class="toy-btn" style="border-color: var(--accent); padding: 0 12px; font-size: 0.6rem;" onclick="saveApiKey()">Lock</button>
+                <input type="password" id="gemini-api-key" class="core-input" style="margin: 0; flex: 1; padding: 8px; font-size: 0.7rem; text-align: left;" placeholder="Secure API Key..." onchange="SOMNIA_AI.saveApiKey()">
+                <button class="toy-btn" style="border-color: var(--accent); padding: 0 12px; font-size: 0.6rem;" onclick="SOMNIA_AI.saveApiKey()">Lock</button>
             </div>
 
             <div id="oracle-chat-log">
@@ -1081,8 +1081,8 @@
                     <div class="panel-title" style="color:var(--accent);">
                         <span>MASTER LEDGER</span>
                         <div style="display: flex; gap: 5px;">
-                            <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="downloadWorldSnapshot()">World Snapshot</button>
-                            <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="clearCompletedTasks()">Clear Done</button>
+                             <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="downloadWorldSnapshot()">World Snapshot</button>
+                             <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="clearCompletedTasks()">Clear Done</button>
                         </div>
                     </div>
                     
@@ -1125,6 +1125,16 @@
     </div>
 
     <script>
+        // === UNIFIED AI CONFIG ===
+        const SOMNIA_AI = {
+            getApiKey: () => localStorage.getItem('somnia_gemini_key') || "",
+            saveApiKey: () => {
+                const key = document.getElementById('gemini-api-key').value.trim();
+                localStorage.setItem('somnia_gemini_key', key);
+                somniaAlert("KEY SECURED", "API Key updated for all modules.");
+            }
+        };
+
         // === WORLD SNAPSHOT FUNCTION ===
         function downloadWorldSnapshot() {
             const data = localStorage.getItem('somnia_master_ledger') || "[]";
@@ -1210,14 +1220,6 @@
             }
         }
 
-        function saveApiKey() {
-            const key = document.getElementById('gemini-api-key').value.trim();
-            localStorage.setItem('somnia_gemini_key', key);
-            if(key) {
-                somniaAlert("KEY SECURED", "Your API Key is saved locally. The Oracle is ready.");
-            }
-        }
-
         function appendOracleMessage(text, sender) {
             const log = document.getElementById('oracle-chat-log');
             const msgDiv = document.createElement('div');
@@ -1235,7 +1237,7 @@
             appendOracleMessage(text, 'user');
             input.value = '';
 
-            const apiKey = localStorage.getItem('somnia_gemini_key');
+            const apiKey = SOMNIA_AI.getApiKey();
             
             if (!apiKey) {
                 setTimeout(() => {
@@ -2139,7 +2141,7 @@
             await loadCustomBackgrounds();
             await loadCustomAudio();
 
-            document.getElementById('gemini-api-key').value = localStorage.getItem('somnia_gemini_key') || "";
+            document.getElementById('gemini-api-key').value = SOMNIA_AI.getApiKey();
             document.getElementById('global-xp-display').innerText = worldXP;
 
             initParticles();
