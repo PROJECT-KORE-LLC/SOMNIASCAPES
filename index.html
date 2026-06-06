@@ -263,6 +263,47 @@
             pointer-events: none !important;
         }
 
+        /* --- NEXUS WHISPER (BOOT LORE) --- */
+        #nexus-whisper {
+            position: fixed;
+            left: 50%;
+            bottom: 7%;
+            transform: translateX(-50%);
+            z-index: 120;
+            max-width: 520px;
+            padding: 18px 26px;
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            background: rgba(5, 8, 12, 0.62);
+            backdrop-filter: blur(18px);
+            color: var(--text-main);
+            text-align: center;
+            font-family: Georgia, serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.65), 0 0 22px var(--primary-glow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.4s ease, transform 1.4s ease;
+        }
+
+        #nexus-whisper strong {
+            color: var(--primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 14px var(--primary-glow);
+        }
+
+        body.nexus-awake #nexus-whisper {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-8px);
+        }
+
+        body.cloaked #nexus-whisper {
+            opacity: 0 !important;
+        }
+
         /* =========================================================================
             REFINED MASTER HEADER & WIDGET LAYOUT
             ========================================================================= */
@@ -668,7 +709,10 @@
             </div>
 
             <div id="oracle-chat-log">
-                <div class="oracle-msg ai">The Oracle awakens. The threads of the polis weave around your command. What is your will, Architect?</div>
+                <div class="oracle-msg ai">
+                    The Nexus breathes between the rooms. I am the Castellan of this threshold. 
+                    Tell me what needs tending, Architect.
+                </div>
             </div>
 
             <div style="display: flex; gap: 10px; width: 100%;">
@@ -887,6 +931,12 @@
             </div>
             <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" onclick="toggleFullscreen()">⛶ Just Fill My Screen</button>
         </div>
+    </div>
+
+    <div id="nexus-whisper">
+        <strong>The Nexus breathes between the rooms.</strong><br>
+        Ascend when you need wonder. Descend when life needs tending.<br>
+        The Castellan waits at the threshold.
     </div>
 
     <script>
@@ -1396,9 +1446,19 @@
             const bootScreen = document.getElementById('boot-screen');
             bootScreen.style.opacity = '0';
             document.getElementById('zone-home').scrollIntoView({ behavior: "auto" });
-            if(!window.location.search) await restoreActiveState();
+
+            if (!window.location.search) await restoreActiveState();
+
             evaluateCircadian();
-            setTimeout(() => { bootScreen.remove(); }, 2000);
+
+            setTimeout(() => {
+                bootScreen.remove();
+                document.body.classList.add('nexus-awake');
+
+                setTimeout(() => {
+                    document.body.classList.remove('nexus-awake');
+                }, 8500);
+            }, 2000);
         }
 
         function toggleCloak() { document.body.classList.toggle('cloaked'); }
