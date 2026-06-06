@@ -524,6 +524,55 @@
         .add-task-input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-main); padding: 12px 15px; border-radius: 12px; outline: none; font-family: 'Georgia', serif; font-size: 0.9rem; }
         .add-task-input:focus { border-color: var(--accent); }
         .add-task-select { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--primary); padding: 0 15px; border-radius: 12px; outline: none; font-family: monospace; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
+
+
+        /* --- SERVICE WORKER UPDATE BANNER --- */
+        #update-banner {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 11000;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            background: rgba(5, 8, 12, 0.86);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            color: var(--text-main);
+            box-shadow: 0 0 22px var(--primary-glow), 0 18px 50px rgba(0,0,0,0.7);
+            font-family: Georgia, serif;
+            font-size: 0.85rem;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s ease;
+        }
+        #update-banner.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        #reload-update-btn {
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.06);
+            color: var(--primary);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        #reload-update-btn:hover {
+            color: #fff;
+            box-shadow: 0 0 14px var(--primary-glow);
+        }
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
@@ -545,10 +594,10 @@
         <!-- ZONE 1: SomniaSolace -->
         <section id="zone-solace" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSolace.html')">
+                <div class="warp-gate" data-module="SomniaSolace.html">
                     <span class="warp-text">Solace</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -558,10 +607,10 @@
         <!-- ZONE 2: SomniaSyllabus -->
         <section id="zone-syllabus" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">
+                <div class="warp-gate" data-module="SomniaSyllabus.html">
                     <span class="warp-text">Syllabus</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -571,10 +620,10 @@
         <!-- ZONE 3: SomniaScribes -->
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScribes.html')">
+                <div class="warp-gate" data-module="SomniaScribes.html">
                     <span class="warp-text">Scribes</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -584,10 +633,10 @@
         <!-- ZONE 4: SomniaScheds -->
         <section id="zone-scheds" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScheds.html')">
+                <div class="warp-gate" data-module="SomniaScheds.html">
                     <span class="warp-text">Scheds</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -602,10 +651,10 @@
         <!-- ZONE 6: SomniaScullery -->
         <section id="zone-scullery" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScullery.html')">
+                <div class="warp-gate" data-module="SomniaScullery.html">
                     <span class="warp-text">Scullery</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -615,10 +664,10 @@
         <!-- ZONE 7: SomniaScourings -->
         <section id="zone-scourings" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScourings.html')">
+                <div class="warp-gate" data-module="SomniaScourings.html">
                     <span class="warp-text">Scourings</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -628,10 +677,10 @@
         <!-- ZONE 8: SomniaSanctum -->
         <section id="zone-sanctum" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">
+                <div class="warp-gate" data-module="SomniaSanctum.html">
                     <span class="warp-text">Sanctum</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -641,10 +690,10 @@
         <!-- ZONE 9: SomniaStronghold -->
         <section id="zone-stronghold" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">
+                <div class="warp-gate" data-module="SomniaStronghold.html">
                     <span class="warp-text">Stronghold</span>
                 </div>
-                <div class="warp-gate" onclick="event.stopPropagation();">
+                <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -678,16 +727,16 @@
                 </div>
             </div>
 
-            <div class="header-right" onclick="event.stopPropagation()">
+            <div class="header-right" data-stop-propagation="true">
                 <div style="display: flex; align-items: center; margin-right: 15px; padding: 0 10px; background: rgba(0,0,0,0.4); border-radius: 30px; height: 35px; border: 1px solid var(--glass-border);">
                     <span style="font-family: monospace; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
                 </div>
-                <button class="artifact-btn" onclick="event.stopPropagation(); toggleCloak()">Cloak UI</button>
-                <button class="artifact-btn" onclick="toggleModal('world-guide-modal')">World Guide</button>
-                <button class="artifact-btn" onclick="toggleModal('scratchpad-modal')">Scratchpad & Calc</button>
-                <button class="artifact-btn" onclick="toggleModal('world-calendar-modal'); renderWorldCalendar();">Master Ledger</button>
-                <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" onclick="toggleModal('tune-modal')">Tune the Realm</button>
-                <button class="artifact-btn" onclick="toggleModal('cast-modal')">Cast to TV</button>
+                <button class="artifact-btn" data-action="toggle-cloak">Cloak UI</button>
+                <button class="artifact-btn" data-modal="world-guide-modal">World Guide</button>
+                <button class="artifact-btn" data-modal="scratchpad-modal">Scratchpad & Calc</button>
+                <button class="artifact-btn" data-modal="world-calendar-modal" data-after-open="renderWorldCalendar">Master Ledger</button>
+                <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" data-modal="tune-modal">Tune the Realm</button>
+                <button class="artifact-btn" data-modal="cast-modal">Cast to TV</button>
             </div>
 
         </div>
@@ -696,14 +745,14 @@
     <!-- THE CASTELLAN & DYNAMIC TERMINAL -->
     <div id="wraith-master-anchor">
         <div id="wraith-anim-wrapper">
-            <img id="wraith-companion" src="wraith.png" alt="Wraith Oracle" onclick="event.stopPropagation(); toggleOracleUI()">
+            <img id="wraith-companion" src="wraith.png" alt="Wraith Oracle" data-action="toggle-oracle">
             <div class="wraith-mist"></div>
         </div>
         
-        <div id="oracle-ui" onclick="event.stopPropagation()">
+        <div id="oracle-ui" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
                 <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE CASTELLAN</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" onclick="toggleOracleUI()">✕</button>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" data-action="toggle-oracle">✕</button>
             </div>
             
             <div style="width: 100%; display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
@@ -726,9 +775,9 @@
     </div>
 
     <!-- THE ISOLATED IFRAME SANDBOX -->
-    <div id="sandbox-overlay" onclick="event.stopPropagation()">
-        <button id="close-sandbox-btn" onclick="closeModule()">✕ Return to Sanctuary</button>
-        <iframe id="module-frame" src=""></iframe>
+    <div id="sandbox-overlay" data-stop-propagation="true">
+        <button id="close-sandbox-btn" data-action="close-module">✕ Return to Sanctuary</button>
+        <iframe id="module-frame" src="" sandbox="allow-scripts allow-same-origin allow-forms allow-downloads" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
 
     <!-- CINEMATIC BOOT SCREEN -->
@@ -768,8 +817,8 @@
     </div>
 
     <!-- COMPACT TUNE THE REALM MODAL -->
-    <div id="tune-modal" class="modal-overlay" onclick="toggleModal('tune-modal')">
-        <div class="cast-box" style="max-width: 400px; padding: 30px;" onclick="event.stopPropagation()">
+    <div id="tune-modal" class="modal-overlay" data-modal-close="tune-modal">
+        <div class="cast-box" style="max-width: 400px; padding: 30px;" data-stop-propagation="true">
             <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 25px 0; font-family: 'Times New Roman', serif;">TUNE THE REALM</h3>
             
             <div class="ctrl-row" style="width: 100%;">
@@ -804,16 +853,16 @@
                 <label style="width: auto; cursor: pointer; text-transform: uppercase;" for="tune-sensory">Low Sensory Mode</label>
             </div>
 
-            <button class="toy-btn" style="width: 100%; margin-top: 25px;" onclick="toggleModal('tune-modal')">Close Settings</button>
+            <button class="toy-btn" style="width: 100%; margin-top: 25px;" data-modal-close="tune-modal">Close Settings</button>
         </div>
     </div>
 
     <!-- WORLD GUIDE MODAL -->
-    <div id="world-guide-modal" class="modal-overlay" onclick="toggleModal('world-guide-modal')">
-        <div class="cast-box" style="max-width: 720px; padding: 40px; text-align: left;" onclick="event.stopPropagation()">
+    <div id="world-guide-modal" class="modal-overlay" data-modal-close="world-guide-modal">
+        <div class="cast-box" style="max-width: 720px; padding: 40px; text-align: left;" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
                 <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">NEXUS SYSTEM ARCHITECTURE</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" onclick="toggleModal('world-guide-modal')">✕</button>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" data-modal-close="world-guide-modal">✕</button>
             </div>
             
             <div style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; overflow-y: auto; max-height: 65vh; padding-right: 15px; font-family: 'Georgia', serif;">
@@ -846,11 +895,11 @@
     </div>
 
     <!-- SCRATCHPAD WITH CALCULATOR MODAL -->
-    <div id="scratchpad-modal" class="modal-overlay" onclick="toggleModal('scratchpad-modal')">
-        <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+    <div id="scratchpad-modal" class="modal-overlay" data-modal-close="scratchpad-modal">
+        <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 20px;">
                 <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE ARCHIVES & LEDGER</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent;" onclick="toggleModal('scratchpad-modal')">✕</button>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent;" data-modal-close="scratchpad-modal">✕</button>
             </div>
             
             <div id="scratchpad-layout" style="display: flex; gap: 20px; width: 100%; height: 100%;">
@@ -885,8 +934,8 @@
     </div>
 
     <!-- WORLD CALENDAR & MASTER LIST MODAL -->
-    <div id="world-calendar-modal" class="modal-overlay" onclick="toggleModal('world-calendar-modal')">
-        <div class="planner-bubble" onclick="event.stopPropagation()">
+    <div id="world-calendar-modal" class="modal-overlay" data-modal-close="world-calendar-modal">
+        <div class="planner-bubble" data-stop-propagation="true">
             <div class="cal-panel">
                 <div class="cal-header">
                     <div class="cal-title">WORLD CALENDAR</div>
@@ -921,8 +970,8 @@
     </div>
 
     <!-- CAST MODAL -->
-    <div id="cast-modal" class="modal-overlay" onclick="toggleModal('cast-modal')">
-        <div class="cast-box" onclick="event.stopPropagation()">
+    <div id="cast-modal" class="modal-overlay" data-modal-close="cast-modal">
+        <div class="cast-box" data-stop-propagation="true">
             <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECT TO REALITY</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Georgia', serif; font-style: italic;">
                 Cast your polis to the physical realm. Use your browser's Tab Mirroring.
@@ -936,7 +985,7 @@
                     <i>* Make sure "Cast Tab" is selected!</i>
                 </p>
             </div>
-            <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" onclick="toggleFullscreen()">⛶ Just Fill My Screen</button>
+            <button class="toy-btn" style="width: 100%; padding: 18px; border-color: var(--accent); color: var(--text-main); font-size: 0.8rem; border-radius: 50px;" data-action="toggle-fullscreen">⛶ Just Fill My Screen</button>
         </div>
     </div>
 
@@ -946,21 +995,124 @@
         The Castellan waits at the threshold.
     </div>
 
+    <div id="update-banner" role="status" aria-live="polite">
+        <span>A new layer of the Nexus is ready.</span>
+        <button id="reload-update-btn" type="button">Refresh Realm</button>
+    </div>
+
+
     <script>
+
+        // === VERSIONED LOCAL STORAGE + SAFE PARSING ===
+        const STORAGE_VERSION = 'v1';
+        const STORAGE_KEYS = {
+            apiKey: `somnia:${STORAGE_VERSION}:oracle:geminiKey`,
+            ledger: `somnia:${STORAGE_VERSION}:nexus:masterLedger`,
+            worldXP: `somnia:${STORAGE_VERSION}:world:xp`,
+            activeState: `somnia:${STORAGE_VERSION}:nexus:activeState`,
+            scratchpad: `somnia:${STORAGE_VERSION}:nexus:scratchpad`,
+            mediaNamePrefix: `somnia:${STORAGE_VERSION}:mediaName:`
+        };
+        const LEGACY_KEYS = {
+            apiKey: 'somnia_gemini_key',
+            ledger: 'somnia_master_ledger',
+            worldXP: 'somnia_world_xp',
+            activeState: 'somnia_active_state',
+            scratchpad: 'somnia_scratchpad',
+            mediaNamePrefix: 'somnia_name_'
+        };
+
+        function safeJsonParse(raw, fallback) {
+            if (raw === null || raw === undefined || raw === '') return fallback;
+            try { return JSON.parse(raw); }
+            catch (error) {
+                console.warn('Somnia storage parse failed:', error);
+                return fallback;
+            }
+        }
+
+        function loadStorage(key, fallback) {
+            return safeJsonParse(localStorage.getItem(key), fallback);
+        }
+
+        function saveStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (error) {
+                console.warn('Somnia storage save failed:', error);
+                somniaAlert?.('STORAGE WARNING', 'The Nexus could not save locally. Your browser storage may be full or blocked.');
+                return false;
+            }
+        }
+
+        function loadTextStorage(key, fallback = '') {
+            const value = localStorage.getItem(key);
+            return value === null ? fallback : value;
+        }
+
+        function saveTextStorage(key, value) {
+            try {
+                localStorage.setItem(key, String(value ?? ''));
+                return true;
+            } catch (error) {
+                console.warn('Somnia text storage save failed:', error);
+                somniaAlert?.('STORAGE WARNING', 'The Nexus could not save locally. Your browser storage may be full or blocked.');
+                return false;
+            }
+        }
+
+        function migrateLegacyStorage() {
+            const migrations = [
+                [LEGACY_KEYS.apiKey, STORAGE_KEYS.apiKey, 'text'],
+                [LEGACY_KEYS.ledger, STORAGE_KEYS.ledger, 'json'],
+                [LEGACY_KEYS.worldXP, STORAGE_KEYS.worldXP, 'number'],
+                [LEGACY_KEYS.activeState, STORAGE_KEYS.activeState, 'json'],
+                [LEGACY_KEYS.scratchpad, STORAGE_KEYS.scratchpad, 'text']
+            ];
+
+            migrations.forEach(([legacyKey, newKey, type]) => {
+                if (localStorage.getItem(newKey) !== null) return;
+                const oldValue = localStorage.getItem(legacyKey);
+                if (oldValue === null) return;
+
+                if (type === 'text') saveTextStorage(newKey, oldValue);
+                else if (type === 'number') saveStorage(newKey, Number(oldValue) || 0);
+                else saveStorage(newKey, safeJsonParse(oldValue, type === 'json' ? [] : null));
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[char]));
+        }
+
+        migrateLegacyStorage();
+
+        function getAllowedModuleOrigin(src) {
+            try { return new URL(src || window.location.href, window.location.href).origin; }
+            catch { return window.location.origin; }
+        }
+
         // === SOMNIA-WIDE PERSISTENT AI ARCHITECTURE ===
         const SOMNIA_AI = {
             getApiKey: () => {
-                return localStorage.getItem('somnia_gemini_key') || "";
+                return loadTextStorage(STORAGE_KEYS.apiKey, '');
             },
             saveApiKey: () => {
                 const key = document.getElementById('gemini-api-key').value.trim();
-                localStorage.setItem('somnia_gemini_key', key);
+                saveTextStorage(STORAGE_KEYS.apiKey, key);
                 
                 const moduleFrame = document.getElementById('module-frame');
                 if (moduleFrame && moduleFrame.contentWindow) {
                     moduleFrame.contentWindow.postMessage(
-                        { type: "SOMNIA_KEY_SYNC", token: key }, 
-                        window.location.origin
+                        { type: "SOMNIA_KEY_SYNC", token: key },
+                        getAllowedModuleOrigin(moduleFrame.src)
                     );
                 }
                 somniaAlert("SANCTUARY UNIFIED KEY SECURED", "Your API parameter is bound origin-wide across all rooms and local sandboxes.");
@@ -969,7 +1121,7 @@
 
         // === WORLD BACKUP SYSTEM ===
         function downloadWorldSnapshot() {
-            const data = localStorage.getItem('somnia_master_ledger') || "[]";
+            const data = JSON.stringify(loadStorage(STORAGE_KEYS.ledger, []), null, 2);
             const blob = new Blob([data], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -1241,13 +1393,13 @@
         });
 
         // === LEDGER DATA WIRING ===
-        let worldXP = parseInt(localStorage.getItem('somnia_world_xp')) || 0;
-        let masterLedger = JSON.parse(localStorage.getItem('somnia_master_ledger')) || [];
+        let worldXP = Number(loadStorage(STORAGE_KEYS.worldXP, 0)) || 0;
+        let masterLedger = loadStorage(STORAGE_KEYS.ledger, []);
 
         function updateWorldXP(amount) {
             worldXP += amount;
             if (worldXP < 0) worldXP = 0;
-            localStorage.setItem('somnia_world_xp', worldXP);
+            saveStorage(STORAGE_KEYS.worldXP, worldXP);
             const display = document.getElementById('global-xp-display');
             if (display) display.innerText = worldXP;
         }
@@ -1289,7 +1441,7 @@
         }
 
         function saveAndRenderLedger() {
-            localStorage.setItem('somnia_master_ledger', JSON.stringify(masterLedger));
+            saveStorage(STORAGE_KEYS.ledger, masterLedger);
             const container = document.getElementById('master-list-content');
             if(!container) return;
             container.innerHTML = '';
@@ -1303,12 +1455,12 @@
                 const icon = task.category === 'Market' ? '🛒' : (task.category === 'Bounty' ? '📜' : '🛠️');
                 container.innerHTML += `
                     <div class="task-item ${task.completed ? 'completed' : ''}">
-                        <div class="task-checkbox" onclick="toggleTaskCompletion('${task.id}')">
+                        <div class="task-checkbox" data-task-id="${escapeHtml(task.id)}">
                             ${task.completed ? '✓' : ''}
                         </div>
                         <div class="task-info">
-                            <div class="task-title">${task.text}</div>
-                            <div class="task-meta">${icon} ${task.category}</div>
+                            <div class="task-title">${escapeHtml(task.text)}</div>
+                            <div class="task-meta">${icon} ${escapeHtml(task.category)}</div>
                         </div>
                         <div class="${task.completed ? 'xp-penalty' : 'xp-reward'}">
                             ${task.completed ? 'CLAIMED' : '+'+task.xpValue+' XP'}
@@ -1330,7 +1482,7 @@
 
             for(let i=1; i<=daysInMonth; i++) {
                 const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-                grid.innerHTML += `<div class="cal-cell ${i === now.getDate() ? 'today' : ''}" id="w-cal-cell-${dateStr}" onclick="viewWorldCalDay('${dateStr}')">
+                grid.innerHTML += `<div class="cal-cell ${i === now.getDate() ? 'today' : ''}" id="w-cal-cell-${dateStr}" data-date="${dateStr}">
                     <div class="cal-cell-number">${i}</div>
                 </div>`;
             }
@@ -1381,7 +1533,8 @@
             const db = await dbPromise;
             const tx = db.transaction('media', 'readwrite');
             tx.objectStore('media').delete(key);
-            localStorage.removeItem('somnia_name_' + key);
+            localStorage.removeItem(STORAGE_KEYS.mediaNamePrefix + key);
+            localStorage.removeItem(LEGACY_KEYS.mediaNamePrefix + key);
         }
 
         // === UI UTILITIES ===
@@ -1484,14 +1637,13 @@
                     bright: getComputedStyle(document.documentElement).getPropertyValue('--bg-bright').trim()
                 }
             };
-            localStorage.setItem('somnia_active_state', JSON.stringify(state));
+            saveStorage(STORAGE_KEYS.activeState, state);
         }
 
         async function restoreActiveState() {
             try {
-                const stateStr = localStorage.getItem('somnia_active_state');
-                if (stateStr) {
-                    const state = JSON.parse(stateStr);
+                const state = loadStorage(STORAGE_KEYS.activeState, null);
+                if (state) {
                     if (state.vars && state.vars.bright) {
                         updateVar('--bg-bright', state.vars.bright);
                         if(document.getElementById('tune-bright')) document.getElementById('tune-bright').value = state.vars.bright;
@@ -1501,7 +1653,7 @@
         }
 
         function saveScratchpad() {
-            localStorage.setItem('somnia_scratchpad', document.getElementById('scratchpad-box').value);
+            saveTextStorage(STORAGE_KEYS.scratchpad, document.getElementById('scratchpad-box').value);
         }
 
         // === AUDIO MIXER SYSTEM CONTROL ===
@@ -1595,22 +1747,138 @@
             requestAnimationFrame(loop);
         }
 
-        // === SERVICE WORKER REGISTRATION ===
+        // === SERVICE WORKER REGISTRATION + UPDATE BANNER ===
+        let waitingServiceWorker = null;
+
+        function showUpdateBanner(worker) {
+            waitingServiceWorker = worker || waitingServiceWorker;
+            const banner = document.getElementById('update-banner');
+            if (banner) banner.classList.add('active');
+        }
+
+        function hideUpdateBanner() {
+            const banner = document.getElementById('update-banner');
+            if (banner) banner.classList.remove('active');
+        }
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Nexus Service Worker Registered'))
-            .catch(err => console.error('SW Registration Failed:', err));
+                .then(registration => {
+                    console.log('Nexus Service Worker Registered');
+
+                    if (registration.waiting && navigator.serviceWorker.controller) {
+                        showUpdateBanner(registration.waiting);
+                    }
+
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (!newWorker) return;
+
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showUpdateBanner(newWorker);
+                            }
+                        });
+                    });
+                })
+                .catch(err => console.error('SW Registration Failed:', err));
+
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
         }
+
+
+
+        // === DATA-ACTION + DATA-MODAL EVENT DELEGATION ===
+        document.addEventListener('click', (event) => {
+            const stopNode = event.target.closest('[data-stop-propagation]');
+            if (stopNode) event.stopPropagation();
+
+            const moduleGate = event.target.closest('.warp-gate[data-module]');
+            if (moduleGate) {
+                event.preventDefault();
+                event.stopPropagation();
+                openModule(moduleGate.dataset.module);
+                return;
+            }
+
+            const lockedGate = event.target.closest('.warp-gate[data-locked-gate]');
+            if (lockedGate) {
+                event.preventDefault();
+                event.stopPropagation();
+                somniaAlert('SEALED ENCOUNTER', 'This door is still sealed. Earn World XP across the rooms to wake what waits behind it.');
+                return;
+            }
+
+            const modalClose = event.target.closest('[data-modal-close]');
+            if (modalClose) {
+                event.preventDefault();
+                event.stopPropagation();
+                const modalId = modalClose.dataset.modalClose;
+                const modal = document.getElementById(modalId);
+                if (modal) modal.classList.remove('active');
+                return;
+            }
+
+            const modalOpen = event.target.closest('[data-modal]');
+            if (modalOpen) {
+                event.preventDefault();
+                event.stopPropagation();
+                toggleModal(modalOpen.dataset.modal);
+                if (modalOpen.dataset.afterOpen === 'renderWorldCalendar') renderWorldCalendar();
+                return;
+            }
+
+            const actionNode = event.target.closest('[data-action]');
+            if (actionNode) {
+                event.preventDefault();
+                event.stopPropagation();
+                const action = actionNode.dataset.action;
+                if (action === 'toggle-cloak') toggleCloak();
+                else if (action === 'toggle-oracle') toggleOracleUI();
+                else if (action === 'close-module') closeModule();
+                else if (action === 'toggle-fullscreen') toggleFullscreen();
+                return;
+            }
+
+            const taskToggle = event.target.closest('[data-task-id]');
+            if (taskToggle) {
+                event.preventDefault();
+                event.stopPropagation();
+                toggleTaskCompletion(taskToggle.dataset.taskId);
+                return;
+            }
+
+            const calendarCell = event.target.closest('#world-cal-grid .cal-cell[data-date]');
+            if (calendarCell) {
+                event.preventDefault();
+                event.stopPropagation();
+                viewWorldCalDay(calendarCell.dataset.date);
+            }
+        });
 
         // === SYSTEM ATTACHMENT ROUTINE ===
         document.addEventListener('DOMContentLoaded', async () => {
+            const updateButton = document.getElementById('reload-update-btn');
+            if (updateButton) {
+                updateButton.addEventListener('click', () => {
+                    if (waitingServiceWorker) {
+                        waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+                    } else {
+                        window.location.reload();
+                    }
+                    hideUpdateBanner();
+                });
+            }
+
             updateTimeWidget();
             fetchWeather();
             if(SOMNIA_AI.getApiKey()) document.getElementById('gemini-api-key').value = SOMNIA_AI.getApiKey();
             const xpDisplay = document.getElementById('global-xp-display');
             if(xpDisplay) xpDisplay.innerText = worldXP;
             initParticles();
-            document.getElementById('scratchpad-box').value = localStorage.getItem('somnia_scratchpad') || "";
+            document.getElementById('scratchpad-box').value = loadTextStorage(STORAGE_KEYS.scratchpad, '');
             saveAndRenderLedger();
         });
     </script>
