@@ -6,9 +6,9 @@
     <title>SOMNIASCAPES // THE SANCTUARY</title>
     <style>
         /* ============================================================
-           SOMNIASCAPES — MASTER SHELL
-           Responsive • Local-First • High-Fidelity Glassmorphism
-           ============================================================ */
+            SOMNIASCAPES — MASTER SHELL
+            Responsive • Local-First • High-Fidelity Glassmorphism
+            ============================================================ */
 
         *, *::before, *::after { box-sizing: border-box; }
 
@@ -174,8 +174,8 @@
         #particleCanvas { position: fixed; inset: 0; z-index: 21; pointer-events: none; opacity: var(--glow-opac); transition: opacity 0.5s ease; }
 
         /* =========================================================================
-           SCROLLABLE WORLD MAP ARCHITECTURE
-           ========================================================================= */
+            SCROLLABLE WORLD MAP ARCHITECTURE
+            ========================================================================= */
         #world-map {
             position: fixed;
             inset: 0;
@@ -619,7 +619,7 @@
         .add-task-select { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--primary); padding: 0 15px; border-radius: 12px; outline: none; font-family: monospace; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
 
         /* === ATMOS v9 CLEAN ROOM LAYOUT ===
-           This isolates the Atmos tab from the older .btn-grid behavior. */
+            This isolates the Atmos tab from the older .btn-grid behavior. */
         #tab-atmos.atmos-clean-tab {
             display: none;
             padding: 22px !important;
@@ -694,7 +694,7 @@
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
-        
+         
         /* RESTORED V9 HOVER & ACTIVE CLICK BOX GLOWS */
         #tab-atmos .atmos-btn:hover {
             border-color: var(--accent) !important;
@@ -757,8 +757,8 @@
     <div class="ambient-lamp" id="lamp-2"></div>
 
     <!-- =========================================================
-         THE WORLD MAP (VERTICAL SCROLL SNAP)
-         ========================================================= -->
+          THE WORLD MAP (VERTICAL SCROLL SNAP)
+          ========================================================= -->
     <div id="world-map">
         
         <!-- ZONE 1: SomniaSolace -->
@@ -793,7 +793,7 @@
             </div>
         </section>
 
-        <!-- ZONE 5: SOMNIASCAPES (Master Hub / Home Load Screen) -->
+        <!-- ZONE 5: SOMNIASCAPES (Home) -->
         <section id="zone-home" class="world-zone">
             <!-- No warps, transparent background shows the SomniaScapes1.png global canvas -->
             <div class="zone-gates"></div>
@@ -834,8 +834,8 @@
     </div>
 
     <!-- =========================================================
-         FIXED UI LAYER (Floats Over The Map)
-         ========================================================= -->
+          FIXED UI LAYER (Floats Over The Map)
+          ========================================================= -->
     <div id="ui-wrapper">
         <div class="nav-logo">SOMNIASCAPES</div>
         
@@ -1002,6 +1002,7 @@
                 System Initializing...<br>
                 Igniting the Hearth...<br>
                 Summoning the Castellan...<br><br>
+                This is a magical personal operating system disguised as a gothic RPG sanctuary.<br>
                 The world outside is loud. The polis is yours.<br>
                 Speak with the Oracles. Guard your ledgers. Tend to the hearth.<br>
                 Your sanctuary awaits.
@@ -1079,7 +1080,10 @@
                 <div class="panel-card" style="flex:1; display: flex; flex-direction: column;">
                     <div class="panel-title" style="color:var(--accent);">
                         <span>MASTER LEDGER</span>
-                        <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="clearCompletedTasks()">Clear Done</button>
+                        <div style="display: flex; gap: 5px;">
+                            <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="downloadWorldSnapshot()">World Snapshot</button>
+                            <button class="toy-btn" style="padding: 4px 8px; font-size: 0.6rem;" onclick="clearCompletedTasks()">Clear Done</button>
+                        </div>
                     </div>
                     
                     <div class="add-task-row">
@@ -1121,6 +1125,20 @@
     </div>
 
     <script>
+        // === WORLD SNAPSHOT FUNCTION ===
+        function downloadWorldSnapshot() {
+            const data = localStorage.getItem('somnia_master_ledger') || "[]";
+            const blob = new Blob([data], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "SOMNIASCAPES_LEDGER_" + new Date().toISOString().split('T')[0] + ".json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         // =========================================================================
         // JOLT ARRAYS - ISOLATED AT THE TOP TO GUARANTEE ATMOS TAB RENDERING
         // =========================================================================
@@ -1873,22 +1891,6 @@
             }
         }
 
-        function handleAudioUpload(input) {
-            if (!input.files || input.files.length === 0) return;
-            const file = input.files[0];
-            const key = 'aud_' + Date.now();
-            
-            saveMedia(key, file).then(async () => {
-                const customName = await somniaPrompt("NAME SOUNDSCAPE", "What should we call this ambient loop?", "✨ Mystery Audio");
-                const finalName = customName || "📁 " + file.name.substring(0,10);
-                localStorage.setItem('somnia_name_' + key, finalName);
-
-                customAudioLibrary.unshift({ id: key, name: finalName, url: URL.createObjectURL(file), isCustom: true });
-                initMixer();
-            });
-            input.value = ""; 
-        }
-
         function toggleStem(id, url) {
             const card = document.getElementById(`card-${id}`);
             const slider = document.getElementById(`vol-${id}`);
@@ -2012,7 +2014,7 @@
                 glows.forEach(g => { if(glowLayer.className.includes('glow-'+g)) currentGlow = g; });
             }
 
-            const currentParticle = window.particleType || 'rain'; // Updated default
+            const currentParticle = window.particleType || 'rain'; 
 
             document.querySelectorAll('#color-grid .atmos-btn').forEach(b => {
                 if (b.dataset.atmosValue === currentMode) atmosMarkActive(b);
