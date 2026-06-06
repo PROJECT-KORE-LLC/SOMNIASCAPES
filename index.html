@@ -222,8 +222,8 @@
 
         .warp-gate {
             width: 160px; height: 80px; cursor: pointer; background: transparent;
-            border: 1px solid transparent; border-radius: 20px; transition: all 0.4s ease;
-            display: flex; align-items: center; justify-content: center; color: transparent; 
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; transition: all 0.4s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; color: transparent; 
             font-family: 'Times New Roman', serif; letter-spacing: 3px; text-transform: uppercase; 
             font-size: 0.8rem; pointer-events: auto; 
         }
@@ -245,7 +245,7 @@
             justify-content: space-between;
             align-items: flex-start;
             z-index: 100;
-            pointer-events: none; /* Allows clicks to pass through empty space */
+            pointer-events: none;
             gap: 20px;
         }
 
@@ -258,7 +258,6 @@
         }
         .header-right { justify-content: flex-end; }
         
-        /* Only exact elements catch clicks */
         .header-left > *, .header-right > * { pointer-events: auto; }
 
         .nav-logo { 
@@ -267,7 +266,6 @@
             font-family: 'Times New Roman', serif; margin-right: 15px;
         }
 
-        /* UPGRADED BEAUTIFUL WIDGETS */
         .chronicle-container, .weather-container {
             background: linear-gradient(145deg, rgba(20,25,35,0.7) 0%, rgba(5,8,12,0.9) 100%);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
@@ -467,15 +465,18 @@
     <div class="ambient-lamp" id="lamp-2"></div>
 
     <!-- =========================================================
-         THE WORLD MAP (VERTICAL SCROLL SNAP)
-         ========================================================= -->
+           THE WORLD MAP (VERTICAL SCROLL SNAP)
+           ========================================================= -->
     <div id="world-map">
         
         <!-- ZONE 1: SomniaSolace -->
         <section id="zone-solace" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSolace.html')">Solace</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -483,7 +484,10 @@
         <section id="zone-syllabus" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSyllabus.html')">Syllabus</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -491,7 +495,10 @@
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScribes.html')">Scribes</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -499,7 +506,10 @@
         <section id="zone-scheds" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScheds.html')">Scheds</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -512,7 +522,10 @@
         <section id="zone-scullery" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScullery.html')">Scullery</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -520,7 +533,10 @@
         <section id="zone-scourings" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaScourings.html')">Scourings</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -528,7 +544,10 @@
         <section id="zone-sanctum" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaSanctum.html')">Sanctum</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
@@ -536,15 +555,18 @@
         <section id="zone-stronghold" class="world-zone">
             <div class="zone-gates">
                 <div class="warp-gate" onclick="event.stopPropagation(); openModule('SomniaStronghold.html')">Stronghold</div>
-                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">???</div>
+                <div class="warp-gate" onclick="event.stopPropagation();" style="opacity: 0.5;">
+                    <span>???</span>
+                    <span style="font-size: 0.5rem; display: block; margin-top: 4px; opacity: 0.8;">World XP Required</span>
+                </div>
             </div>
         </section>
 
     </div>
 
     <!-- =========================================================
-         FIXED UI LAYER - NON-BLOCKING FLEXBOX
-         ========================================================= -->
+           FIXED UI LAYER - NON-BLOCKING FLEXBOX
+           ========================================================= -->
     <div id="ui-wrapper">
         <div id="master-header">
             
@@ -690,7 +712,7 @@
         </div>
     </div>
 
-    <!-- WORLD GUIDE MODAL WITH INTEGRATED PRO-TIPS AND ENGINE DOCUMENTATION -->
+    <!-- WORLD GUIDE MODAL -->
     <div id="world-guide-modal" class="modal-overlay" onclick="toggleModal('world-guide-modal')">
         <div class="cast-box" style="max-width: 720px; padding: 40px; text-align: left;" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
@@ -713,19 +735,13 @@
                 </ul>
 
                 <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">2. Circadian Rhythm & Environment</h4>
-                <p>The Nexus follows a gentle circadian cycle. Time of day, weather, moonlight, and ambient audio shift the world's mood automatically. Use <strong>Tune the Realm</strong> for quick overrides or comfort adjustments like brightness, animation scaling, and low-sensory balancing.</p>
+                <p>The Nexus follows a gentle circadian cycle. Time of day, weather, moonlight, and ambient audio shift the world's mood automatically. Use <strong>Tune the Realm</strong> for quick overrides or comfort adjustments.</p>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">3. Awakening the Sovereign Oracle (API Integration)</h4>
-                <p>To connect the Castellan terminal to the local-first intelligence architecture origin-wide:</p>
-                <ol style="padding-left: 20px; color: var(--text-main); margin-bottom: 20px;">
-                    <li style="margin-bottom: 6px;">Acquire a free, highly secure Gemini API key from <strong>Google AI Studio</strong>.</li>
-                    <li style="margin-bottom: 6px;">Click the active Wraith on your screen to manifest the companion command panel.</li>
-                    <li style="margin-bottom: 6px;">Paste your token explicitly into the key field and press <strong>"Lock"</strong>.</li>
-                    <li style="margin-bottom: 6px;">Once locked, the key applies **Somnia-wide**, persistence tracking across all encapsulated sub-modules and sandbox scripts seamlessly without multi-input friction.</li>
-                </ol>
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">3. Awakening the Sovereign Oracle</h4>
+                <p>To connect the Castellan terminal, add a gemini api key to enable the oracle features. Your key is stored locally on your browser.</p>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">4. Immutable Ledger Snapshots</h4>
-                <p>Clicking the <strong>"World Snapshot"</strong> button extracts your complete local database state directly into an uncompressed, human-readable <code>JSON</code> matrix file. Because SomniaScapes runs completely client-side with no cloud strings, executing periodic snapshots creates an instant physical backup of your timelines, bounties, and structural records directly to your machine storage array.</p>
+                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">4. World Backups</h4>
+                <p>Clicking the <strong>"World Snapshot"</strong> button extracts your current database state to your machine. Because SomniaScapes runs completely client-side, executing periodic backups is a safe way to preserve your progress, timelines, and records locally.</p>
 
                 <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">5. Sealed Encounters</h4>
                 <p>The hidden ??? doors scattered on the map frame specific hidden mini-games and dynamic world events. These zones break open as your global cumulative World XP values advance across task completion tracks.</p>
@@ -838,7 +854,6 @@
                 const key = document.getElementById('gemini-api-key').value.trim();
                 localStorage.setItem('somnia_gemini_key', key);
                 
-                // Propagate token availability to any matching sandboxed active modules safely
                 const moduleFrame = document.getElementById('module-frame');
                 if (moduleFrame && moduleFrame.contentWindow) {
                     moduleFrame.contentWindow.postMessage({ type: "SOMNIA_KEY_SYNC", token: key }, "*");
@@ -847,14 +862,14 @@
             }
         };
 
-        // === IMMUTABLE LEDGER SNAPSHOT EXTRACTION ===
+        // === WORLD BACKUP SYSTEM ===
         function downloadWorldSnapshot() {
             const data = localStorage.getItem('somnia_master_ledger') || "[]";
             const blob = new Blob([data], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "SOMNIASCAPES_LEDGER_" + new Date().toISOString().split('T')[0] + ".json";
+            a.download = "SOMNIASCAPES_BACKUP_" + new Date().toISOString().split('T')[0] + ".json";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1139,8 +1154,12 @@
         function toggleTaskCompletion(taskId) {
             const task = masterLedger.find(t => t.id === taskId);
             if (task) {
+                // If currently incomplete, we are completing it, so we add XP.
+                // If currently complete, we are unchecking it, so we do nothing to XP (leaving the task pending).
+                if (!task.completed) {
+                    updateWorldXP(task.xpValue);
+                }
                 task.completed = !task.completed;
-                updateWorldXP(task.completed ? task.xpValue : -task.xpValue);
                 saveAndRenderLedger();
             }
         }
@@ -1412,7 +1431,7 @@
                 if (particles.length !== window.particleCount) particles = buildParticles(w, h);
 
                 let color = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
-                ctx.fillStyle = color; ctx.shadowBlur = lowGpu ? 0 : 6; ctx.shadowColor = color;
+                ctx.fillStyle = color; ctx.shadowBlur = false ? 0 : 6; ctx.shadowColor = color;
 
                 particles.forEach((p) => {
                     let spd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anim-speed')) || 10;
