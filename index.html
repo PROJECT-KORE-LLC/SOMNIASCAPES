@@ -7,7 +7,7 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="no-module-return-button-v1">
+    <meta name="somniascapes-build" content="scribes-xp-minigame-fixed-v1">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -607,6 +607,217 @@
             z-index: 120;
         }
 
+
+        /* --- SCRIBES WORLD XP + MINI-GAME FIXED --- */
+        .scriptorium-gate {
+            border-color: rgba(224,231,255,0.18);
+            background: radial-gradient(circle at 50% 15%, rgba(224,231,255,0.08), rgba(0,0,0,0.12));
+        }
+
+        .scriptorium-gate:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 34px var(--primary-glow), inset 0 0 18px rgba(224,231,255,0.16);
+        }
+
+        .scribe-game-gate {
+            width: 160px;
+            height: 80px;
+            cursor: pointer;
+            border: 1px solid rgba(251,191,36,0.16);
+            border-radius: 20px;
+            background: radial-gradient(circle at 50% 20%, rgba(251,191,36,0.08), rgba(0,0,0,0.10));
+            color: var(--text-main);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            pointer-events: auto !important;
+            backdrop-filter: blur(0px);
+            z-index: 150;
+        }
+
+        .scribe-game-gate .warp-text,
+        .scribe-game-gate .warp-req {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .scribe-game-gate .warp-req {
+            font-size: 0.5rem;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .scribe-game-gate:hover {
+            border-color: #fbbf24;
+            box-shadow: 0 0 34px rgba(251,191,36,0.34), inset 0 0 18px rgba(251,191,36,0.14);
+            background: rgba(255,255,255,0.08);
+            text-shadow: 0 0 10px rgba(251,191,36,0.44);
+            transform: translateY(-5px) scale(1.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .scribe-game-gate:hover .warp-text {
+            opacity: 1;
+        }
+
+        .scribe-game-gate:hover .warp-req {
+            opacity: 0.72;
+        }
+
+        .scribes-game-box {
+            max-width: 760px;
+            width: min(94vw, 760px);
+            padding: 26px;
+            text-align: left;
+        }
+
+        .scribes-game-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 18px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+        }
+
+        .scribes-game-title {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+            letter-spacing: 5px;
+            font-family: 'Times New Roman', serif;
+            text-shadow: 0 0 18px var(--primary-glow);
+        }
+
+        .scribes-game-subtitle {
+            margin: 0;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.5;
+            font-size: 0.86rem;
+        }
+
+        .scribes-game-close {
+            color: #fb7185;
+            border-color: transparent;
+            background: transparent;
+            padding: 4px 8px;
+        }
+
+        .scribes-game-stats {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            font-family: monospace;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .scribes-game-stats strong {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        #scribes-game-stage {
+            position: relative;
+            width: 100%;
+            height: min(54vh, 420px);
+            min-height: 280px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at 50% 20%, rgba(224,231,255,0.18), transparent 42%),
+                linear-gradient(145deg, rgba(0,0,0,0.42), rgba(10,15,25,0.7));
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.55), 0 24px 50px rgba(0,0,0,0.45);
+            cursor: crosshair;
+            user-select: none;
+            isolation: isolate;
+        }
+
+        .scribes-token {
+            position: absolute;
+            z-index: 3;
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 0 20px rgba(224,231,255,0.22);
+            animation: scribesTokenFall linear forwards;
+            touch-action: manipulation;
+        }
+
+        .scribes-token.page {
+            background: radial-gradient(circle, rgba(224,231,255,0.28), rgba(0,0,0,0.18));
+            filter: drop-shadow(0 0 12px var(--primary-glow));
+        }
+
+        .scribes-token.blot {
+            background: radial-gradient(circle, rgba(251,113,133,0.25), rgba(0,0,0,0.22));
+            filter: drop-shadow(0 0 12px rgba(251,113,133,0.42));
+        }
+
+        @keyframes scribesTokenFall {
+            from { transform: translateY(-70px) rotate(-8deg); opacity: 0.95; }
+            to { transform: translateY(520px) rotate(18deg); opacity: 0.95; }
+        }
+
+        #scribes-game-toast {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 8;
+            transform: translate(-50%, -50%);
+            padding: 12px 18px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.62);
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 0.74rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0.92;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .scribes-game-actions {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .scribes-game-actions .toy-btn {
+            flex: 1;
+        }
+
+        @media (max-width: 720px) {
+            .scribes-game-top,
+            .scribes-game-actions {
+                flex-direction: column;
+            }
+        }
+
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
@@ -654,10 +865,15 @@
         <!-- ZONE 3: SomniaScribes -->
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate scriptorium-gate" data-module="https://project-kore-llc.github.io/SomniaScribes/" data-external-module="true" title="Open SomniaScribes">
+                <div class="warp-gate scriptorium-gate" data-module="https://project-kore-llc.github.io/SomniaScribes/" data-external-module="true" data-room="scribes" title="Open SomniaScribes">
                     <span class="warp-text">Scribes</span>
                 </div>
-                <div class="warp-gate" data-locked-gate="true">
+
+                <button class="scribe-game-gate" id="scribes-minigame-gate" type="button" data-scribes-minigame="open" title="Play Ink Catch">
+                    <span class="warp-text">Ink Catch</span>
+                    <span class="warp-req">+ World XP</span>
+                </button>
+<div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
                     <span class="warp-req">World XP Required</span>
                 </div>
@@ -835,8 +1051,6 @@
             <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">[ ENTER THE NEXUS ]</button>
         </div>
     </div>
-
-    <!-- NATIVE ALERTS -->
     <div id="somnia-dialog" class="modal-overlay">
         <div class="cast-box">
             <h3 id="dialog-title" style="color: var(--primary); letter-spacing: 4px; margin-top: 0; text-transform: uppercase; font-family: 'Times New Roman', serif;">Notice</h3>
@@ -1918,6 +2132,235 @@
 
 
 
+
+
+<!-- SCRIBES NEXUS MINI-GAME -->
+    <div id="scribes-minigame-modal" class="modal-overlay">
+        <div class="cast-box scribes-game-box" data-stop-propagation="true">
+            <div class="scribes-game-top">
+                <div>
+                    <h3 class="scribes-game-title">INK CATCH</h3>
+                    <p class="scribes-game-subtitle">Catch glowing pages. Avoid ink blotches. Earn World XP for the Scriptorium.</p>
+                </div>
+                <button class="toy-btn scribes-game-close" type="button" data-scribes-minigame="close">✕</button>
+            </div>
+
+            <div class="scribes-game-stats">
+                <span>Score: <strong id="scribes-game-score">0</strong></span>
+                <span>Time: <strong id="scribes-game-time">30</strong></span>
+                <span>Best: <strong id="scribes-game-best">0</strong></span>
+            </div>
+
+            <div id="scribes-game-stage" data-stop-propagation="true">
+                <div id="scribes-game-toast">Press Start</div>
+            </div>
+
+            <div class="scribes-game-actions">
+                <button class="toy-btn" id="scribes-game-start" type="button" data-scribes-minigame="start">Start Round</button>
+                <button class="toy-btn" type="button" data-scribes-minigame="close">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+/* === SCRIBES WORLD XP + MINI-GAME FIXED === */
+(function () {
+    const XP_KEY = 'somniascapes_world_xp';
+    const SCRIBES_XP_KEY = 'somniascapes_room_xp_scribes';
+    const SCRIBES_BEST_KEY = 'somniascapes_scribes_ink_catch_best';
+
+    const state = {
+        active: false,
+        score: 0,
+        time: 30,
+        timer: null,
+        spawner: null
+    };
+
+    function intStore(key, fallback = 0) {
+        const value = parseInt(localStorage.getItem(key) || String(fallback), 10);
+        return Number.isFinite(value) ? value : fallback;
+    }
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value);
+    }
+
+    function updateGlobalXPDisplay() {
+        setText('global-xp-display', intStore(XP_KEY, 0));
+    }
+
+    window.addWorldXP = window.addWorldXP || function (amount, reason = 'world') {
+        const add = Math.max(0, parseInt(amount || 0, 10));
+        if (!add) return;
+
+        const nextWorld = intStore(XP_KEY, 0) + add;
+        const nextScribes = intStore(SCRIBES_XP_KEY, 0) + add;
+
+        localStorage.setItem(XP_KEY, String(nextWorld));
+        localStorage.setItem(SCRIBES_XP_KEY, String(nextScribes));
+        updateGlobalXPDisplay();
+
+        if (typeof somniaAlert === 'function' && add >= 10) {
+            somniaAlert('World XP Gained', '+' + add + ' XP added from ' + reason + '.');
+        }
+    };
+
+    function modal() { return document.getElementById('scribes-minigame-modal'); }
+    function stage() { return document.getElementById('scribes-game-stage'); }
+
+    function showToast(text) {
+        const toast = document.getElementById('scribes-game-toast');
+        if (toast) toast.textContent = text;
+    }
+
+    function updateStats() {
+        setText('scribes-game-score', state.score);
+        setText('scribes-game-time', state.time);
+        setText('scribes-game-best', intStore(SCRIBES_BEST_KEY, 0));
+    }
+
+    function clearTokens() {
+        const s = stage();
+        if (!s) return;
+        s.querySelectorAll('.scribes-token').forEach(token => token.remove());
+    }
+
+    function endRound() {
+        if (!state.active) return;
+        state.active = false;
+        clearInterval(state.timer);
+        clearInterval(state.spawner);
+        state.timer = null;
+        state.spawner = null;
+
+        const best = intStore(SCRIBES_BEST_KEY, 0);
+        if (state.score > best) localStorage.setItem(SCRIBES_BEST_KEY, String(state.score));
+
+        const xp = Math.max(3, Math.floor(state.score / 2));
+        window.addWorldXP(xp, 'Ink Catch');
+
+        showToast('Round complete · +' + xp + ' World XP');
+        updateStats();
+        setTimeout(clearTokens, 800);
+    }
+
+    function spawnToken() {
+        if (!state.active) return;
+        const s = stage();
+        if (!s) return;
+
+        const token = document.createElement('button');
+        const isPage = Math.random() > 0.30;
+        token.className = 'scribes-token ' + (isPage ? 'page' : 'blot');
+        token.type = 'button';
+        token.textContent = isPage ? (Math.random() > 0.5 ? '📜' : '✨') : '🕳️';
+
+        const rect = s.getBoundingClientRect();
+        const x = Math.max(8, Math.random() * Math.max(40, rect.width - 70));
+        token.style.left = x + 'px';
+        token.style.top = '-70px';
+        token.style.animationDuration = (2.4 + Math.random() * 1.1) + 's';
+
+        token.addEventListener('pointerdown', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!state.active) return;
+
+            if (isPage) {
+                state.score += 2;
+                showToast('+2 PAGE');
+            } else {
+                state.score = Math.max(0, state.score - 3);
+                showToast('-3 BLOT');
+            }
+
+            token.remove();
+            updateStats();
+        }, { passive: false });
+
+        token.addEventListener('animationend', function () {
+            token.remove();
+        });
+
+        s.appendChild(token);
+    }
+
+    window.openScribesMiniGame = function () {
+        const m = modal();
+        if (!m) return;
+        m.classList.add('active');
+        updateStats();
+        showToast('Press Start');
+    };
+
+    window.closeScribesMiniGame = function () {
+        if (state.active) endRound();
+        const m = modal();
+        if (m) m.classList.remove('active');
+        clearTokens();
+    };
+
+    window.startScribesMiniGame = function () {
+        const s = stage();
+        if (!s) return;
+
+        clearInterval(state.timer);
+        clearInterval(state.spawner);
+        clearTokens();
+
+        state.active = true;
+        state.score = 0;
+        state.time = 30;
+
+        updateStats();
+        showToast('Catch pages. Avoid blotches.');
+
+        state.spawner = setInterval(spawnToken, 560);
+        spawnToken();
+        spawnToken();
+        spawnToken();
+
+        state.timer = setInterval(function () {
+            if (!state.active) return;
+            state.time -= 1;
+            updateStats();
+            if (state.time <= 0) endRound();
+        }, 1000);
+    };
+
+    document.addEventListener('click', function (event) {
+        const control = event.target.closest && event.target.closest('[data-scribes-minigame]');
+        if (!control) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        const action = control.getAttribute('data-scribes-minigame');
+        if (action === 'open') window.openScribesMiniGame();
+        if (action === 'start') window.startScribesMiniGame();
+        if (action === 'close') window.closeScribesMiniGame();
+    }, true);
+
+    document.addEventListener('click', function (event) {
+        const m = modal();
+        if (!m || !m.classList.contains('active')) return;
+        if (event.target === m) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            window.closeScribesMiniGame();
+        }
+    }, true);
+
+    window.addEventListener('DOMContentLoaded', updateGlobalXPDisplay);
+    updateGlobalXPDisplay();
+})();
+</script>
 
 
 <script>
