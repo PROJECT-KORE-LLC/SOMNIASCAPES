@@ -1,33 +1,11 @@
 {
   "name": "SomniaScapes",
-  "short_name": "Somnia",
-  "description": "The Digital Sanctuary",
-  "start_url": "./index.html",
+  "short_name": "Scapes",
+  "description": "SOMNIASCAPES // The Sanctuary Nexus.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#020204",
-  "theme_color": "#e0e7ff",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"{
-  "name": "SomniaScapes",
-  "short_name": "Somnia",
-  "description": "The Digital Sanctuary",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#020204",
-  "theme_color": "#e0e7ff",
-  "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
-  ]
-}
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+  "theme_color": "#020204",
+  "orientation": "any"
 }
