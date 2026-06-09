@@ -1,8 +1,8 @@
 /* SOMNIASCAPES SERVICE WORKER
-   Scribes gate-only live link build.
+   No module return button build.
 */
 
-const CACHE_VERSION = 'somniascapes-v37-scribes-gate-only';
+const CACHE_VERSION = 'somniascapes-v40-no-module-return-button';
 
 const APP_SHELL = [
   './',
