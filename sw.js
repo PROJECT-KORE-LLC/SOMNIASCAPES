@@ -1,8 +1,8 @@
 /* SOMNIASCAPES SERVICE WORKER
-   Scriptorium live gate build.
+   Scribes gate-only live link build.
 */
 
-const CACHE_VERSION = 'somniascapes-v35-scriptorium-live-gate';
+const CACHE_VERSION = 'somniascapes-v37-scribes-gate-only';
 
 const APP_SHELL = [
   './',
@@ -65,7 +65,6 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
-  // Do not try to cache cross-origin module pages.
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
