@@ -7,6 +7,7 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020204">
+    <meta name="somniascapes-build" content="scribes-gate-only-v1">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -573,6 +574,27 @@
             color: #fff;
             box-shadow: 0 0 14px var(--primary-glow);
         }
+        /* --- SCRIPTORIUM LIVE GATE POLISH --- */
+        .scriptorium-gate {
+            border-color: rgba(224,231,255,0.18);
+            background: radial-gradient(circle at 50% 15%, rgba(224,231,255,0.08), rgba(0,0,0,0.12));
+        }
+
+        .scriptorium-gate:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 34px var(--primary-glow), inset 0 0 18px rgba(224,231,255,0.16);
+        }
+
+        .scriptorium-gate {
+            border-color: rgba(224,231,255,0.18);
+            background: radial-gradient(circle at 50% 15%, rgba(224,231,255,0.08), rgba(0,0,0,0.12));
+        }
+
+        .scriptorium-gate:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 34px var(--primary-glow), inset 0 0 18px rgba(224,231,255,0.16);
+        }
+
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
@@ -620,7 +642,7 @@
         <!-- ZONE 3: SomniaScribes -->
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" data-module="SomniaScribes.html">
+                <div class="warp-gate scriptorium-gate" data-module="https://project-kore-llc.github.io/SomniaScribes/" data-external-module="true" title="Open SomniaScribes">
                     <span class="warp-text">Scribes</span>
                 </div>
                 <div class="warp-gate" data-locked-gate="true">
@@ -1882,5 +1904,33 @@
             saveAndRenderLedger();
         });
     </script>
+
+
+
+<script>
+/* === SCRIBES GATE ROUTER ONLY === */
+window.SOMNIASCRIBES_LIVE_URL = 'https://project-kore-llc.github.io/SomniaScribes/';
+
+document.addEventListener('click', function(event) {
+    const gate = event.target.closest && event.target.closest('.warp-gate[data-external-module="true"].scriptorium-gate');
+    if (!gate) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const target = gate.getAttribute('data-module') || window.SOMNIASCRIBES_LIVE_URL;
+    const frame = document.getElementById('module-frame');
+    const overlay = document.getElementById('sandbox-overlay');
+
+    if (frame && overlay) {
+        frame.src = target;
+        overlay.classList.add('active');
+        document.body.classList.add('module-open');
+    } else {
+        window.location.href = target;
+    }
+}, true);
+</script>
+
 </body>
 </html>
