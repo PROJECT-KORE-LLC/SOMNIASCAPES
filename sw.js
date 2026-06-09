@@ -1,8 +1,8 @@
 /* SOMNIASCAPES SERVICE WORKER
-   No module return button build.
+   Scribes mini-game fixed build.
 */
 
-const CACHE_VERSION = 'somniascapes-v40-no-module-return-button';
+const CACHE_VERSION = 'somniascapes-v42-scribes-minigame-fixed';
 
 const APP_SHELL = [
   './',
