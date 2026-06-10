@@ -3051,7 +3051,38 @@ document.addEventListener('click', function(event) {
                 }
             } catch(e) {}
         });
+/* --- MODAL CLICK FIX: INNER PANELS STAY OPEN --- */
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    document.querySelectorAll('.modal-overlay').forEach((overlay) => {
+      overlay.addEventListener('click', (ev) => {
+        const explicitClose = ev.target.closest('[data-modal-close]');
+        if (explicitClose) return;
 
+        const insidePanel = ev.target.closest(
+          '.cast-box, .panel-card, table, .modal-content, .scribes-bubble, .archive-vault, .tab-content, .toy-btn, button, input, textarea, select, label'
+        );
+
+        if (insidePanel) {
+          ev.stopPropagation();
+          return;
+        }
+
+        if (ev.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      }, true);
+    });
+
+    document
+      .querySelectorAll('.modal-overlay .cast-box, .modal-overlay .panel-card, .modal-overlay table, .modal-overlay .tab-content')
+      .forEach((node) => {
+        node.addEventListener('click', (ev) => ev.stopPropagation(), true);
+        node.addEventListener('mousedown', (ev) => ev.stopPropagation(), true);
+        node.addEventListener('pointerdown', (ev) => ev.stopPropagation(), true);
+      });
+  } catch (e) {}
+});
 </script>
 
 </body>
