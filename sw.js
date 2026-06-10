@@ -1,51 +1,15 @@
-/* SOMNIASCAPES SERVICE WORKER
-   Scribes mini-game fixed build.
-*/
-
-const CACHE_VERSION = 'somniascapes-v42-scribes-minigame-fixed';
-
-const APP_SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
-  './sw.js'
-];
-
-const CORE_IMAGES = [
-  './SomniaScapes1.png',
-  './solarium.png',
-  './academy.png',
-  './balcony.png',
-  './castle1.png',
-  './underbelly.png',
-  './sewers.png',
-  './cavern.png',
-  './treasure.png',
-  './wraith.png'
-];
-
-const PRECACHE_ASSETS = [
-  ...APP_SHELL,
-  ...CORE_IMAGES
-];
-
-async function cacheAsset(cache, assetUrl) {
-  try {
-    const response = await fetch(new Request(assetUrl, { cache: 'reload' }));
-    if (response && response.ok) {
-      await cache.put(assetUrl, response);
-    } else {
-      console.warn('[SomniaScapes SW] Skipped:', assetUrl, response && response.status);
-    }
-  } catch (error) {
-    console.warn('[SomniaScapes SW] Missing or uncached:', assetUrl, error);
-  }
-}
+/* SomniaScapes Clarity & Silence Pass v1 */
+const CACHE_VERSION = 'somniascapes-clarity-silence-v4-6-scribes-gorgeous-widgets';
+const APP_SHELL = ['./', './index.html', './manifest.json', './sw.js'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_VERSION)
-      .then(cache => Promise.all(PRECACHE_ASSETS.map(asset => cacheAsset(cache, asset))))
+      .then(cache => Promise.all(APP_SHELL.map(asset =>
+        fetch(new Request(asset, { cache: 'reload' }))
+          .then(response => response.ok ? cache.put(asset, response) : null)
+          .catch(() => null)
+      )))
       .then(() => self.skipWaiting())
   );
 });
@@ -58,22 +22,23 @@ self.addEventListener('activate', event => {
   );
 });
 
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-
-  const url = new URL(request.url);
-  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
-
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  if (request.mode === 'navigate') {
+  if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
-        .then(response => {
-          const copy = response.clone();
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
           caches.open(CACHE_VERSION).then(cache => cache.put('./index.html', copy));
-          return response;
+          return res;
         })
         .catch(() => caches.match('./index.html').then(cached => cached || caches.match('./')))
     );
@@ -81,15 +46,12 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(response => {
-        if (response && response.ok && url.pathname.match(/\.(html|css|js|json|png|jpg|jpeg|webp|gif|svg|ico|mp3|wav|ogg|m4a|flac)$/i)) {
-          const copy = response.clone();
-          caches.open(CACHE_VERSION).then(cache => cache.put(request, copy));
-        }
-        return response;
-      });
-    })
+    caches.match(req).then(cached => cached || fetch(req).then(res => {
+      if (res && res.ok) {
+        const copy = res.clone();
+        caches.open(CACHE_VERSION).then(cache => cache.put(req, copy));
+      }
+      return res;
+    }))
   );
 });
