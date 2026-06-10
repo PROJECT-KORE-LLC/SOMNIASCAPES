@@ -6,7 +6,7 @@
     <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-4-index-only-enter-fix">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-6-modal-close-fix">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -818,7 +818,7 @@
         }
 
 
-        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX --- */
+        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX --- */
         #oracle-ui {
             width: min(330px, calc(100vw - 24px)) !important;
             height: auto !important;
@@ -915,7 +915,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX --- */
+        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX --- */
         .castellan-quick-row {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -950,7 +950,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX: CASTELLAN POLISH --- */
+        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX: CASTELLAN POLISH --- */
         #wraith-master-anchor {
             bottom: 6% !important;
             right: 5% !important;
@@ -1055,7 +1055,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX: CASTELLAN AS LORE-GIVER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX: CASTELLAN AS LORE-GIVER --- */
         #oracle-ui {
             width: 360px !important;
             height: auto !important;
@@ -3051,38 +3051,48 @@ document.addEventListener('click', function(event) {
                 }
             } catch(e) {}
         });
-/* --- MODAL CLICK FIX: INNER PANELS STAY OPEN --- */
-document.addEventListener('DOMContentLoaded', () => {
-  try {
-    document.querySelectorAll('.modal-overlay').forEach((overlay) => {
-      overlay.addEventListener('click', (ev) => {
-        const explicitClose = ev.target.closest('[data-modal-close]');
-        if (explicitClose) return;
 
-        const insidePanel = ev.target.closest(
-          '.cast-box, .panel-card, table, .modal-content, .scribes-bubble, .archive-vault, .tab-content, .toy-btn, button, input, textarea, select, label'
-        );
 
-        if (insidePanel) {
-          ev.stopPropagation();
-          return;
-        }
+        // V4.6.6 MODAL CLOSE FIX
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                document.querySelectorAll('[data-modal-close]').forEach((closer) => {
+                    closer.addEventListener('click', (ev) => {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        const targetId = closer.getAttribute('data-modal-close');
+                        const modal = targetId ? document.getElementById(targetId) : closer.closest('.modal-overlay');
+                        if (modal) modal.classList.remove('active');
+                    }, true);
+                });
 
-        if (ev.target === overlay) {
-          overlay.classList.remove('active');
-        }
-      }, true);
-    });
+                document.querySelectorAll('.modal-overlay').forEach((overlay) => {
+                    overlay.addEventListener('click', (ev) => {
+                        if (ev.target === overlay) {
+                            overlay.classList.remove('active');
+                        }
+                    }, false);
+                });
 
-    document
-      .querySelectorAll('.modal-overlay .cast-box, .modal-overlay .panel-card, .modal-overlay table, .modal-overlay .tab-content')
-      .forEach((node) => {
-        node.addEventListener('click', (ev) => ev.stopPropagation(), true);
-        node.addEventListener('mousedown', (ev) => ev.stopPropagation(), true);
-        node.addEventListener('pointerdown', (ev) => ev.stopPropagation(), true);
-      });
-  } catch (e) {}
-});
+                document.querySelectorAll(
+                    '.modal-overlay .cast-box, .modal-overlay .panel-card, .modal-overlay table, .modal-overlay .tab-content, .modal-overlay .archive-vault, .modal-overlay .scribes-bubble'
+                ).forEach((node) => {
+                    node.addEventListener('click', (ev) => {
+                        if (ev.target.closest('[data-modal-close]')) return;
+                        ev.stopPropagation();
+                    }, false);
+                    node.addEventListener('pointerdown', (ev) => {
+                        if (ev.target.closest('[data-modal-close]')) return;
+                        ev.stopPropagation();
+                    }, false);
+                    node.addEventListener('mousedown', (ev) => {
+                        if (ev.target.closest('[data-modal-close]')) return;
+                        ev.stopPropagation();
+                    }, false);
+                });
+            } catch(e) {}
+        });
+
 </script>
 
 </body>
