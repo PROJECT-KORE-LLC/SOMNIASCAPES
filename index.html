@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
-    <link rel="manifest" href="./manifest.json?v=4-6-2">
-    <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-2-widget-dock-lower">
+<meta name="theme-color" content="#020204">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-3-index-only-no-pwa">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -819,7 +818,7 @@
         }
 
 
-        /* --- CLARITY & SILENCE PASS V4.6.2 WIDGET DOCK LOWER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY --- */
         #oracle-ui {
             width: min(330px, calc(100vw - 24px)) !important;
             height: auto !important;
@@ -916,7 +915,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.2 WIDGET DOCK LOWER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY --- */
         .castellan-quick-row {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -951,7 +950,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.2 WIDGET DOCK LOWER: CASTELLAN POLISH --- */
+        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY: CASTELLAN POLISH --- */
         #wraith-master-anchor {
             bottom: 6% !important;
             right: 5% !important;
@@ -1056,7 +1055,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.2 WIDGET DOCK LOWER: CASTELLAN AS LORE-GIVER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY: CASTELLAN AS LORE-GIVER --- */
         #oracle-ui {
             width: 360px !important;
             height: auto !important;
@@ -1305,7 +1304,7 @@
         }
 
     </style>
-    <!-- GITHUB SAFE ROOT FILES: index.html, sw.js, manifest.json belong in repo root -->
+    <!-- INDEX ONLY / NO PWA: safest GitHub Pages upload build -->
 </head>
 <body id="os-body" onclick="restoreUI()">
 
@@ -2582,22 +2581,11 @@
             const banner = document.getElementById('update-banner');
             if (banner) banner.classList.remove('active');
         }
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js?v=4-6-2')
-                .then(registration => {
-                    console.log('Nexus Service Worker Registered');
-
-                    if (registration.waiting && navigator.serviceWorker.controller) {
-                        showUpdateBanner(registration.waiting);
-                    }
-
-                    registration.addEventListener('updatefound', () => {
+registration.addEventListener('updatefound', () => {
                         const newWorker = registration.installing;
                         if (!newWorker) return;
 
                         newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                 showUpdateBanner(newWorker);
                             }
                         });
@@ -2605,7 +2593,6 @@
                 })
                 .catch(err => console.error('SW Registration Failed:', err));
 
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
                 window.location.reload();
             });
         }
