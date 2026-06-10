@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // THE SANCTUARY</title>
+    <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="scribes-xp-minigame-fixed-v1">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-scribes-gorgeous-widgets">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -818,6 +818,470 @@
             }
         }
 
+
+        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS --- */
+        #oracle-ui {
+            width: min(330px, calc(100vw - 24px)) !important;
+            height: auto !important;
+            max-height: 390px !important;
+            padding: 14px !important;
+            right: 112% !important;
+            background: rgba(5, 8, 12, 0.86) !important;
+        }
+
+        body.oracle-active #wraith-anim-wrapper {
+            transform: scale(1.25) !important;
+        }
+
+        #oracle-chat-log {
+            max-height: 180px !important;
+            min-height: 92px !important;
+            padding: 10px !important;
+            font-size: 0.86rem !important;
+            line-height: 1.42 !important;
+        }
+
+        .oracle-msg {
+            margin-bottom: 10px !important;
+            font-size: 0.86rem !important;
+            line-height: 1.42 !important;
+        }
+
+        .oracle-msg.ai,
+        .oracle-msg.lore {
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+            text-shadow: 0 0 8px var(--primary-glow);
+            font-style: italic;
+        }
+
+        #nexus-whisper {
+            max-width: 420px !important;
+            padding: 12px 18px !important;
+            font-size: 0.82rem !important;
+            line-height: 1.42 !important;
+            bottom: 5% !important;
+        }
+
+        .panic-silence-btn {
+            border-color: rgba(251,113,133,0.55) !important;
+            color: #fecdd3 !important;
+            background: rgba(127,29,29,0.22) !important;
+        }
+
+        .panic-silence-btn:hover {
+            box-shadow: 0 0 22px rgba(251,113,133,0.45) !important;
+            color: #fff !important;
+        }
+
+        .clarity-label {
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            font-family: monospace;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 720px) {
+            #wraith-master-anchor {
+                right: 12px !important;
+                bottom: 12px !important;
+            }
+
+            #wraith-anim-wrapper {
+                width: 96px !important;
+            }
+
+            #oracle-ui {
+                right: 0 !important;
+                bottom: 112px !important;
+            }
+
+            .boot-content {
+                padding: 26px 18px !important;
+                border-radius: 28px !important;
+            }
+
+            .boot-title {
+                font-size: clamp(1.7rem, 10vw, 2.6rem) !important;
+                letter-spacing: clamp(4px, 1.8vw, 10px) !important;
+            }
+
+            .boot-disclaimer {
+                font-size: 0.86rem !important;
+                line-height: 1.55 !important;
+            }
+        }
+
+    
+        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS --- */
+        .castellan-quick-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+            margin-bottom: 10px;
+        }
+
+        .castellan-chip {
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.045);
+            color: var(--primary);
+            border-radius: 999px;
+            padding: 7px 8px;
+            font-family: monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .castellan-chip:hover {
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        body.sound-muted #sound-safety-btn {
+            border-color: rgba(134,239,172,0.58) !important;
+            color: #dcfce7 !important;
+            background: rgba(20,83,45,0.28) !important;
+        }
+
+    
+        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS: CASTELLAN POLISH --- */
+        #wraith-master-anchor {
+            bottom: 6% !important;
+            right: 5% !important;
+        }
+
+        #oracle-ui {
+            border-radius: 22px !important;
+            box-shadow:
+                0 22px 55px rgba(0,0,0,0.82),
+                0 0 22px var(--primary-glow) !important;
+        }
+
+        .castellan-mini-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .castellan-helper-strip {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            padding: 9px 10px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-family: Georgia, serif;
+            font-size: 0.78rem;
+            line-height: 1.35;
+        }
+
+        .castellan-helper-strip strong {
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: monospace;
+            font-size: 0.62rem;
+        }
+
+        .castellan-quick-row {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+        }
+
+        .castellan-chip {
+            min-height: 34px;
+            line-height: 1.1;
+            white-space: normal;
+        }
+
+        #oracle-chat-log {
+            background:
+                radial-gradient(circle at 20% 0%, rgba(224,231,255,0.08), transparent 38%),
+                rgba(0,0,0,0.34) !important;
+        }
+
+        .oracle-msg.lore::before {
+            content: "✦ ";
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .oracle-msg.user::before {
+            content: "You: ";
+            color: var(--text-muted);
+            font-family: monospace;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+        }
+
+        .castellan-field-row {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .castellan-field-row .core-input {
+            min-width: 0;
+        }
+
+        @media (max-width: 720px) {
+            #oracle-ui {
+                width: min(94vw, 360px) !important;
+                max-height: 430px !important;
+                bottom: 96px !important;
+                right: -2px !important;
+            }
+
+            .castellan-quick-row {
+                grid-template-columns: 1fr 1fr !important;
+            }
+
+            .castellan-chip {
+                font-size: 0.55rem !important;
+                padding: 8px 6px !important;
+            }
+
+            #oracle-chat-log {
+                max-height: 155px !important;
+            }
+        }
+
+    
+        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS: CASTELLAN AS LORE-GIVER --- */
+        #oracle-ui {
+            width: 360px !important;
+            height: auto !important;
+            max-height: 430px !important;
+        }
+
+        .castellan-current-purpose {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-family: Georgia, serif;
+            font-size: 0.84rem;
+            line-height: 1.42;
+        }
+
+        .castellan-current-purpose strong {
+            color: var(--primary);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-family: monospace;
+            font-size: 0.64rem;
+        }
+
+        .castellan-lore-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .castellan-lore-btn {
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.045);
+            color: var(--primary);
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-family: monospace;
+            font-size: 0.62rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .castellan-lore-btn:hover {
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+    
+        /* --- V4.6 COPIED FROM SOMNIASCRIBES GORGEOUS WIDGETS --- */
+/* --- SOMNIA SIGNAL WIDGETS: TIME + WEATHER --- */
+        .widget-dock {
+            position: absolute;
+            top: 120px;
+            right: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 90;
+            pointer-events: auto;
+        }
+
+        .gorgeous-widget {
+            background: rgba(10, 15, 25, 0.5);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 26px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            min-width: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gorgeous-widget::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+
+        .time-display {
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: var(--primary);
+            text-shadow: 0 0 25px var(--primary-glow);
+            line-height: 1;
+            margin-bottom: 5px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .date-display {
+            font-size: 1rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .weather-display {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px var(--primary-glow);
+            line-height: 1;
+        }
+
+        .weather-desc {
+            font-size: 1rem;
+            font-family: monospace;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.35;
+        }
+
+        .weather-subnote {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-family: monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        body.cloaked .widget-dock {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 949px) {
+            .widget-dock {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                width: 95%;
+                max-width: 500px;
+                margin: 0 auto 14px auto;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .gorgeous-widget {
+                min-width: 0;
+                flex: 1 1 190px;
+                padding: 18px 16px;
+                border-radius: 24px;
+            }
+
+            .time-display {
+                font-size: 2.4rem;
+                letter-spacing: 3px;
+            }
+
+            .date-display,
+            .weather-desc {
+                font-size: 0.72rem;
+                letter-spacing: 2px;
+            }
+
+            .weather-display {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scapes-specific: use Scribes big dock cards and hide old header pills. */
+        #master-header .chronicle-container,
+        #master-header .weather-container {
+            display: none !important;
+        }
+
+        .widget-dock {
+            position: fixed !important;
+            top: 96px !important;
+            right: 35px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+            z-index: 110 !important;
+            pointer-events: auto !important;
+        }
+
+        .gorgeous-widget {
+            pointer-events: auto !important;
+        }
+
+        body.cloaked .widget-dock {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        @media (min-width: 1800px) {
+            .widget-dock {
+                top: 128px !important;
+                right: 45px !important;
+            }
+
+            .gorgeous-widget {
+                min-width: 340px !important;
+                padding: 32px 36px !important;
+            }
+
+            .time-display {
+                font-size: 5rem !important;
+            }
+
+            .weather-display {
+                font-size: 3.7rem !important;
+            }
+        }
+
     </style>
 </head>
 <body id="os-body" onclick="restoreUI()">
@@ -962,17 +1426,17 @@
                 <div class="nav-logo">SOMNIASCAPES</div>
                 
                 <div class="chronicle-container">
-                    <span class="chronicle-time" id="time-display">00:00:00</span>
+                    <span class="chronicle-time" id="time-display-hidden">00:00:00</span>
                     <div class="chronicle-divider"></div>
-                    <span class="chronicle-date" id="date-display">...</span>
+                    <span class="chronicle-date" id="date-display-hidden">...</span>
                 </div>
                 
                 <div class="weather-container">
-                    <span class="weather-icon" id="weather-icon">🌙</span>
+                    <span class="weather-icon" id="weather-icon-hidden">🌙</span>
                     <div class="chronicle-divider"></div>
                     <div class="weather-info">
-                        <span class="weather-temp" id="weather-temp">--°F</span>
-                        <span class="weather-label" id="weather-label">Sanctuary Vibe</span>
+                        <span class="weather-temp" id="weather-temp-hidden">--°F</span>
+                        <span class="weather-label" id="weather-label-hidden">Sanctuary Vibe</span>
                     </div>
                 </div>
             </div>
@@ -981,45 +1445,62 @@
                 <div style="display: flex; align-items: center; margin-right: 15px; padding: 0 10px; background: rgba(0,0,0,0.4); border-radius: 30px; height: 35px; border: 1px solid var(--glass-border);">
                     <span style="font-family: monospace; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
                 </div>
+                <button class="artifact-btn panic-silence-btn" data-action="toggle-sound-safety" id="sound-safety-btn" title="Stop or restore SomniaScapes ambience">Silence All</button>
                 <button class="artifact-btn" data-action="toggle-cloak">Cloak UI</button>
                 <button class="artifact-btn" data-modal="world-guide-modal">World Guide</button>
                 <button class="artifact-btn" data-modal="scratchpad-modal">Scratchpad & Calc</button>
                 <button class="artifact-btn" data-modal="world-calendar-modal" data-after-open="renderWorldCalendar">Master Ledger</button>
                 <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" data-modal="tune-modal">Tune the Realm</button>
-                <button class="artifact-btn" data-modal="cast-modal">Cast to TV</button>
             </div>
 
         </div>
     </div>
 
+    
+    <!-- SOMNIASCRIBES-STYLE GORGEOUS TIME + WEATHER DOCK -->
+    <div class="widget-dock" id="scapes-widget-dock">
+        <div class="gorgeous-widget" id="scapes-time-widget">
+            <div class="time-display" id="time-display">00:00</div>
+            <div class="date-display" id="date-display">...</div>
+        </div>
+
+        <div class="gorgeous-widget" id="scapes-weather-widget">
+            <div class="weather-display" id="weather-icon">🌙</div>
+            <div class="weather-desc">
+                <span id="weather-temp">--°F</span>
+                <span id="weather-label">Sanctuary Vibe</span>
+            </div>
+            <div class="weather-subnote" id="weather-subnote">Local sky signal</div>
+        </div>
+    </div>
+
+
     <!-- THE CASTELLAN & DYNAMIC TERMINAL -->
     <div id="wraith-master-anchor">
         <div id="wraith-anim-wrapper">
-            <img id="wraith-companion" src="wraith.png" alt="Wraith Oracle" data-action="toggle-oracle">
+            <img id="wraith-companion" src="wraith.png" alt="The Castellan" data-action="toggle-castellan">
             <div class="wraith-mist"></div>
         </div>
         
         <div id="oracle-ui" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE CASTELLAN</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" data-action="toggle-oracle">✕</button>
-            </div>
-            
-            <div style="width: 100%; display: flex; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 12px; border: 1px solid var(--glass-border);">
-                <input type="password" id="gemini-api-key" class="core-input" style="margin: 0; flex: 1; padding: 8px; font-size: 0.7rem; text-align: left;" placeholder="Secure API Key..." onchange="SOMNIA_AI.saveApiKey()">
-                <button class="toy-btn" style="border-color: var(--accent); padding: 0 12px; font-size: 0.6rem;" onclick="SOMNIA_AI.saveApiKey()">Lock</button>
+                <div class="castellan-mini-title">
+                    <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE CASTELLAN</h3>
+                    <div class="clarity-label">city memory // local guide</div>
+                </div>
+                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" data-action="toggle-castellan">✕</button>
             </div>
 
             <div id="oracle-chat-log">
-                <div class="oracle-msg ai">
-                    The Nexus breathes between the rooms. I am the Castellan of this threshold. 
-                    Tell me what needs tending, Architect.
+                <div class="oracle-msg lore">
+                    The city is awake. Scroll the districts, choose a threshold, and let one room claim your attention. I will mark the gates and speak when the threshold matters.
                 </div>
             </div>
-
-            <div style="display: flex; gap: 10px; width: 100%;">
-                <input type="text" id="oracle-input" class="core-input" style="margin: 0; text-align: left; padding: 10px;" placeholder="Command the Oracle..." onkeypress="if(event.key === 'Enter') submitOraclePrompt()">
-                <button class="toy-btn" style="border-color: var(--accent); padding: 0 15px;" onclick="submitOraclePrompt()">Send</button>
+            <div class="castellan-lore-actions">
+                <button class="castellan-lore-btn" type="button" onclick="castellanSpeak('guide')">Guidance</button>
+                <button class="castellan-lore-btn" type="button" onclick="castellanSpeak('lore')">Lore</button>
+                <button class="castellan-lore-btn" type="button" onclick="castellanSpeak('gate')">Gates</button>
+                <button class="castellan-lore-btn" type="button" onclick="castellanSpeak('audio')">Sound</button>
             </div>
         </div>
     </div>
@@ -1034,21 +1515,15 @@
         <div class="kore-orb"></div>
         <div class="boot-content">
             <h1 class="boot-title">SOMNIASCAPES</h1>
-            <div class="boot-subtitle">THE NEXUS STIRS</div>
+            <div class="boot-subtitle">A LOCAL-FIRST DREAM CITY</div>
             <p class="boot-disclaimer">
-                Beyond the noise of the waking world,<br>
-                a hidden polis breathes in the dark.<br><br>
-
-                Rooms wait above and below.<br>
-                The Academy glows beyond the clouds.<br>
-                The Underbelly hums beneath the stone.<br>
-                The hearth, the ledger, the archive, and the sanctum<br>
-                remember what the day has scattered.<br><br>
-
-                Enter softly, Architect.<br>
-                The world will change with you.
+                <strong>SomniaScapes is a local-first dream city.</strong><br><br>
+                Scroll through districts. Click a gate to enter a room.<br>
+                Write, listen, play, plan, or rest.<br>
+                Your World XP and notes stay on this device.<br><br>
+                The Scriptorium is live. Ritual games earn World XP.
             </p>
-            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">[ ENTER THE NEXUS ]</button>
+            <button class="artifact-btn" style="padding: 16px 45px; font-size: 1rem; border-color: var(--accent); border-radius: 50px; box-shadow: 0 0 20px var(--primary-glow);" onclick="startEngine()">ENTER THE CITY</button>
         </div>
     </div>
     <div id="somnia-dialog" class="modal-overlay">
@@ -1106,42 +1581,69 @@
 
     <!-- WORLD GUIDE MODAL -->
     <div id="world-guide-modal" class="modal-overlay" data-modal-close="world-guide-modal">
-        <div class="cast-box" style="max-width: 720px; padding: 40px; text-align: left;" data-stop-propagation="true">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; width: 100%; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">NEXUS SYSTEM ARCHITECTURE</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent; padding: 0;" data-modal-close="world-guide-modal">✕</button>
+        <div class="cast-box" style="max-width: 760px; text-align: left;" data-stop-propagation="true">
+            <div style="width:100%; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; border-bottom:1px solid var(--glass-border); padding-bottom:16px; margin-bottom:18px;">
+                <div>
+                    <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 8px 0; font-family: 'Times New Roman', serif;">WORLD GUIDE</h3>
+                    <p style="margin:0; color:var(--text-muted); font-style:italic; line-height:1.45;">
+                        SomniaScapes is a desktop dream-city: rooms, thresholds, sound, notes, rituals, World XP, and lore.
+                    </p>
+                </div>
+                <button class="toy-btn" style="color:#fb7185; border-color:transparent; background:transparent;" data-modal-close="world-guide-modal">✕</button>
             </div>
-            
-            <div style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; overflow-y: auto; max-height: 65vh; padding-right: 15px; font-family: 'Georgia', serif;">
-                <h4 style="color: var(--accent); margin: 0 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">1. Nexus Map Guide</h4>
-                <p>SomniaScapes is a living world of rooms. Each room holds a real-life tool: time, meals, cleaning, writing, learning, rest, records, and home care. The Nexus is the map between them.</p>
-                <ul style="padding-left: 20px; color: var(--text-main); margin-bottom: 20px;">
-                    <li style="margin-bottom: 6px;">Enter a room when you need support for that part of life.</li>
-                    <li style="margin-bottom: 6px;">Each room has its own atmosphere, audio, companions, and tools.</li>
-                    <li style="margin-bottom: 6px;">Changing the atmosphere is part of the app, not decoration.</li>
-                    <li style="margin-bottom: 6px;">XP is earned for showing up, interacting, tending, resting, returning, and trying again.</li>
-                    <li style="margin-bottom: 6px;">Room XP unlocks and evolves companions.</li>
-                    <li style="margin-bottom: 6px;">World XP unlocks sealed ??? encounters and mini-games.</li>
-                    <li style="margin-bottom: 6px;">There are no shame loops. Missed days do not erase progress.</li>
-                    <li style="margin-bottom: 6px;">The world changes with you.</li>
-                </ul>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">2. Circadian Rhythm & Environment</h4>
-                <p>The Nexus follows a gentle circadian cycle. Time of day, weather, moonlight, and ambient audio shift the world's mood automatically. Use <strong>Tune the Realm</strong> for quick overrides or comfort adjustments.</p>
+            <div style="display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; width:100%;">
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">What this is</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        A local-first gothic world map. Scroll the districts, open gates, use rooms, collect World XP, and uncover the city’s story over time.
+                    </p>
+                </div>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">3. Awakening the Sovereign Oracle</h4>
-                <p>To connect the Castellan terminal, add a Gemini API key to enable Oracle features. Your key is stored in this browser’s local storage.</p>
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">How to start</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        Enter the city, scroll until a district calls to you, then click one gate. Do one small thing. Return when the room is finished with you.
+                    </p>
+                </div>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">4. World Backups</h4>
-                <p>Clicking the <strong>"World Snapshot"</strong> button currently exports your Nexus Master Ledger. Room-specific backups remain inside their individual rooms. Because SomniaScapes runs completely client-side, executing periodic backups is a safe way to preserve your progress, timelines, and records locally.</p>
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">The Castellan</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        The Castellan is the city’s threshold keeper. He gives lore, warnings, and plain guidance. He is lore and guidance, not an outside service, and needs no key.
+                    </p>
+                </div>
 
-                <h4 style="color: var(--accent); margin: 20px 0 10px 0; font-family: monospace; text-transform: uppercase; font-size: 0.9rem;">5. Sealed Encounters</h4>
-                <p>The hidden ??? doors scattered on the map frame specific hidden mini-games and dynamic world events. These zones break open as your global cumulative World XP values advance across task completion tracks.</p>
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">World XP</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        World XP is the city remembering your rituals. It can later unlock gates, games, rooms, and fragments of the larger story.
+                    </p>
+                </div>
+
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">Ritual games</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        Ink Catch is only the first visible ritual. More districts can hold their own small games: sorting, catching, feeding, finding, repairing, and remembering.
+                    </p>
+                </div>
+
+                <div class="panel-card" style="padding:18px;">
+                    <div class="panel-title">Sound safety</div>
+                    <p style="color:var(--text-muted); line-height:1.55; margin:0;">
+                        Use Silence All if sound stacks or a browser misbehaves. Use Restore Sound to wake the last ambience again when the city is quiet.
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top:18px; padding:16px 18px; border:1px solid var(--glass-border); border-radius:22px; background:rgba(255,255,255,0.04); width:100%;">
+                <p style="margin:0; color:var(--primary); line-height:1.55; font-style:italic;">
+                    “SomniaScapes is a city built from abandoned dreams, repaired memories, and little rituals of survival.”
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- SCRATCHPAD WITH CALCULATOR MODAL -->
     <div id="scratchpad-modal" class="modal-overlay" data-modal-close="scratchpad-modal">
         <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 20px;">
@@ -1237,9 +1739,8 @@
     </div>
 
     <div id="nexus-whisper">
-        <strong>The Nexus breathes between the rooms.</strong><br>
-        Ascend when you need wonder. Descend when life needs tending.<br>
-        The Castellan waits at the threshold.
+        <strong>Choose a district.</strong><br>
+        Gates open rooms. Ritual games earn World XP. Silence All stops every stray sound.
     </div>
 
     <div id="update-banner" role="status" aria-live="polite">
@@ -1253,7 +1754,7 @@
         // === VERSIONED LOCAL STORAGE + SAFE PARSING ===
         const STORAGE_VERSION = 'v1';
         const STORAGE_KEYS = {
-            apiKey: `somnia:${STORAGE_VERSION}:oracle:geminiKey`,
+            apiKey: `somnia:${STORAGE_VERSION}:castellan:castellanKey`,
             ledger: `somnia:${STORAGE_VERSION}:nexus:masterLedger`,
             worldXP: `somnia:${STORAGE_VERSION}:world:xp`,
             activeState: `somnia:${STORAGE_VERSION}:nexus:activeState`,
@@ -1261,7 +1762,7 @@
             mediaNamePrefix: `somnia:${STORAGE_VERSION}:mediaName:`
         };
         const LEGACY_KEYS = {
-            apiKey: 'somnia_gemini_key',
+            apiKey: 'somnia_castellan_key',
             ledger: 'somnia_master_ledger',
             worldXP: 'somnia_world_xp',
             activeState: 'somnia_active_state',
@@ -1345,24 +1846,11 @@
             try { return new URL(src || window.location.href, window.location.href).origin; }
             catch { return window.location.origin; }
         }
-
-        // === SOMNIA-WIDE PERSISTENT AI ARCHITECTURE ===
-        const SOMNIA_AI = {
-            getApiKey: () => {
-                return loadTextStorage(STORAGE_KEYS.apiKey, '');
-            },
+        // === LOCAL CASTELLAN LORE GUIDE (NO lore / NO API KEY) ===
+        const SOMNIA_lore = {
+            getApiKey: () => 'local-lore',
             saveApiKey: () => {
-                const key = document.getElementById('gemini-api-key').value.trim();
-                saveTextStorage(STORAGE_KEYS.apiKey, key);
-                
-                const moduleFrame = document.getElementById('module-frame');
-                if (moduleFrame && moduleFrame.contentWindow) {
-                    moduleFrame.contentWindow.postMessage(
-                        { type: "SOMNIA_KEY_SYNC", token: key },
-                        getAllowedModuleOrigin(moduleFrame.src)
-                    );
-                }
-                somniaAlert("SANCTUARY UNIFIED KEY SECURED", "Your API parameter is bound origin-wide across all rooms and local sandboxes.");
+                somniaAlert("CASTELLAN", "The Castellan is local lore now. No token or external key is needed.");
             }
         };
 
@@ -1394,7 +1882,7 @@
 
         // === CIRCADIAN & WEATHER MATRIX MAP ===
         function applyMoodState(mood) {
-            stopAllAudio();
+            stopAllAudioHard?.('mood-change') || stopAllAudio();
             
             let pType = 'dust';
             let pCount = 50;
@@ -1553,17 +2041,25 @@
 
         // === SANDBOX MODULE NAVIGATION ===
         function openModule(moduleFilename) {
+            stopAllAudioHard?.('open-module');
             const sandbox = document.getElementById('sandbox-overlay');
             const iframe = document.getElementById('module-frame');
+
+            if (/^https?:\/\//i.test(moduleFilename || '')) {
+                window.location.href = moduleFilename;
+                return;
+            }
+
             iframe.src = moduleFilename;
             sandbox.classList.add('active');
         }
 
         function closeModule() {
+            stopAllAudioHard?.('close-module');
             const sandbox = document.getElementById('sandbox-overlay');
             const iframe = document.getElementById('module-frame');
             sandbox.classList.remove('active');
-            setTimeout(() => { iframe.src = ""; }, 500);
+            setTimeout(() => { iframe.src = "about:blank"; }, 100);
         }
 
         // === COMPANION INTERFACE WIRING ===
@@ -1577,36 +2073,64 @@
         function appendOracleMessage(text, sender) {
             const log = document.getElementById('oracle-chat-log');
             const msgDiv = document.createElement('div');
-            msgDiv.className = `oracle-msg ${sender}`;
+            msgDiv.className = `oracle-msg ${sender === 'ai' ? 'lore' : sender}`;
             msgDiv.innerText = text;
             log.appendChild(msgDiv);
             log.scrollTop = log.scrollHeight;
         }
+        const CASTELLAN_LORE_LINES = {
+            guide: [
+                "This is the Nexus map. Scroll through the city, choose a gate, and enter one room at a time.",
+                "The live doors right now are Scribes and the first Scribes ritual. More games will belong to more districts later.",
+                "Do not chase every gate. Pick one threshold, enter, finish one small thing, and return.",
+                "World XP is a lantern trail. It will eventually wake sealed gates, games, rooms, and story fragments."
+            ],
+            lore: [
+                "SomniaScapes is a city built from abandoned dreams, repaired memories, and little rituals of survival.",
+                "The upper districts keep wonder from freezing. The lower districts keep discarded things from rotting alone.",
+                "The Scriptorium gives stray words a shelf. The Scourings keep what the polished rooms refuse to name.",
+                "Nib guards unfinished things. The Wraith remembers what people forget. I keep the thresholds from lying."
+            ],
+            gate: [
+                "A gate is not a menu button. It is a threshold. Cross one when you are ready to let the room change the mood.",
+                "A sealed gate is not broken. It is sleeping until the city has enough memory to open it.",
+                "Some gates will become tools. Some will become games. Some will become story rooms.",
+                "The Scribes gate leaves the city map for the writing room. The city silences itself before you cross."
+            ],
+            audio: [
+                "Silence All cuts the ghosts. Restore Sound wakes the last known ambience when the browser allows it.",
+                "If sound stacks, do not keep clicking. Silence the city, then restore it once.",
+                "The Scriptorium should not speak over the city. The handoff now forces SomniaScapes quiet before Scribes opens.",
+                "A television browser can cling to old sound. Silence All is the first ward. Closing the tab is the final ward."
+            ],
+            game: [
+                "Ink Catch is only the first visible ritual, not the whole game layer.",
+                "More districts can hold their own rituals: sorting, catching, feeding, finding, repairing, remembering.",
+                "The games should feel like small spells, not chores. A short ritual, a little XP, a reason to return."
+            ]
+        };
+
+        function castellanSpeak(topic = 'guide') {
+            const pool = CASTELLAN_LORE_LINES[topic] || CASTELLAN_LORE_LINES.guide;
+            const line = pool[Math.floor(Math.random() * pool.length)];
+            appendOracleMessage(line, 'lore');
+        }
+
+        function getCastellanReply(text) {
+            const lower = String(text || '').toLowerCase();
+            if (lower.includes('sound') || lower.includes('audio') || lower.includes('silence') || lower.includes('restore')) return CASTELLAN_LORE_LINES.audio[0];
+            if (lower.includes('gate') || lower.includes('room') || lower.includes('door')) return CASTELLAN_LORE_LINES.gate[0];
+            if (lower.includes('game') || lower.includes('ink') || lower.includes('xp')) return CASTELLAN_LORE_LINES.game[0];
+            if (lower.includes('lore') || lower.includes('story') || lower.includes('wraith') || lower.includes('nib')) return CASTELLAN_LORE_LINES.lore[0];
+            return CASTELLAN_LORE_LINES.guide[0];
+        }
+
+        function askCastellanQuick(text) {
+            castellanSpeak('guide');
+        }
 
         function submitOraclePrompt() {
-            const input = document.getElementById('oracle-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            appendOracleMessage(text, 'user');
-            input.value = '';
-
-            if (!SOMNIA_AI.getApiKey()) {
-                setTimeout(() => {
-                    appendOracleMessage("Error: The Castellan interface cannot route commands without a global persistent token. Secure your parameter field above.", 'ai');
-                }, 500);
-                return;
-            }
-
-            setTimeout(() => {
-                const responses = [
-                    "The spatial frames are registered. Your configuration remains sovereign, Architect.",
-                    "Your command traces cleanly through the local storage nodes.",
-                    "Directive noted. The master engine cycles smoothly under your token.",
-                    "The hearth flares in acknowledgment. Progress values remain secured."
-                ];
-                appendOracleMessage(responses[Math.floor(Math.random() * responses.length)], 'ai');
-            }, 700);
+            castellanSpeak('guide');
         }
 
         // === CALCULATOR NATIVE KEYBOARD LOGIC ===
@@ -1710,7 +2234,7 @@
                             <div class="task-meta">${icon} ${escapeHtml(task.category)}</div>
                         </div>
                         <div class="${task.completed ? 'xp-penalty' : 'xp-reward'}">
-                            ${task.completed ? 'CLAIMED' : '+'+task.xpValue+' XP'}
+                            ${task.completed ? 'CLloreMED' : '+'+task.xpValue+' XP'}
                         </div>
                     </div>`;
             });
@@ -1864,6 +2388,7 @@
 
                 setTimeout(() => {
                     document.body.classList.remove('nexus-awake');
+            
                 }, 8500);
             }, 2000);
         }
@@ -1929,11 +2454,38 @@
             }
         }
 
-        function stopAllAudio() { 
-            Object.keys(activeAudio).forEach(id => { 
-                if (activeAudio[id]) activeAudio[id].pause(); 
-                delete activeAudio[id]; 
-            }); 
+        function stopAllAudio() {
+            stopAllAudioHard('local-call');
+        }
+
+        function stopAllAudioHard(reason = 'manual') {
+            try {
+                Object.keys(activeAudio).forEach(id => {
+                    const item = activeAudio[id];
+                    if (item) {
+                        try { item.pause(); } catch(e) {}
+                        try { item.currentTime = 0; } catch(e) {}
+                    }
+                    delete activeAudio[id];
+                });
+            } catch(e) {}
+
+            document.querySelectorAll('audio, video').forEach(media => {
+                try { media.pause(); } catch(e) {}
+                try { media.currentTime = 0; } catch(e) {}
+                if (media.id === 'module-frame') return;
+            });
+
+            const iframe = document.getElementById('module-frame');
+            if (iframe) {
+                try { iframe.contentWindow?.postMessage({ type: 'SOMNIA_SILENCE_ALL', reason }, '*'); } catch(e) {}
+            }
+
+            try {
+                if (window.somniaAlert && reason === 'panic-old') {
+                    somniaAlert('SILENCE ALL', 'Every tracked sound in this layer has been stopped.');
+                }
+            } catch(e) {}
         }
 
         // === AMBIENT PARTICLE FLOW ENGINE ===
@@ -2083,7 +2635,8 @@
                 event.stopPropagation();
                 const action = actionNode.dataset.action;
                 if (action === 'toggle-cloak') toggleCloak();
-                else if (action === 'toggle-oracle') toggleOracleUI();
+                else if (action === 'toggle-sound-safety') toggleSoundSafety();
+                else if (action === 'toggle-castellan') toggleOracleUI();
                 else if (action === 'close-module') closeModule();
                 else if (action === 'toggle-fullscreen') toggleFullscreen();
                 return;
@@ -2105,13 +2658,97 @@
             }
         });
 
+
+        
+        let SOMNIA_SOUND_MUTED = false;
+        let SOMNIA_LAST_MOOD_FOR_RESTORE = null;
+
+        function updateSoundSafetyButton() {
+            const btn = document.getElementById('sound-safety-btn');
+            if (!btn) return;
+            btn.textContent = SOMNIA_SOUND_MUTED ? 'Restore Sound' : 'Silence All';
+            document.body.classList.toggle('sound-muted', SOMNIA_SOUND_MUTED);
+        }
+
+        function toggleSoundSafety() {
+            if (!SOMNIA_SOUND_MUTED) {
+                try {
+                    SOMNIA_LAST_MOOD_FOR_RESTORE = localStorage.getItem('somniascapes_mood') || localStorage.getItem('somnia_mood') || null;
+                } catch(e) {}
+                stopAllAudioHard?.('panic');
+                SOMNIA_SOUND_MUTED = true;
+                updateSoundSafetyButton();
+                try { somniaAlert('SILENCE ALL', 'The city is quiet now. Press Restore Sound to wake the last ambience again.'); } catch(e) {}
+                return;
+            }
+
+            SOMNIA_SOUND_MUTED = false;
+            updateSoundSafetyButton();
+            restoreSomniaSound();
+        }
+
+        function restoreSomniaSound() {
+            try {
+                if (SOMNIA_LAST_MOOD_FOR_RESTORE && typeof applyMoodState === 'function') {
+                    applyMoodState(SOMNIA_LAST_MOOD_FOR_RESTORE);
+                    try { somniaAlert('RESTORE SOUND', 'The city ambience has been restored.'); } catch(e) {}
+                    return;
+                }
+
+                const firstMixer = document.querySelector('[data-sound], [data-audio], audio');
+                if (firstMixer && firstMixer.tagName && firstMixer.tagName.toLowerCase() === 'audio') {
+                    firstMixer.play().catch(() => {});
+                    try { somniaAlert('RESTORE SOUND', 'I tried to wake the nearest ambience.'); } catch(e) {}
+                    return;
+                }
+
+                try { somniaAlert('RESTORE SOUND', 'No previous ambience was found. Choose a mood or room sound to begin again.'); } catch(e) {}
+            } catch(e) {
+                try { somniaAlert('RESTORE SOUND', 'No previous ambience was found. Choose a mood or room sound to begin again.'); } catch(err) {}
+            }
+        }
+
+        function askCastellanQuick(text) {
+            const input = document.getElementById('oracle-input');
+            if (input) input.value = text;
+            submitOraclePrompt();
+        }
+
+
+        window.addEventListener('pagehide', () => stopAllAudioHard?.('pagehide'));
+        window.addEventListener('beforeunload', () => stopAllAudioHard?.('beforeunload'));
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') stopAllAudioHard?.('visibility-hidden');
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                try {
+                    if (!localStorage.getItem('somniascapes_seen_castellan_nudge_v41')) {
+                        localStorage.setItem('somniascapes_seen_castellan_nudge_v41', '1');
+                        if (!document.getElementById('boot-screen') || document.getElementById('boot-screen').style.display === 'none') {
+                            document.body.classList.add('oracle-active');
+                            if (typeof castellanSpeak === 'function') castellanSpeak('guide');
+                        }
+                    }
+                } catch(e) {}
+            }, 2500);
+        });
+
+
+        function updateWeatherSubnote(text) {
+            const sub = document.getElementById('weather-subnote');
+            if (sub && text) sub.textContent = text;
+        }
+
         // === SYSTEM ATTACHMENT ROUTINE ===
         document.addEventListener('DOMContentLoaded', async () => {
             const updateButton = document.getElementById('reload-update-btn');
             if (updateButton) {
                 updateButton.addEventListener('click', () => {
                     if (waitingServiceWorker) {
-                        waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+                        waitingServiceWorker.postMessage({ type: 'SKIP_WloreTING' });
                     } else {
                         window.location.reload();
                     }
@@ -2121,7 +2758,6 @@
 
             updateTimeWidget();
             fetchWeather();
-            if(SOMNIA_AI.getApiKey()) document.getElementById('gemini-api-key').value = SOMNIA_AI.getApiKey();
             const xpDisplay = document.getElementById('global-xp-display');
             if(xpDisplay) xpDisplay.innerText = worldXP;
             initParticles();
@@ -2364,7 +3000,7 @@
 
 
 <script>
-/* === SCRIBES GATE ROUTER ONLY === */
+/* === SCRIBES GATE ROUTER ONLY — CLARITY/SILENCE PASS === */
 window.SOMNIASCRIBES_LIVE_URL = 'https://project-kore-llc.github.io/SomniaScribes/';
 
 document.addEventListener('click', function(event) {
@@ -2375,16 +3011,11 @@ document.addEventListener('click', function(event) {
     event.stopPropagation();
 
     const target = gate.getAttribute('data-module') || window.SOMNIASCRIBES_LIVE_URL;
-    const frame = document.getElementById('module-frame');
-    const overlay = document.getElementById('sandbox-overlay');
 
-    if (frame && overlay) {
-        frame.src = target;
-        overlay.classList.add('active');
-        document.body.classList.add('module-open');
-    } else {
-        window.location.href = target;
-    }
+    try { stopAllAudioHard?.('leave-for-scribes'); } catch(e) {}
+
+    // Full-page handoff prevents SomniaScapes audio from living underneath SomniaScribes.
+    window.location.href = target;
 }, true);
 </script>
 
