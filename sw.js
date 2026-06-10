@@ -1,5 +1,5 @@
-/* SOMNIASCAPES v4.6.1 GITHUB SAFE SERVICE WORKER */
-const CACHE_NAME = 'somniascapes-clarity-silence-v4-6-1-github-safe';
+/* SOMNIASCAPES v4.6.2 GITHUB SAFE SERVICE WORKER */
+const CACHE_NAME = 'somniascapes-clarity-silence-v4-6-2-widget-dock-lower';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -10,9 +10,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return Promise.allSettled(
-        CORE_ASSETS.map((url) => cache.add(url))
-      );
+      return Promise.allSettled(CORE_ASSETS.map((url) => cache.add(url)));
     })
   );
 });
