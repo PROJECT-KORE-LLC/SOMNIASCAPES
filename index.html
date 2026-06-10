@@ -6,7 +6,7 @@
     <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-3-index-only-no-pwa">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-4-index-only-enter-fix">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -818,7 +818,7 @@
         }
 
 
-        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY --- */
+        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX --- */
         #oracle-ui {
             width: min(330px, calc(100vw - 24px)) !important;
             height: auto !important;
@@ -915,7 +915,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY --- */
+        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX --- */
         .castellan-quick-row {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -950,7 +950,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY: CASTELLAN POLISH --- */
+        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX: CASTELLAN POLISH --- */
         #wraith-master-anchor {
             bottom: 6% !important;
             right: 5% !important;
@@ -1055,7 +1055,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.3 INDEX ONLY: CASTELLAN AS LORE-GIVER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.4 INDEX ONLY ENTER FIX: CASTELLAN AS LORE-GIVER --- */
         #oracle-ui {
             width: 360px !important;
             height: auto !important;
@@ -1304,7 +1304,8 @@
         }
 
     </style>
-    <!-- INDEX ONLY / NO PWA: safest GitHub Pages upload build -->
+    <!-- GITHUB SAFE ROOT FILES: index.html, , manifest.json belong in repo root -->
+    <!-- INDEX ONLY / NO PWA / ENTER FIX: upload index.html only -->
 </head>
 <body id="os-body" onclick="restoreUI()">
 
@@ -2581,11 +2582,22 @@
             const banner = document.getElementById('update-banner');
             if (banner) banner.classList.remove('active');
         }
-registration.addEventListener('updatefound', () => {
+
+        if ('serviceWorker' in navigator) {
+            Promise.resolve({ scope: 'index-only-no-pwa' })
+                .then(registration => {
+                    console.log('Nexus Service Worker Registered');
+
+                    if (registration.waiting && navigator.serviceWorker.controller) {
+                        showUpdateBanner(registration.waiting);
+                    }
+
+                    registration.addEventListener('updatefound', () => {
                         const newWorker = registration.installing;
                         if (!newWorker) return;
 
                         newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                 showUpdateBanner(newWorker);
                             }
                         });
@@ -2593,6 +2605,7 @@ registration.addEventListener('updatefound', () => {
                 })
                 .catch(err => console.error('SW Registration Failed:', err));
 
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
                 window.location.reload();
             });
         }
@@ -3027,6 +3040,18 @@ document.addEventListener('click', function(event) {
     // Full-page handoff prevents SomniaScapes audio from living underneath SomniaScribes.
     window.location.href = target;
 }, true);
+
+        // INDEX-ONLY ENTER SAFETY: keeps the boot button wired even without PWA files.
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const boot = document.getElementById('boot-screen');
+                const enterBtn = boot ? boot.querySelector('button') : document.querySelector('button[onclick*="startEngine"]');
+                if (enterBtn && typeof startEngine === 'function') {
+                    enterBtn.onclick = startEngine;
+                }
+            } catch(e) {}
+        });
+
 </script>
 
 </body>
