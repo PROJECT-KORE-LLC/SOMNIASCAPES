@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json?v=4-6-1">
     <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-scribes-gorgeous-widgets">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-1-github-safe">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -819,7 +819,7 @@
         }
 
 
-        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS --- */
+        /* --- CLARITY & SILENCE PASS V4.6.1 GITHUB SAFE --- */
         #oracle-ui {
             width: min(330px, calc(100vw - 24px)) !important;
             height: auto !important;
@@ -916,7 +916,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS --- */
+        /* --- CLARITY & SILENCE PASS V4.6.1 GITHUB SAFE --- */
         .castellan-quick-row {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -951,7 +951,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS: CASTELLAN POLISH --- */
+        /* --- CLARITY & SILENCE PASS V4.6.1 GITHUB SAFE: CASTELLAN POLISH --- */
         #wraith-master-anchor {
             bottom: 6% !important;
             right: 5% !important;
@@ -1056,7 +1056,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6 SCRIBES GORGEOUS WIDGETS: CASTELLAN AS LORE-GIVER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.1 GITHUB SAFE: CASTELLAN AS LORE-GIVER --- */
         #oracle-ui {
             width: 360px !important;
             height: auto !important;
@@ -1283,6 +1283,7 @@
         }
 
     </style>
+    <!-- GITHUB SAFE ROOT FILES: index.html, sw.js, manifest.json belong in repo root -->
 </head>
 <body id="os-body" onclick="restoreUI()">
 
@@ -2561,7 +2562,7 @@
         }
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('./sw.js?v=4-6-1')
                 .then(registration => {
                     console.log('Nexus Service Worker Registered');
 
