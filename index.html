@@ -6,7 +6,7 @@
     <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-6-modal-close-fix">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-7-modal-backdrop-fix">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -818,7 +818,7 @@
         }
 
 
-        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX --- */
+        /* --- CLARITY & SILENCE PASS V4.6.7 MODAL BACKDROP FIX --- */
         #oracle-ui {
             width: min(330px, calc(100vw - 24px)) !important;
             height: auto !important;
@@ -915,7 +915,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX --- */
+        /* --- CLARITY & SILENCE PASS V4.6.7 MODAL BACKDROP FIX --- */
         .castellan-quick-row {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -950,7 +950,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX: CASTELLAN POLISH --- */
+        /* --- CLARITY & SILENCE PASS V4.6.7 MODAL BACKDROP FIX: CASTELLAN POLISH --- */
         #wraith-master-anchor {
             bottom: 6% !important;
             right: 5% !important;
@@ -1055,7 +1055,7 @@
         }
 
     
-        /* --- CLARITY & SILENCE PASS V4.6.6 MODAL CLOSE FIX: CASTELLAN AS LORE-GIVER --- */
+        /* --- CLARITY & SILENCE PASS V4.6.7 MODAL BACKDROP FIX: CASTELLAN AS LORE-GIVER --- */
         #oracle-ui {
             width: 360px !important;
             height: auto !important;
@@ -1562,7 +1562,7 @@
     </div>
 
     <!-- COMPACT TUNE THE REALM MODAL -->
-    <div id="tune-modal" class="modal-overlay" data-modal-close="tune-modal">
+    <div id="tune-modal" class="modal-overlay">
         <div class="cast-box" style="max-width: 400px; padding: 30px;" data-stop-propagation="true">
             <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 25px 0; font-family: 'Times New Roman', serif;">TUNE THE REALM</h3>
             
@@ -1603,7 +1603,7 @@
     </div>
 
     <!-- WORLD GUIDE MODAL -->
-    <div id="world-guide-modal" class="modal-overlay" data-modal-close="world-guide-modal">
+    <div id="world-guide-modal" class="modal-overlay">
         <div class="cast-box" style="max-width: 760px; text-align: left;" data-stop-propagation="true">
             <div style="width:100%; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; border-bottom:1px solid var(--glass-border); padding-bottom:16px; margin-bottom:18px;">
                 <div>
@@ -1667,7 +1667,7 @@
         </div>
     </div>
 
-    <div id="scratchpad-modal" class="modal-overlay" data-modal-close="scratchpad-modal">
+    <div id="scratchpad-modal" class="modal-overlay">
         <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" data-stop-propagation="true">
             <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 20px;">
                 <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE ARCHIVES & LEDGER</h3>
@@ -1706,7 +1706,7 @@
     </div>
 
     <!-- WORLD CALENDAR & MASTER LIST MODAL -->
-    <div id="world-calendar-modal" class="modal-overlay" data-modal-close="world-calendar-modal">
+    <div id="world-calendar-modal" class="modal-overlay">
         <div class="planner-bubble" data-stop-propagation="true">
             <div class="cal-panel">
                 <div class="cal-header">
@@ -1742,7 +1742,7 @@
     </div>
 
     <!-- CAST MODAL -->
-    <div id="cast-modal" class="modal-overlay" data-modal-close="cast-modal">
+    <div id="cast-modal" class="modal-overlay">
         <div class="cast-box" data-stop-propagation="true">
             <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; margin-bottom: 15px; font-family: 'Times New Roman', serif;">PROJECT TO REALITY</h3>
             <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-family: 'Georgia', serif; font-style: italic;">
@@ -3053,42 +3053,35 @@ document.addEventListener('click', function(event) {
         });
 
 
-        // V4.6.6 MODAL CLOSE FIX
+        // V4.6.7 MODAL BACKDROP FIX
+        // Backdrops no longer carry data-modal-close.
+        // Close buttons close. Backdrop direct-click closes. Interior clicks stay inside.
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                document.querySelectorAll('[data-modal-close]').forEach((closer) => {
-                    closer.addEventListener('click', (ev) => {
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        const targetId = closer.getAttribute('data-modal-close');
-                        const modal = targetId ? document.getElementById(targetId) : closer.closest('.modal-overlay');
-                        if (modal) modal.classList.remove('active');
-                    }, true);
-                });
-
                 document.querySelectorAll('.modal-overlay').forEach((overlay) => {
                     overlay.addEventListener('click', (ev) => {
                         if (ev.target === overlay) {
                             overlay.classList.remove('active');
                         }
-                    }, false);
+                    });
+
+                    overlay.querySelectorAll(
+                        '.cast-box, .panel-card, table, .tab-content, .archive-vault, .scribes-bubble, .modal-content'
+                    ).forEach((inner) => {
+                        inner.addEventListener('click', (ev) => ev.stopPropagation());
+                        inner.addEventListener('pointerdown', (ev) => ev.stopPropagation());
+                        inner.addEventListener('mousedown', (ev) => ev.stopPropagation());
+                    });
                 });
 
-                document.querySelectorAll(
-                    '.modal-overlay .cast-box, .modal-overlay .panel-card, .modal-overlay table, .modal-overlay .tab-content, .modal-overlay .archive-vault, .modal-overlay .scribes-bubble'
-                ).forEach((node) => {
-                    node.addEventListener('click', (ev) => {
-                        if (ev.target.closest('[data-modal-close]')) return;
+                document.querySelectorAll('[data-modal-close]').forEach((btn) => {
+                    btn.addEventListener('click', (ev) => {
+                        ev.preventDefault();
                         ev.stopPropagation();
-                    }, false);
-                    node.addEventListener('pointerdown', (ev) => {
-                        if (ev.target.closest('[data-modal-close]')) return;
-                        ev.stopPropagation();
-                    }, false);
-                    node.addEventListener('mousedown', (ev) => {
-                        if (ev.target.closest('[data-modal-close]')) return;
-                        ev.stopPropagation();
-                    }, false);
+                        const targetId = btn.getAttribute('data-modal-close');
+                        const modal = targetId ? document.getElementById(targetId) : btn.closest('.modal-overlay');
+                        if (modal) modal.classList.remove('active');
+                    });
                 });
             } catch(e) {}
         });
