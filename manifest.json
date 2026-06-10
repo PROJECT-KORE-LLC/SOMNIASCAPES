@@ -1,7 +1,7 @@
 {
   "name": "SomniaScapes",
   "short_name": "SomniaScapes",
-  "description": "A desktop local-first dream city with SomniaScribes gorgeous time and weather widgets.",
+  "description": "A desktop local-first dream city with SomniaScribes widgets moved below top controls.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
