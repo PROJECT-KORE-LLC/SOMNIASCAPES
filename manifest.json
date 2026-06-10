@@ -2,11 +2,11 @@
   "name": "SomniaScapes",
   "short_name": "SomniaScapes",
   "description": "A desktop local-first dream city with SomniaScribes gorgeous time and weather widgets.",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#020204",
+  "background_color": "#050508",
   "theme_color": "#020204",
-  "orientation": "any",
+  "orientation": "landscape",
   "icons": []
 }
