@@ -1,11 +1,12 @@
 {
   "name": "SomniaScapes",
-  "short_name": "Scapes",
-  "description": "SOMNIASCAPES // The Sanctuary Nexus.",
+  "short_name": "SomniaScapes",
+  "description": "A desktop local-first dream city with SomniaScribes gorgeous time and weather widgets.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#020204",
   "theme_color": "#020204",
-  "orientation": "any"
+  "orientation": "any",
+  "icons": []
 }
