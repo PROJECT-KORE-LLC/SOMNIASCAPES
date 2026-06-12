@@ -6,7 +6,7 @@
     <title>SOMNIASCAPES // V4.6.8D WIDGETS BUMPED UP</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8d-widgets-bumped-up">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8e-scriptorium-gate-label">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1484,8 +1484,8 @@
         <!-- ZONE 3: SomniaScribes -->
         <section id="zone-scribes" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate scriptorium-gate" data-module="https://project-kore-llc.github.io/SomniaScribes/" data-external-module="true" data-room="scribes" title="Open SomniaScribes">
-                    <span class="warp-text">Scribes</span>
+                <div class="warp-gate scriptorium-gate" data-module="https://project-kore-llc.github.io/SomniaScribes/" data-external-module="true" data-room="scribes" title="Open Scriptorium">
+                    <span class="warp-text">Scriptorium</span>
                 </div>
 
                 <button class="scribe-game-gate" id="scribes-minigame-gate" type="button" data-scribes-minigame="open" title="Play Ink Catch">
@@ -2211,7 +2211,7 @@
         const CASTELLAN_LORE_LINES = {
             guide: [
                 "This is the Nexus map. Scroll through the city, choose a gate, and enter one room at a time.",
-                "The live doors right now are Scribes and the first Scribes ritual. More games will belong to more districts later.",
+                "The live door right now is the Scriptorium and its first candlelit ritual. More games will belong to more districts later.",
                 "Do not chase every gate. Pick one threshold, enter, finish one small thing, and return.",
                 "World XP is a lantern trail. It will eventually wake sealed gates, games, rooms, and story fragments."
             ],
@@ -2225,12 +2225,12 @@
                 "A gate is not a menu button. It is a threshold. Cross one when you are ready to let the room change the mood.",
                 "A sealed gate is not broken. It is sleeping until the city has enough memory to open it.",
                 "Some gates will become tools. Some will become games. Some will become story rooms.",
-                "The Scribes gate leaves the city map for the writing room. The city silences itself before you cross."
+                "The Scriptorium gate leaves the city map for the writing room. The city silences itself before you cross."
             ],
             audio: [
                 "Silence All cuts the ghosts. Restore Sound wakes the last known ambience when the browser allows it.",
                 "If sound stacks, do not keep clicking. Silence the city, then restore it once.",
-                "The Scriptorium should not speak over the city. The handoff now forces SomniaScapes quiet before Scribes opens.",
+                "The Scriptorium should not speak over the city. The handoff now forces SomniaScapes quiet before the Scriptorium opens.",
                 "A television browser can cling to old sound. Silence All is the first ward. Closing the tab is the final ward."
             ],
             game: [
@@ -3042,7 +3042,7 @@ document.addEventListener('click', function(event) {
 
     try { stopAllAudioHard?.('leave-for-scribes'); } catch(e) {}
 
-    // Full-page handoff prevents SomniaScapes audio from living underneath SomniaScribes.
+    // Full-page handoff prevents SomniaScapes audio from living underneath the Scriptorium.
     window.location.href = target;
 }, true);
 
