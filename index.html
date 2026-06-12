@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // V4.6.8 LAYOUT & CIRCADIAN GUARD</title>
+    <title>SOMNIASCAPES // V4.6.8B LAYOUT & AUDIO GUARD</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8-layout-circadian-guard">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8b-layout-audio-guard-preserve-sizing">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1304,7 +1304,7 @@
         }
 
 
-        /* --- V4.6.8: LAYOUT CLEANUP + PROTECTED CASTELLAN --- */
+        /* --- V4.6.8B: LAYOUT CLEANUP, PRESERVE SIZING, PROTECT CASTELLAN --- */
         .nav-logo-stack {
             display: flex;
             flex-direction: column;
@@ -1342,46 +1342,17 @@
             text-shadow: 0 0 10px var(--primary-glow);
         }
 
-        #master-header {
-            padding-top: 20px !important;
-            padding-bottom: 14px !important;
-        }
-
-        .header-right {
-            gap: 12px !important;
-            row-gap: 10px !important;
-            max-width: min(72vw, 980px);
-        }
-
-        .header-right .artifact-btn {
-            padding: 10px 16px !important;
-        }
-
-        /* Lift the Scribes-style time/weather dock away from the Castellan lane. */
+        /* Keep the Scribes-style cards/buttons at their original visual size.
+           Only lift the dock to use the space freed by removing Scratchpad/Calculator. */
         .widget-dock {
             top: 132px !important;
-            right: 28px !important;
-            gap: 16px !important;
-            z-index: 82 !important;
-        }
-
-        .gorgeous-widget {
-            min-width: 260px !important;
-            padding: 22px 25px !important;
-        }
-
-        .time-display {
-            font-size: 3.55rem !important;
-        }
-
-        .weather-display {
-            font-size: 2.65rem !important;
+            right: 35px !important;
         }
 
         /* The Castellan stays visible: slightly smaller, still magical. */
         #wraith-master-anchor {
-            bottom: 5% !important;
-            right: 4.4% !important;
+            bottom: 5.4% !important;
+            right: 5% !important;
         }
 
         #wraith-anim-wrapper {
@@ -1393,77 +1364,19 @@
         }
 
         @media (max-width: 1366px) {
-            #master-header {
-                padding: 16px 22px !important;
-                gap: 12px !important;
-            }
-
-            .nav-logo {
-                font-size: 1.08rem !important;
-                letter-spacing: 4px !important;
-            }
-
-            .world-xp-under-title {
-                font-size: 0.6rem !important;
-                letter-spacing: 1.4px !important;
-                padding: 5px 10px !important;
-            }
-
-            .header-left,
-            .header-right {
-                gap: 9px !important;
-            }
-
-            .header-right {
-                max-width: 74vw !important;
-                justify-content: flex-end !important;
-            }
-
-            .header-right .artifact-btn {
-                padding: 9px 12px !important;
-                font-size: 0.62rem !important;
-                letter-spacing: 1.35px !important;
-            }
-
-            .widget-dock {
-                top: 116px !important;
-                right: 18px !important;
-                gap: 12px !important;
-            }
-
-            .gorgeous-widget {
-                min-width: 224px !important;
-                padding: 17px 18px !important;
-                border-radius: 24px !important;
-            }
-
-            .time-display {
-                font-size: 2.95rem !important;
-                letter-spacing: 3px !important;
-            }
-
-            .date-display,
-            .weather-desc {
-                font-size: 0.72rem !important;
-                letter-spacing: 2px !important;
-            }
-
-            .weather-display {
-                font-size: 2.15rem !important;
+            /* Preserve the big widget/card/button sizing; just keep the Wraith compact. */
+            #wraith-anim-wrapper {
+                width: 128px !important;
             }
 
             #wraith-master-anchor {
-                bottom: 4% !important;
-                right: 3.2% !important;
+                bottom: 4.4% !important;
+                right: 4% !important;
             }
 
-            #wraith-anim-wrapper {
-                width: 120px !important;
-            }
-
-            #oracle-ui {
-                width: min(340px, calc(100vw - 28px)) !important;
-                right: 108% !important;
+            .widget-dock {
+                top: 126px !important;
+                right: 30px !important;
             }
         }
 
@@ -2035,7 +1948,7 @@
             const now = Date.now();
             const activeCircadianAudioCount = window.__somniaActiveAudio ? Object.keys(window.__somniaActiveAudio).length : 0;
 
-            // V4.6.8 Circadian Audio Handoff Guard:
+            // V4.6.8B Circadian Audio Handoff Guard:
             // weather/time refresh may re-evaluate the same mood; do not restart/stack the same ambience.
             if (mood === lastAppliedCircadianState && activeCircadianAudioCount > 0 && (now - lastCircadianApplyAt) < 45000) {
                 return;
@@ -2294,7 +2207,7 @@
         function submitOraclePrompt() {
             castellanSpeak('guide');
         }
-        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8 ===
+        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8B ===
         // Utility clutter was removed from the hub. Use Master Ledger / future Stronghold tools instead.
 
         // === WORLD CALENDAR RENDER ===
