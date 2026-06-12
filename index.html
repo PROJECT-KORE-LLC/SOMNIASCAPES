@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // V4.6.8D WIDGETS BUMPED UP</title>
+    <title>SOMNIASCAPES // CHRONARIUM WIRED</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8e-scriptorium-gate-label">
+    <meta name="somniascapes-build" content="somniascapes-v4-6-9-chronarium-fullscreen">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1434,6 +1434,11 @@
             }
         }
 
+        /* --- SOMNIASCAPES v4.6.9: FULL SCREEN DESKTOP MODE --- */
+        body:fullscreen #ui-wrapper,
+        body:fullscreen #world-map {
+            min-height: 100dvh;
+        }
 
     </style>
     <!-- GITHUB SAFE ROOT FILES: index.html, , manifest.json belong in repo root -->
@@ -1499,11 +1504,11 @@
             </div>
         </section>
 
-        <!-- ZONE 4: SomniaScheds -->
+        <!-- ZONE 4: The Chronarium -->
         <section id="zone-scheds" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" data-module="SomniaScheds.html">
-                    <span class="warp-text">Scheds</span>
+                <div class="warp-gate" data-module="Chronarium.html">
+                    <span class="warp-text">Chronarium</span>
                 </div>
                 <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
@@ -1601,6 +1606,7 @@
 
             <div class="header-right" data-stop-propagation="true">
                 <button class="artifact-btn panic-silence-btn" data-action="toggle-sound-safety" id="sound-safety-btn" title="Stop or restore SomniaScapes ambience">Silence All</button>
+                <button class="artifact-btn" data-action="toggle-fullscreen">Full Screen</button>
                 <button class="artifact-btn" data-action="toggle-cloak">Cloak UI</button>
                 <button class="artifact-btn" data-modal="world-guide-modal">World Guide</button>
                 <button class="artifact-btn" data-modal="world-calendar-modal" data-after-open="renderWorldCalendar">Master Ledger</button>
@@ -2422,9 +2428,13 @@
         function restoreUI() { document.body.classList.remove('cloaked'); }
         function toggleModal(modalId) { document.getElementById(modalId).classList.toggle('active'); }
         function toggleFullscreen() {
-            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(e => console.log(e));
-            else document.exitFullscreen();
-            document.getElementById('cast-modal').classList.remove('active');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => console.log(e));
+            } else {
+                document.exitFullscreen().catch(e => console.log(e));
+            }
+            const castModal = document.getElementById('cast-modal');
+            if (castModal) castModal.classList.remove('active');
         }
         function updateVar(name, val) { document.documentElement.style.setProperty(name, val); }
 
