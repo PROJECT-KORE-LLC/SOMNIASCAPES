@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // V4.6.8B LAYOUT & AUDIO GUARD</title>
+    <title>SOMNIASCAPES // V4.6.8C TIME WEATHER RESIZE</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8b-layout-audio-guard-preserve-sizing">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8c-smaller-time-weather">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1303,8 +1303,7 @@
             }
         }
 
-
-        /* --- V4.6.8B: LAYOUT CLEANUP, PRESERVE SIZING, PROTECT CASTELLAN --- */
+        /* --- V4.6.8C: LAYOUT CLEANUP, SMALLER TIME/WEATHER, PROTECT CASTELLAN --- */
         .nav-logo-stack {
             display: flex;
             flex-direction: column;
@@ -1342,14 +1341,45 @@
             text-shadow: 0 0 10px var(--primary-glow);
         }
 
-        /* Keep the Scribes-style cards/buttons at their original visual size.
-           Only lift the dock to use the space freed by removing Scratchpad/Calculator. */
+        /* Time/weather only: slightly smaller. Buttons and Castellan stay as-is. */
         .widget-dock {
             top: 132px !important;
             right: 35px !important;
+            gap: 14px !important;
         }
 
-        /* The Castellan stays visible: slightly smaller, still magical. */
+        .gorgeous-widget {
+            min-width: 248px !important;
+            padding: 20px 23px !important;
+            border-radius: 28px !important;
+        }
+
+        .time-display {
+            font-size: 3.45rem !important;
+            letter-spacing: 4px !important;
+        }
+
+        .date-display {
+            font-size: 0.9rem !important;
+            letter-spacing: 3px !important;
+        }
+
+        .weather-display {
+            font-size: 2.55rem !important;
+        }
+
+        .weather-desc {
+            font-size: 0.9rem !important;
+            letter-spacing: 1.8px !important;
+        }
+
+        .weather-subnote {
+            font-size: 0.6rem !important;
+            letter-spacing: 1.6px !important;
+            margin-top: 8px !important;
+        }
+
+        /* Keep the 8B Castellan/Wraith sizing and position. */
         #wraith-master-anchor {
             bottom: 5.4% !important;
             right: 5% !important;
@@ -1364,7 +1394,6 @@
         }
 
         @media (max-width: 1366px) {
-            /* Preserve the big widget/card/button sizing; just keep the Wraith compact. */
             #wraith-anim-wrapper {
                 width: 128px !important;
             }
@@ -1377,8 +1406,34 @@
             .widget-dock {
                 top: 126px !important;
                 right: 30px !important;
+                gap: 12px !important;
+            }
+
+            .gorgeous-widget {
+                min-width: 232px !important;
+                padding: 18px 20px !important;
+            }
+
+            .time-display {
+                font-size: 3.2rem !important;
+                letter-spacing: 3px !important;
+            }
+
+            .date-display,
+            .weather-desc {
+                font-size: 0.82rem !important;
+                letter-spacing: 2px !important;
+            }
+
+            .weather-display {
+                font-size: 2.35rem !important;
+            }
+
+            .weather-subnote {
+                font-size: 0.58rem !important;
             }
         }
+
 
     </style>
     <!-- GITHUB SAFE ROOT FILES: index.html, , manifest.json belong in repo root -->
@@ -1948,7 +2003,7 @@
             const now = Date.now();
             const activeCircadianAudioCount = window.__somniaActiveAudio ? Object.keys(window.__somniaActiveAudio).length : 0;
 
-            // V4.6.8B Circadian Audio Handoff Guard:
+            // V4.6.8C Circadian Audio Handoff Guard:
             // weather/time refresh may re-evaluate the same mood; do not restart/stack the same ambience.
             if (mood === lastAppliedCircadianState && activeCircadianAudioCount > 0 && (now - lastCircadianApplyAt) < 45000) {
                 return;
@@ -2207,7 +2262,7 @@
         function submitOraclePrompt() {
             castellanSpeak('guide');
         }
-        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8B ===
+        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8C ===
         // Utility clutter was removed from the hub. Use Master Ledger / future Stronghold tools instead.
 
         // === WORLD CALENDAR RENDER ===
