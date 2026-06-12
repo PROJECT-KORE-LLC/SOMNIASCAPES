@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // V4.6.8C TIME WEATHER RESIZE</title>
+    <title>SOMNIASCAPES // V4.6.8D WIDGETS BUMPED UP</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8c-smaller-time-weather">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8d-widgets-bumped-up">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1303,7 +1303,7 @@
             }
         }
 
-        /* --- V4.6.8C: LAYOUT CLEANUP, SMALLER TIME/WEATHER, PROTECT CASTELLAN --- */
+        /* --- V4.6.8D: LAYOUT CLEANUP, SMALLER TIME/WEATHER, PROTECT CASTELLAN --- */
         .nav-logo-stack {
             display: flex;
             flex-direction: column;
@@ -1343,7 +1343,7 @@
 
         /* Time/weather only: slightly smaller. Buttons and Castellan stay as-is. */
         .widget-dock {
-            top: 132px !important;
+            top: 112px !important;
             right: 35px !important;
             gap: 14px !important;
         }
@@ -1404,7 +1404,7 @@
             }
 
             .widget-dock {
-                top: 126px !important;
+                top: 106px !important;
                 right: 30px !important;
                 gap: 12px !important;
             }
@@ -2003,7 +2003,7 @@
             const now = Date.now();
             const activeCircadianAudioCount = window.__somniaActiveAudio ? Object.keys(window.__somniaActiveAudio).length : 0;
 
-            // V4.6.8C Circadian Audio Handoff Guard:
+            // V4.6.8D Circadian Audio Handoff Guard:
             // weather/time refresh may re-evaluate the same mood; do not restart/stack the same ambience.
             if (mood === lastAppliedCircadianState && activeCircadianAudioCount > 0 && (now - lastCircadianApplyAt) < 45000) {
                 return;
@@ -2262,7 +2262,7 @@
         function submitOraclePrompt() {
             castellanSpeak('guide');
         }
-        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8C ===
+        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8D ===
         // Utility clutter was removed from the hub. Use Master Ledger / future Stronghold tools instead.
 
         // === WORLD CALENDAR RENDER ===
