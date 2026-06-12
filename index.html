@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // CLARITY & SILENCE PASS</title>
+    <title>SOMNIASCAPES // V4.6.8 LAYOUT & CIRCADIAN GUARD</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-7-modal-backdrop-fix">
+    <meta name="somniascapes-build" content="clarity-silence-pass-v4-6-8-layout-circadian-guard">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1303,6 +1303,170 @@
             }
         }
 
+
+        /* --- V4.6.8: LAYOUT CLEANUP + PROTECTED CASTELLAN --- */
+        .nav-logo-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            margin-right: 10px;
+            pointer-events: auto;
+        }
+
+        .nav-logo-stack .nav-logo {
+            margin-right: 0 !important;
+            line-height: 1;
+        }
+
+        .world-xp-under-title {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            min-height: 26px;
+            padding: 5px 12px;
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            background: rgba(0,0,0,0.42);
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.03);
+        }
+
+        .world-xp-under-title #global-xp-display {
+            font-weight: bold;
+            margin-left: 4px;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        #master-header {
+            padding-top: 20px !important;
+            padding-bottom: 14px !important;
+        }
+
+        .header-right {
+            gap: 12px !important;
+            row-gap: 10px !important;
+            max-width: min(72vw, 980px);
+        }
+
+        .header-right .artifact-btn {
+            padding: 10px 16px !important;
+        }
+
+        /* Lift the Scribes-style time/weather dock away from the Castellan lane. */
+        .widget-dock {
+            top: 132px !important;
+            right: 28px !important;
+            gap: 16px !important;
+            z-index: 82 !important;
+        }
+
+        .gorgeous-widget {
+            min-width: 260px !important;
+            padding: 22px 25px !important;
+        }
+
+        .time-display {
+            font-size: 3.55rem !important;
+        }
+
+        .weather-display {
+            font-size: 2.65rem !important;
+        }
+
+        /* The Castellan stays visible: slightly smaller, still magical. */
+        #wraith-master-anchor {
+            bottom: 5% !important;
+            right: 4.4% !important;
+        }
+
+        #wraith-anim-wrapper {
+            width: 136px !important;
+        }
+
+        body.oracle-active #wraith-anim-wrapper {
+            transform: scale(1.18) !important;
+        }
+
+        @media (max-width: 1366px) {
+            #master-header {
+                padding: 16px 22px !important;
+                gap: 12px !important;
+            }
+
+            .nav-logo {
+                font-size: 1.08rem !important;
+                letter-spacing: 4px !important;
+            }
+
+            .world-xp-under-title {
+                font-size: 0.6rem !important;
+                letter-spacing: 1.4px !important;
+                padding: 5px 10px !important;
+            }
+
+            .header-left,
+            .header-right {
+                gap: 9px !important;
+            }
+
+            .header-right {
+                max-width: 74vw !important;
+                justify-content: flex-end !important;
+            }
+
+            .header-right .artifact-btn {
+                padding: 9px 12px !important;
+                font-size: 0.62rem !important;
+                letter-spacing: 1.35px !important;
+            }
+
+            .widget-dock {
+                top: 116px !important;
+                right: 18px !important;
+                gap: 12px !important;
+            }
+
+            .gorgeous-widget {
+                min-width: 224px !important;
+                padding: 17px 18px !important;
+                border-radius: 24px !important;
+            }
+
+            .time-display {
+                font-size: 2.95rem !important;
+                letter-spacing: 3px !important;
+            }
+
+            .date-display,
+            .weather-desc {
+                font-size: 0.72rem !important;
+                letter-spacing: 2px !important;
+            }
+
+            .weather-display {
+                font-size: 2.15rem !important;
+            }
+
+            #wraith-master-anchor {
+                bottom: 4% !important;
+                right: 3.2% !important;
+            }
+
+            #wraith-anim-wrapper {
+                width: 120px !important;
+            }
+
+            #oracle-ui {
+                width: min(340px, calc(100vw - 28px)) !important;
+                right: 108% !important;
+            }
+        }
+
     </style>
     <!-- GITHUB SAFE ROOT FILES: index.html, , manifest.json belong in repo root -->
     <!-- INDEX ONLY / NO PWA / ENTER FIX: upload index.html only -->
@@ -1446,7 +1610,10 @@
         <div id="master-header">
             
             <div class="header-left">
-                <div class="nav-logo">SOMNIASCAPES</div>
+                <div class="nav-logo-stack">
+                    <div class="nav-logo">SOMNIASCAPES</div>
+                    <div class="world-xp-under-title">World XP: <span id="global-xp-display">0</span></div>
+                </div>
                 
                 <div class="chronicle-container">
                     <span class="chronicle-time" id="time-display-hidden">00:00:00</span>
@@ -1465,15 +1632,11 @@
             </div>
 
             <div class="header-right" data-stop-propagation="true">
-                <div style="display: flex; align-items: center; margin-right: 15px; padding: 0 10px; background: rgba(0,0,0,0.4); border-radius: 30px; height: 35px; border: 1px solid var(--glass-border);">
-                    <span style="font-family: monospace; font-size: 0.7rem; color: var(--primary); text-transform: uppercase; letter-spacing: 2px;">World XP: <span id="global-xp-display" style="font-weight: bold; text-shadow: 0 0 10px var(--primary-glow);">0</span></span>
-                </div>
                 <button class="artifact-btn panic-silence-btn" data-action="toggle-sound-safety" id="sound-safety-btn" title="Stop or restore SomniaScapes ambience">Silence All</button>
                 <button class="artifact-btn" data-action="toggle-cloak">Cloak UI</button>
                 <button class="artifact-btn" data-modal="world-guide-modal">World Guide</button>
-                <button class="artifact-btn" data-modal="scratchpad-modal">Scratchpad & Calc</button>
                 <button class="artifact-btn" data-modal="world-calendar-modal" data-after-open="renderWorldCalendar">Master Ledger</button>
-                <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" data-modal="tune-modal">Tune the Realm</button>
+                <button class="artifact-btn" style="border-color: var(--accent); background: rgba(255,255,255,0.05);" data-modal="tune-modal">Tune Realm</button>
             </div>
 
         </div>
@@ -1564,7 +1727,7 @@
     <!-- COMPACT TUNE THE REALM MODAL -->
     <div id="tune-modal" class="modal-overlay">
         <div class="cast-box" style="max-width: 400px; padding: 30px;" data-stop-propagation="true">
-            <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 25px 0; font-family: 'Times New Roman', serif;">TUNE THE REALM</h3>
+            <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0 0 25px 0; font-family: 'Times New Roman', serif;">TUNE REALM</h3>
             
             <div class="ctrl-row" style="width: 100%;">
                 <label>Brightness</label>
@@ -1663,44 +1826,6 @@
                 <p style="margin:0; color:var(--primary); line-height:1.55; font-style:italic;">
                     “SomniaScapes is a city built from abandoned dreams, repaired memories, and little rituals of survival.”
                 </p>
-            </div>
-        </div>
-    </div>
-
-    <div id="scratchpad-modal" class="modal-overlay">
-        <div class="cast-box" style="padding: 25px; max-width: 850px; height: 70vh; display: flex; flex-direction: column;" data-stop-propagation="true">
-            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--primary); letter-spacing: 4px; margin: 0; font-family: 'Times New Roman', serif;">THE ARCHIVES & LEDGER</h3>
-                <button class="toy-btn" style="color: #fb7185; border-color: transparent; background: transparent;" data-modal-close="scratchpad-modal">✕</button>
-            </div>
-            
-            <div id="scratchpad-layout" style="display: flex; gap: 20px; width: 100%; height: 100%;">
-                <textarea id="scratchpad-box" class="scratchpad-input" style="flex: 2; height: 100%; margin: 0;" placeholder="Etch your notes, lore, and calculations into the stone. It autosaves." oninput="saveScratchpad()"></textarea>
-                
-                <div id="calculator-panel" style="flex: 1; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border);">
-                    <input type="text" id="calc-display" readonly placeholder="0" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--primary); color: var(--primary); font-family: monospace; font-size: 1.2rem; padding: 15px 10px; text-align: right; border-radius: 10px; outline: none; margin-bottom: 5px;">
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex: 1;">
-                        <button class="toy-btn" onclick="calcAppend('7')">7</button>
-                        <button class="toy-btn" onclick="calcAppend('8')">8</button>
-                        <button class="toy-btn" onclick="calcAppend('9')">9</button>
-                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('/')">/</button>
-                        
-                        <button class="toy-btn" onclick="calcAppend('4')">4</button>
-                        <button class="toy-btn" onclick="calcAppend('5')">5</button>
-                        <button class="toy-btn" onclick="calcAppend('6')">6</button>
-                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('*')">*</button>
-                        
-                        <button class="toy-btn" onclick="calcAppend('1')">1</button>
-                        <button class="toy-btn" onclick="calcAppend('2')">2</button>
-                        <button class="toy-btn" onclick="calcAppend('3')">3</button>
-                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('-')">-</button>
-                        
-                        <button class="toy-btn" style="color: #fb7185;" onclick="calcClear()">C</button>
-                        <button class="toy-btn" onclick="calcAppend('0')">0</button>
-                        <button class="toy-btn" style="color: var(--primary); font-weight: bold; background: rgba(255,255,255,0.05);" onclick="calcEval()">=</button>
-                        <button class="toy-btn" style="color: var(--accent);" onclick="calcAppend('+')">+</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -1902,9 +2027,23 @@
         let currentCircadianMood = 'Auto';
         let isLowSensory = false;
         let isStormyWeather = false;
+        let lastAppliedCircadianState = null;
+        let lastCircadianApplyAt = 0;
 
         // === CIRCADIAN & WEATHER MATRIX MAP ===
         function applyMoodState(mood) {
+            const now = Date.now();
+            const activeCircadianAudioCount = window.__somniaActiveAudio ? Object.keys(window.__somniaActiveAudio).length : 0;
+
+            // V4.6.8 Circadian Audio Handoff Guard:
+            // weather/time refresh may re-evaluate the same mood; do not restart/stack the same ambience.
+            if (mood === lastAppliedCircadianState && activeCircadianAudioCount > 0 && (now - lastCircadianApplyAt) < 45000) {
+                return;
+            }
+
+            lastAppliedCircadianState = mood;
+            lastCircadianApplyAt = now;
+
             stopAllAudioHard?.('mood-change') || stopAllAudio();
             
             let pType = 'dust';
@@ -2155,113 +2294,8 @@
         function submitOraclePrompt() {
             castellanSpeak('guide');
         }
-
-        // === CALCULATOR NATIVE KEYBOARD LOGIC ===
-        function calcAppend(val) { document.getElementById('calc-display').value += val; }
-        function calcClear() { document.getElementById('calc-display').value = ''; }
-        function calcEval() { 
-            try { 
-                const display = document.getElementById('calc-display');
-                if(display.value) display.value = eval(display.value); 
-            } catch(e) { 
-                document.getElementById('calc-display').value = 'Error'; 
-                setTimeout(calcClear, 1000);
-            } 
-        }
-
-        document.addEventListener('keydown', (e) => {
-            const scratchpadModal = document.getElementById('scratchpad-modal');
-            if (scratchpadModal.classList.contains('active')) {
-                if (document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
-                    const key = e.key;
-                    if (/[0-9+\-*/.]/.test(key)) {
-                        calcAppend(key);
-                    } else if (key === 'Enter' || key === '=') {
-                        e.preventDefault();
-                        calcEval();
-                    } else if (key === 'Backspace' || key === 'Escape' || key.toLowerCase() === 'c') {
-                        calcClear();
-                    }
-                }
-            }
-        });
-
-        // === LEDGER DATA WIRING ===
-        let worldXP = Number(loadStorage(STORAGE_KEYS.worldXP, 0)) || 0;
-        let masterLedger = loadStorage(STORAGE_KEYS.ledger, []);
-
-        function updateWorldXP(amount) {
-            worldXP += amount;
-            if (worldXP < 0) worldXP = 0;
-            saveStorage(STORAGE_KEYS.worldXP, worldXP);
-            const display = document.getElementById('global-xp-display');
-            if (display) display.innerText = worldXP;
-        }
-
-        function addTaskToLedger() {
-            const input = document.getElementById('new-task-input');
-            const category = document.getElementById('task-category').value;
-            const text = input.value.trim();
-            if (!text) return;
-
-            const newTask = {
-                id: 'task_' + Date.now(),
-                text: text,
-                category: category,
-                completed: false,
-                xpValue: category === 'Market' ? 10 : 50
-            };
-
-            masterLedger.unshift(newTask);
-            saveAndRenderLedger();
-            input.value = '';
-        }
-
-        function toggleTaskCompletion(taskId) {
-            const task = masterLedger.find(t => t.id === taskId);
-            if (task) {
-                // If incomplete, complete it (add XP). If complete, do nothing to XP.
-                if (!task.completed) {
-                    updateWorldXP(task.xpValue);
-                }
-                task.completed = !task.completed;
-                saveAndRenderLedger();
-            }
-        }
-
-        function clearCompletedTasks() {
-            masterLedger = masterLedger.filter(t => !t.completed);
-            saveAndRenderLedger();
-        }
-
-        function saveAndRenderLedger() {
-            saveStorage(STORAGE_KEYS.ledger, masterLedger);
-            const container = document.getElementById('master-list-content');
-            if(!container) return;
-            container.innerHTML = '';
-
-            if (masterLedger.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 20px;">The ledger matrix is open and clear. Rest well.</div>`;
-                return;
-            }
-
-            masterLedger.forEach(task => {
-                const icon = task.category === 'Market' ? '🛒' : (task.category === 'Bounty' ? '📜' : '🛠️');
-                container.innerHTML += `
-                    <div class="task-item ${task.completed ? 'completed' : ''}">
-                        <div class="task-checkbox" data-task-id="${escapeHtml(task.id)}">
-                            ${task.completed ? '✓' : ''}
-                        </div>
-                        <div class="task-info">
-                            <div class="task-title">${escapeHtml(task.text)}</div>
-                            <div class="task-meta">${icon} ${escapeHtml(task.category)}</div>
-                        </div>
-                        <div class="${task.completed ? 'xp-penalty' : 'xp-reward'}">
-                            ${task.completed ? 'CLloreMED' : '+'+task.xpValue+' XP'}
-                        </div>
-                    </div>`;
-            });
-        }
+        // === SCRATCHPAD/CALCULATOR REMOVED IN V4.6.8 ===
+        // Utility clutter was removed from the hub. Use Master Ledger / future Stronghold tools instead.
 
         // === WORLD CALENDAR RENDER ===
         function renderWorldCalendar() {
@@ -2448,11 +2482,14 @@
         }
 
         function saveScratchpad() {
-            saveTextStorage(STORAGE_KEYS.scratchpad, document.getElementById('scratchpad-box').value);
+            const box = document.getElementById('scratchpad-box');
+            if (!box) return;
+            saveTextStorage(STORAGE_KEYS.scratchpad, box.value);
         }
 
         // === AUDIO MIXER SYSTEM CONTROL ===
         const activeAudio = {};
+        window.__somniaActiveAudio = activeAudio;
         let masterGain = 1.0; 
 
         function changeMasterGain(val) {
