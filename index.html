@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOMNIASCAPES // CHRONARIUM EXTERNAL GATE</title>
+    <title>SOMNIASCAPES // ACADEMY GATE PATCH</title>
     <!-- PWA Manifest -->
 <meta name="theme-color" content="#020204">
-    <meta name="somniascapes-build" content="somniascapes-v4-6-10-chronarium-external-gate">
+    <meta name="somniascapes-build" content="somniascapes-academy-gate-patch">
     <style>
         /* ============================================================
             SOMNIASCAPES — MASTER SHELL
@@ -1473,11 +1473,11 @@
             </div>
         </section>
 
-        <!-- ZONE 2: SomniaSyllabus -->
+        <!-- ZONE 2: The Academy -->
         <section id="zone-syllabus" class="world-zone">
             <div class="zone-gates">
-                <div class="warp-gate" data-module="SomniaSyllabus.html">
-                    <span class="warp-text">Syllabus</span>
+                <div class="warp-gate" data-module="The Academy.html">
+                    <span class="warp-text">Academy</span>
                 </div>
                 <div class="warp-gate" data-locked-gate="true">
                     <span class="warp-text">???</span>
@@ -3101,6 +3101,44 @@ document.addEventListener('click', function(event) {
             } catch(e) {}
         });
 
+</script>
+
+
+<script>
+/* === SOMNIASCAPES ACADEMY GATE PATCH === */
+(function(){
+  const ACADEMY_URL = "https://project-kore-llc.github.io/SomniaSyllabus/";
+  function normalizeAcademyLabels(){
+    document.querySelectorAll('button,a,span,div').forEach(el => {
+      if (!el || !el.childNodes || el.childNodes.length > 3) return;
+      const text = (el.textContent || '').trim();
+      if (/^(Somnia)?Syllabus$/i.test(text)) el.textContent = 'Academy';
+    });
+  }
+  function wireAcademyGate(){
+    normalizeAcademyLabels();
+    const candidates = Array.from(document.querySelectorAll('a,button,.warp-gate,[onclick]'));
+    candidates.forEach(el => {
+      const text = (el.textContent || '').trim();
+      const attr = ((el.getAttribute('href') || '') + ' ' + (el.getAttribute('onclick') || '') + ' ' + (el.id || '') + ' ' + (el.className || '')).toString();
+      if (/Syllabus|SomniaSyllabus|zone-syllabus|Academy/i.test(text + ' ' + attr)) {
+        if (/Scribes|Scriptorium|Chronarium|Scheds|Scullery|Scourings|Sanctum|Stronghold/i.test(text + ' ' + attr)) return;
+        if (el.tagName === 'A') {
+          el.setAttribute('href', ACADEMY_URL);
+          el.setAttribute('target', '_self');
+        }
+        el.addEventListener('click', function(ev){
+          ev.preventDefault();
+          ev.stopPropagation();
+          window.location.href = ACADEMY_URL;
+        }, true);
+      }
+    });
+  }
+  window.addEventListener('DOMContentLoaded', wireAcademyGate);
+  setTimeout(wireAcademyGate, 500);
+  setTimeout(wireAcademyGate, 1500);
+})();
 </script>
 
 </body>
